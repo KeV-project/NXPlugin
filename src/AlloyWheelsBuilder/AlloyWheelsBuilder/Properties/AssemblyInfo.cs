@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанные со сборкой.
-[assembly: AssemblyTitle("AlloyWheelsBuilderStart")]
+[assembly: AssemblyTitle("AlloyWheelsBuilder")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AlloyWheelsBuilderStart")]
+[assembly: AssemblyProduct("AlloyWheelsBuilder")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("c639173b-722c-490a-9ca3-c633acfdaef3")]
+[assembly: Guid("8daf9a1e-224f-4507-816f-0135e8516b8d")]
 
 // Сведения о версии сборки состоят из указанных ниже четырех значений:
 //

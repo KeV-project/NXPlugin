@@ -162,7 +162,7 @@ namespace AlloyWheelsBuilderModel
 
 		private double _diameter;
 
-		public double Diameter { get; }
+		public double Diameter { get; private set; }
 
 		private const double SKETCH_HEIGTH_TO_WIDTH = 1.524;
 

@@ -11,6 +11,35 @@ namespace AlloyWheelsBuilderViewModel
 {
     public class AlloyWheelsBuilderWindowViewModel: ViewModelBase
     {
+        private string _diameter;
+
+        public double Diameter { get; set; }
+
+        private string _width;
+
+        public double Width { get; set; }
+
+        private string _centralHoleDiameter;
+
+        public double CentralHoleDiameter { get; set; }
+
+        private string _offSet;
+
+        public double OffSet { get; set; }
+
+        private string _drillDiameter;
+
+        public double DrillDiameter { get; set; }
+
+        private int _drillingsCount;
+
+        public int DrillingsCount { get; set; }
+
+        private int _spokesCount;
+
+        public int SpokesCount { get; set; }
+
+
         public AlloyWheelsBuilderWindowViewModel()
 		{
 

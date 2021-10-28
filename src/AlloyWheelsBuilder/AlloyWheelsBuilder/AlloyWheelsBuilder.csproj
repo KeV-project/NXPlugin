@@ -57,7 +57,12 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AlloyWheelsBuilderViewModel\AlloyWheelsBuilderViewModel.csproj">
+      <Project>{fe3b27e3-c5b9-45c6-afa3-6e50149de91e}</Project>
+      <Name>AlloyWheelsBuilderViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Disk.png" />
   </ItemGroup>

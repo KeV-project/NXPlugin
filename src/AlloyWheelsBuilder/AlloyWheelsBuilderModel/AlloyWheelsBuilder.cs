@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace AlloyWheelsBuilderModel
 {
-    public class Class1
+    public static class AlloyWheelsBuilder
     {
+        public static void Build()
+		{
+
+		}
     }
 }

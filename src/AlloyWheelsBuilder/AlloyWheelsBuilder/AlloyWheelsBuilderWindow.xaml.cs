@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AlloyWheelsBuilderViewModel;
 
 namespace AlloyWheelsBuilder
 {
@@ -23,6 +24,7 @@ namespace AlloyWheelsBuilder
 		public AlloyWheelsBuilderWindow()
 		{
 			InitializeComponent();
+			DataContext = new AlloyWheelsBuilderWindowViewModel();
 		}
 	}
 }

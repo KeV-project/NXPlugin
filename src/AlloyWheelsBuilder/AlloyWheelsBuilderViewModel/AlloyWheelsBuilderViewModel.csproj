@@ -62,5 +62,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AlloyWheelsBuilderModel\AlloyWheelsBuilderModel.csproj">
+      <Project>{5cc51cdf-06f7-4e26-80d6-e81119615eac}</Project>
+      <Name>AlloyWheelsBuilderModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

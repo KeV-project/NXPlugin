@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using AlloyWheelsBuilderModel;
 
 namespace AlloyWheelsBuilderViewModel
 {
-    public class AlloyWheelsBuilderViewModel: ViewModelBase
+    public class AlloyWheelsBuilderWindowViewModel: ViewModelBase
     {
-        public AlloyWheelsBuilderViewModel()
+        public AlloyWheelsBuilderWindowViewModel()
 		{
 
 		}
@@ -38,7 +39,7 @@ namespace AlloyWheelsBuilderViewModel
                 return _buildCommand ??
                   (_buildCommand = new RelayCommand(() =>
                   {
-
+                      AlloyWheelsBuilder.Build();
                   }));
             }
 		}

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlloyWheelsBuilder", "Alloy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlloyWheelsBuilderViewModel", "AlloyWheelsBuilderViewModel\AlloyWheelsBuilderViewModel.csproj", "{FE3B27E3-C5B9-45C6-AFA3-6E50149DE91E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlloyWheelsBuilderModel", "AlloyWheelsBuilderModel\AlloyWheelsBuilderModel.csproj", "{5CC51CDF-06F7-4E26-80D6-E81119615EAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FE3B27E3-C5B9-45C6-AFA3-6E50149DE91E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE3B27E3-C5B9-45C6-AFA3-6E50149DE91E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE3B27E3-C5B9-45C6-AFA3-6E50149DE91E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CC51CDF-06F7-4E26-80D6-E81119615EAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CC51CDF-06F7-4E26-80D6-E81119615EAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CC51CDF-06F7-4E26-80D6-E81119615EAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CC51CDF-06F7-4E26-80D6-E81119615EAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,7 +8,7 @@ namespace AlloyWheelsBuilderModel
 {
     public static class AlloyWheelsBuilder
     {
-        public static void Build()
+        public static void Build(AlloyWheelsData alloyWheelsData)
 		{
 
 		}

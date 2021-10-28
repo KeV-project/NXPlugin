@@ -39,7 +39,8 @@ namespace AlloyWheelsBuilderViewModel
                 return _buildCommand ??
                   (_buildCommand = new RelayCommand(() =>
                   {
-                      AlloyWheelsBuilder.Build();
+                      AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+                      AlloyWheelsBuilder.Build(alloyWheelsData);
                   }));
             }
 		}

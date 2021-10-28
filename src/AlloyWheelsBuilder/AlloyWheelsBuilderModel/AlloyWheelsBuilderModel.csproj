@@ -42,7 +42,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlloyWheelsBuilder.cs" />
+    <Compile Include="AlloyWheelsData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="NXOpen\NXOpen.dll" />
+    <Content Include="NXOpen\NXOpen.Guide.dll" />
+    <Content Include="NXOpen\NXOpen.UF.dll" />
+    <Content Include="NXOpen\NXOpen.Utilities.dll" />
+    <Content Include="NXOpen\NXOpenUI.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

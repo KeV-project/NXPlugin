@@ -3,46 +3,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using ViewModelLib;
 using AlloyWheelsBuilderModel;
 
 namespace AlloyWheelsBuilderViewModel
 {
-    public class AlloyWheelsBuilderWindowViewModel: ViewModelBase
+    public class AlloyWheelsBuilderWindowViewModel: NotifyDataErrorViewModelBase
     {
-        private string _diameter;
+        private AlloyWheelsData _alloyWheelsData;
 
-        public double Diameter { get; set; }
+        public string Diameter 
+        {
+            get => _alloyWheelsData.Diameter.ToString();
+            set
+            {
+                SetProperty(nameof(Diameter), () =>
+                {
+                    double.TryParse(value, out double diameter);
+                    _alloyWheelsData.Diameter = diameter;
+                });
+            }
+        }
 
-        private string _width;
+        public string Width { get; set; }
 
-        public double Width { get; set; }
+        public string CentralHoleDiameter { get; set; }
 
-        private string _centralHoleDiameter;
+        public string OffSet { get; set; }
 
-        public double CentralHoleDiameter { get; set; }
+        public string DrillDiameter { get; set; }
 
-        private string _offSet;
+        public string DrillingsCount { get; set; }
 
-        public double OffSet { get; set; }
-
-        private string _drillDiameter;
-
-        public double DrillDiameter { get; set; }
-
-        private int _drillingsCount;
-
-        public int DrillingsCount { get; set; }
-
-        private int _spokesCount;
-
-        public int SpokesCount { get; set; }
+        public string SpokesCount { get; set; }
 
 
         public AlloyWheelsBuilderWindowViewModel()
 		{
-
+            _alloyWheelsData = new AlloyWheelsData();
 		}
 
         private RelayCommand _cancelCommand;
@@ -68,10 +67,24 @@ namespace AlloyWheelsBuilderViewModel
                 return _buildCommand ??
                   (_buildCommand = new RelayCommand(() =>
                   {
-                      AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
-                      AlloyWheelsBuilder.Build(alloyWheelsData);
+                      AlloyWheelsBuilder.Build(_alloyWheelsData);
                   }));
             }
 		}
+
+        private void SetProperty(string property, Action setProperty)
+        {
+            try
+            {
+                setProperty();
+                RemoveError(property);
+            }
+            catch (ArgumentException ex)
+            {
+                AddError(property, ex.Message);
+            }
+
+            RaisePropertyChanged(property);
+        }
     }
 }

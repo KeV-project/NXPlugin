@@ -9,9 +9,9 @@ namespace AlloyWheelsBuilderModel
 	public static class ValueValidator
 	{
 		private static bool IsNumberInRange(double number,
-			double minLimit, int maxLimit)
+			double minLimit, double maxLimit)
 		{
-			return false;
+			return minLimit <= number && maxLimit >= number;
 		}
 
 		private static bool IsNumberPositive(double number)
@@ -21,9 +21,15 @@ namespace AlloyWheelsBuilderModel
 
 
 		public static void AssertNumberInRange(double number, 
-			double minLimit, int maxLimit, string context)
+			double minLimit, double maxLimit, string context)
 		{
-
+			if (!IsNumberInRange(number, minLimit, maxLimit))
+			{
+				throw new ArgumentException("Число " + number 
+					+ " не входит в допустимый дипапазон ["
+					+ minLimit + ", " + maxLimit + "]"
+					+ "\nи не может определять " + context);
+			}
 		}
 
 		public static void AssertNumberIsPositive(double number, 

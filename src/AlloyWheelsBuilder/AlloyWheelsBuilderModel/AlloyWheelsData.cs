@@ -162,7 +162,17 @@ namespace AlloyWheelsBuilderModel
 
 		private double _diameter;
 
-		public double Diameter { get; private set; }
+		public double Diameter 
+		{
+			get => _diameter;
+			set
+			{
+				_diameter = value;
+				const string context = "диаметр диска";
+				ValueValidator.AssertNumberInRange(value, MinDiameter, 
+					MaxDiameter, context);
+			}
+		}
 
 		private const double SKETCH_HEIGTH_TO_WIDTH = 1.524;
 
@@ -172,7 +182,7 @@ namespace AlloyWheelsBuilderModel
 
 		private double _width;
 
-		public double Width { get; private set; }
+		public double Width { get; set; }
 
 		private const double MIN_CENTER_HOLE_PERCENT = 10;
 
@@ -184,7 +194,7 @@ namespace AlloyWheelsBuilderModel
 
 		private double _centralHoleDiameter;
 
-		public double CentralHoleDiameter { get; private set; }
+		public double CentralHoleDiameter { get; set; }
 
 		private const double MIN_OFFSET_PERCENT = 15;
 
@@ -196,7 +206,7 @@ namespace AlloyWheelsBuilderModel
 
 		private double _offSet;
 
-		public double OffSet { get; private set; }
+		public double OffSet { get; set; }
 
 		// Изменить
 		private const double INITIAL_DRILL_PLACE_HEIGHT = 0.0;
@@ -211,7 +221,7 @@ namespace AlloyWheelsBuilderModel
 
 		private double _drillDiameter;
 
-		public double DrillDiameter { get; private set; }
+		public double DrillDiameter { get; set; }
 
 		private const int MIN_DRILLINGS_COUNT = 4;
 
@@ -221,7 +231,7 @@ namespace AlloyWheelsBuilderModel
 
 		private int _drillingsCount;
 
-		public int DrillingsCount { get; private set; }
+		public int DrillingsCount { get; set; }
 
 		private const int MIN_SPOKES_COUNT = 4;
 
@@ -233,6 +243,11 @@ namespace AlloyWheelsBuilderModel
 
 		private int _spokesCount;
 
-		public int SpokesCount { get; private set; }
+		public int SpokesCount { get; set; }
+
+		public AlloyWheelsData()
+		{
+			Diameter = MinDiameter;
+		}
 	}
 }

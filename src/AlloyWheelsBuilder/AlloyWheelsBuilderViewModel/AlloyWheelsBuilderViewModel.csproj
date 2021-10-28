@@ -54,6 +54,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="ViewModelLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ViewModelLib\ViewModelLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlloyWheelsBuilderWindowViewModel.cs" />
@@ -67,6 +71,10 @@
       <Project>{5cc51cdf-06f7-4e26-80d6-e81119615eac}</Project>
       <Name>AlloyWheelsBuilderModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="ViewModelLib\ViewModelLib.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

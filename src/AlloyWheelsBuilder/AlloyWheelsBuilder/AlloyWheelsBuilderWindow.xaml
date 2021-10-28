@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AlloyWheelsBuilder"
         mc:Ignorable="d"
-        Title="Моделирование автомобильного диска" Height="600" Width="1100" FontSize="15">
+        Title="Моделирование автомобильного диска" Height="610.5" Width="998" FontSize="15"
+        MinWidth="998" MinHeight="611">
    <Grid>
       <Grid.RowDefinitions>
          <RowDefinition Height="*"/>
@@ -13,29 +14,24 @@
       </Grid.RowDefinitions>
 
       <Grid.ColumnDefinitions>
-         <ColumnDefinition Width="*"/>
+         <ColumnDefinition Width="539*"/>
          <ColumnDefinition Width="10"/>
-         <ColumnDefinition Width="0.8*"/>
+         <ColumnDefinition Width="91*"/>
+         <ColumnDefinition Width="342*"/>
       </Grid.ColumnDefinitions>
 
-      <Grid Grid.Row="0" Grid.Column="0">
-         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="0"/>
-         </Grid.RowDefinitions>
-
-         <Image Grid.Row="0" Grid.Column="0" Source="Resources\Disk.png"/>
-         <TextBlock Grid.Row="1" Grid.Column="0" 
-                 Text="Чертеж моделируемого диска  с обозначением изменяемых параметров" 
+      <Image Grid.Row="0" Grid.Column="0" Source="Resources\Disk.png"/>
+      <TextBlock Grid.Row="1" Grid.Column="0" Height="50" Width="300" TextWrapping="Wrap"
+                 TextAlignment="Center"
+                 Text="Чертеж моделируемого диска с обозначением изменяемых параметров" 
                  VerticalAlignment="Center" HorizontalAlignment="Center"
-                 FontSize="17" FontStyle="Italic"/>
-      </Grid>
+                 FontSize="16" FontStyle="Italic"/>
 
       <GridSplitter Grid.Row="0" Grid.Column="1" ShowsPreview="False" Width="2"
             HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="Black" 
             IsEnabled="False" Margin="0, 20, 0, 20"/>
 
-      <Grid Grid.Row="0" Grid.Column="2">
+      <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2">
          <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="10"/>
@@ -53,16 +49,16 @@
          </Grid.RowDefinitions>
 
          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="168"/>
             <ColumnDefinition Width="80"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="80"/>
             <ColumnDefinition Width="50"/>
          </Grid.ColumnDefinitions>
 
-         <TextBlock Grid.Row="0" Grid.Column="0" Text="Диаметр: " VerticalAlignment="Center"/>
+         <TextBlock Grid.Row="0" Grid.Column="0" Text="Диаметр D: " VerticalAlignment="Center"/>
          <TextBlock Grid.Row="0" Grid.Column="1" Text="101.6 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
-         <TextBox Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Margin="0,24"/>
+         <TextBox Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"/>
          <TextBlock Grid.Row="0" Grid.Column="3" Text="≤ 1447.8" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
          <TextBlock Grid.Row="0" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
@@ -71,65 +67,65 @@
             IsEnabled="False" Margin="-30, 0, 5, 0"/>
 
 
-         <TextBlock Grid.Row="2" Grid.Column="0" Text="Посадочная ширина: " VerticalAlignment="Center" Margin="5,27"/>
-         <TextBlock Grid.Row="2" Grid.Column="1" Text="28.396 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c" Margin="11,27,10,27"/>
-         <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="0,24"/>
-         <TextBlock Grid.Row="2" Grid.Column="3" Text="≤ 43.275" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c" Margin="11,27,10,27"/>
-         <TextBlock Grid.Row="2" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="14,27"/>
+         <TextBlock Grid.Row="2" Grid.Column="0" Text="Посадочная ширина Lп: " VerticalAlignment="Center"/>
+         <TextBlock Grid.Row="2" Grid.Column="1" Text="28.396 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"/>
+         <TextBlock Grid.Row="2" Grid.Column="3" Text="≤ 43.275" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBlock Grid.Row="2" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="3" Grid.ColumnSpan="5" Height="2"
             HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Black" 
             IsEnabled="False" Margin="-30, 0, 5, 0"/>
 
-         <TextBlock Grid.Row="4" Grid.Column="0" Text="Диаметр ЦО: " VerticalAlignment="Center" Margin="5,27"/>
-         <TextBlock Grid.Row="4" Grid.Column="1" Text="10.160 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c" Margin="11,27,10,27"/>
-         <TextBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="0,24"/>
-         <TextBlock Grid.Row="4" Grid.Column="3" Text="≤ 18.288" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c" Margin="11,27,10,27"/>
-         <TextBlock Grid.Row="4" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="14,27"/>
+         <TextBlock Grid.Row="4" Grid.Column="0" Text="Диаметр ЦО ØDIA: " VerticalAlignment="Center"/>
+         <TextBlock Grid.Row="4" Grid.Column="1" Text="10.160 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center"/>
+         <TextBlock Grid.Row="4" Grid.Column="3" Text="≤ 18.288" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBlock Grid.Row="4" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="5" Grid.ColumnSpan="5" Height="2"
             HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Black" 
             IsEnabled="False" Margin="-30, 0, 5, 0"/>
 
-         <TextBlock Grid.Row="6" Grid.Column="0" Text="Вылет: " VerticalAlignment="Center" Margin="5,27"/>
-         <TextBlock Grid.Row="6" Grid.Column="1" Text="-6.39 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c" Margin="16,27"/>
-         <TextBox Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" Margin="0,24"/>
-         <TextBlock Grid.Row="6" Grid.Column="3" Text="≤ 11.6" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c" Margin="19,27"/>
-         <TextBlock Grid.Row="6" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="14,27"/>
+         <TextBlock Grid.Row="6" Grid.Column="0" Text="Вылет ET: " VerticalAlignment="Center"/>
+         <TextBlock Grid.Row="6" Grid.Column="1" Text="-6.39 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBox Grid.Row="6" Grid.Column="2" VerticalAlignment="Center"/>
+         <TextBlock Grid.Row="6" Grid.Column="3" Text="≤ 11.6" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBlock Grid.Row="6" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="7" Grid.ColumnSpan="5" Height="2"
             HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Black" 
             IsEnabled="False" Margin="-30, 0, 5, 0"/>
 
-         <TextBlock Grid.Row="8" Grid.Column="0" Text="Диаметр сверловки: " VerticalAlignment="Center" Margin="5,27"/>
-         <TextBlock Grid.Row="8" Grid.Column="1" Text="4.422 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c" Margin="15,27"/>
-         <TextBox Grid.Row="8" Grid.Column="2" VerticalAlignment="Center" Margin="0,24"/>
-         <TextBlock Grid.Row="8" Grid.Column="3" Text="≤ 5.498" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c" Margin="15,27"/>
-         <TextBlock Grid.Row="8" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="14,27"/>
+         <TextBlock Grid.Row="8" Grid.Column="0" Text="Диаметр сверловки B: " VerticalAlignment="Center"/>
+         <TextBlock Grid.Row="8" Grid.Column="1" Text="4.422 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBox Grid.Row="8" Grid.Column="2" VerticalAlignment="Center"/>
+         <TextBlock Grid.Row="8" Grid.Column="3" Text="≤ 5.498" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBlock Grid.Row="8" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="9" Grid.ColumnSpan="5" Height="2"
             HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Black" 
             IsEnabled="False" Margin="-30, 0, 5, 0"/>
 
 
-         <TextBlock Grid.Row="10" Grid.Column="0" Text="Сверловка: " VerticalAlignment="Center" Margin="5,27"/>
-         <TextBlock Grid.Row="10" Grid.Column="1" Text="4 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c" Margin="29,27,28,27"/>
-         <TextBox Grid.Row="10" Grid.Column="2" VerticalAlignment="Center" Margin="0,24"/>
-         <TextBlock Grid.Row="10" Grid.Column="3" Text="≤ 10" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c" Margin="25,27,24,27"/>
-         <TextBlock Grid.Row="10" Grid.Column="4" Text="шт" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="16,27,15,27"/>
+         <TextBlock Grid.Row="10" Grid.Column="0" Text="Сверловка: " VerticalAlignment="Center"/>
+         <TextBlock Grid.Row="10" Grid.Column="1" Text="4 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBox Grid.Row="10" Grid.Column="2" VerticalAlignment="Center"/>
+         <TextBlock Grid.Row="10" Grid.Column="3" Text="≤ 10" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBlock Grid.Row="10" Grid.Column="4" Text="шт" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="11" Grid.ColumnSpan="5" Height="2"
             HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Black" 
             IsEnabled="False" Margin="-30, 0, 5, 0"/>
 
-         <TextBlock Grid.Row="12" Grid.Column="0" Text="Количество спиц: " VerticalAlignment="Center" Margin="5,27"/>
-         <TextBlock Grid.Row="12" Grid.Column="1" Text="4 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c" Margin="29,27,28,27"/>
-         <TextBox Grid.Row="12" Grid.Column="2" VerticalAlignment="Center" Margin="0,24"/>
-         <TextBlock Grid.Row="12" Grid.Column="3" Text="≤ 13" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c" Margin="25,27,24,27"/>
-         <TextBlock Grid.Row="12" Grid.Column="4" Text="шт" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="16,27,15,27"/>
+         <TextBlock Grid.Row="12" Grid.Column="0" Text="Количество спиц: " VerticalAlignment="Center"/>
+         <TextBlock Grid.Row="12" Grid.Column="1" Text="4 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBox Grid.Row="12" Grid.Column="2" VerticalAlignment="Center"/>
+         <TextBlock Grid.Row="12" Grid.Column="3" Text="≤ 13" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBlock Grid.Row="12" Grid.Column="4" Text="шт" VerticalAlignment="Center" HorizontalAlignment="Center"/>
       </Grid>
 
-      <Grid Grid.Row="1" Grid.Column="2">
+      <Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
          <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="180"/>

@@ -7,7 +7,7 @@ using NXOpen;
 
 namespace AlloyWheelsBuilderModel
 {
-    public static class AlloyWheelsBuilder
+    public class AlloyWheelsBuilder
     {
         private const string RADIUS_DIMENSION_NAME = "p4";
 
@@ -23,98 +23,101 @@ namespace AlloyWheelsBuilderModel
 
         private const string WHEELS_MATING_PLACE_ARC_NAME = "Curve Arc34";
 
-        private static Session _session;
+        private Session _session;
 
-        private static Part _workPart;
+        private Part _workPart;
 
-        private static AlloyWheelsData _alloyWheelsData;
+        private AlloyWheelsData _alloyWheelsData;
 
-        private static void InitSketch()
+        private void InitSketch()
         {
 
         }
 
-        private static void CreateSketch()
+        private void CreateSketch()
         {
 
         }
 
-        private static double SetVerticalLinearDimension(string dimensionName,
+        private double SetVerticalLinearDimension(string dimensionName,
             Arc arc, Point point)
         {
             return 0.0;
         }
 
-        private static double SetVerticalLinearDimension(string dimensionName,
+        private double SetVerticalLinearDimension(string dimensionName,
             Arc bottomArc, Arc topArc)
         {
             return 0.0;
         }
 
-        private static double SetHorizontalLinearDimension(string dimensionName,
+        private double SetHorizontalLinearDimension(string dimensionName,
             Arc arc, Point point)
         {
             return 0.0;
         }
 
-        private static double SetHorizontalLinearDimension(string dimensionName,
+        private double SetHorizontalLinearDimension(string dimensionName,
             Arc leftArc, Arc rightArc)
         {
             return 0.0;
         }
 
-        private static void ChangeLinearDimension(string dimensionName,
+        private void ChangeLinearDimension(string dimensionName,
             double oldDimension, double newDimension, bool isNeededScaling)
         {
 
         }
 
-        private static void ChangeCentralHoleDiameter()
+        private void ChangeCentralHoleDiameter()
         {
 
         }
 
-        private static double GetCenterFullWidthX()
+        private double GetCenterFullWidthX()
         {
             return 0.0;
         }
 
-        private static void ChangeOffset()
+        private void ChangeOffset()
         {
 
         }
 
-        private static void CreateHole()
+        private void CreateHole()
         {
 
         }
 
-        private static bool IsHolesIntersect()
+        private bool IsHolesIntersect()
 		{
             return false;
 		}
 
-        private static void CreateElemetsArray()
+        private void CreateElemetsArray()
         {
 
         }
 
-        private static void CreatePetalSketch()
+        private void CreatePetalSketch()
         {
 
         }
 
-        private static void Extrusion()
+        private void Extrusion()
         {
 
         }
 
-        public static void Build(AlloyWheelsData alloyWheelsData)
+        public void Build()
 		{
             _session = Session.GetSession();
 
             _workPart = _session.Parts.Work;
+        }
 
+        public AlloyWheelsBuilder(AlloyWheelsData alloyWheelsData)
+		{
             _alloyWheelsData = alloyWheelsData;
         }
     }

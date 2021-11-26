@@ -14,6 +14,8 @@ namespace AlloyWheelsBuilderViewModel
     {
         private AlloyWheelsData _alloyWheelsData;
 
+        // Диаметр 
+
         public string MinDiameter { get => _alloyWheelsData.
                 MinDiameter.ToString() + " ≤"; }
 
@@ -49,11 +51,103 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
-        public string MinWidth { get => _alloyWheelsData.
-                MinWidth.ToString() + " ≤"; }
+        // Диаметр ЦО
 
-        public string MaxWidth { get => "≤ " + _alloyWheelsData.
-                MaxWidth.ToString(); }
+        public string MinCentralHoleDiameter
+        {
+            get
+            {
+                if (double.IsNaN(_alloyWheelsData.MinCentralHoleDiameter))
+                {
+                    return "";
+                }
+                else
+                {
+                    return _alloyWheelsData.MinCentralHoleDiameter.
+                        ToString() + " ≤";
+                }
+            }
+        }
+
+        public string MaxCentralHoleDiameter
+        {
+            get
+            {
+                if (double.IsNaN(_alloyWheelsData.MaxCentralHoleDiameter))
+                {
+                    return "";
+                }
+                else
+                {
+                    return "≤ " + _alloyWheelsData.MaxCentralHoleDiameter.
+                        ToString();
+                }
+            }
+        }
+
+        private string _centralHoleDiameter = "";
+
+        public string CentralHoleDiameter 
+        {
+            get => _centralHoleDiameter;
+            set
+            {
+                SetProperty(nameof(CentralHoleDiameter), () =>
+                {
+                    _centralHoleDiameter = value;
+                    if (double.TryParse(value, out double 
+                        centralHoleDiametermeter))
+                    {
+                        _alloyWheelsData.CentralHoleDiameter = 
+                        centralHoleDiametermeter;
+                    }
+                    else
+                    {
+                        _alloyWheelsData.CentralHoleDiameter = double.NaN;
+                        throw new ArgumentException("\"" + value + "\""
+                            + " не является вещественным числом и"
+                            + " не может задавать диаметр центрального" 
+                            + " отверстия диска");
+                    }
+                }, () =>
+                {
+                    RaisePropertyChanged(nameof(MinWidth));
+                    RaisePropertyChanged(nameof(MaxWidth));
+                });
+            }
+        }
+
+        // Посадочная ширина
+
+        public string MinWidth 
+        {
+            get
+            {
+                if (double.IsNaN(_alloyWheelsData.MinWidth))
+                {
+                    return "";
+                }
+                else
+                {
+                    return _alloyWheelsData. MinWidth.ToString() + " ≤";
+                }
+            }
+        }
+
+        public string MaxWidth 
+        {
+            get
+            {
+                if (double.IsNaN(_alloyWheelsData.MaxWidth))
+                {
+                    return "";
+                }
+                else
+                {
+                    return "≤ " + _alloyWheelsData.MaxWidth.ToString();
+                }
+            }
+        }
 
         private string _width = "";
 
@@ -79,40 +173,6 @@ namespace AlloyWheelsBuilderViewModel
                 //});
             }
         }
-
-        public string MinCentralHoleDiameter
-		{
-			get
-			{
-                if(double.IsNaN(_alloyWheelsData.MinCentralHoleDiameter))
-				{
-                    return "";
-				}
-                else
-				{
-                    return _alloyWheelsData.MinCentralHoleDiameter.
-                        ToString() + " ≤";
-				}
-			}
-		}
-
-        public string MaxCentralHoleDiameter
-        {
-            get
-            {
-                if (double.IsNaN(_alloyWheelsData.MaxCentralHoleDiameter))
-                {
-                    return "";
-                }
-                else
-                {
-                    return "≤ " + _alloyWheelsData.MaxCentralHoleDiameter.
-                        ToString();
-                }
-            }
-        }
-
-        public string CentralHoleDiameter { get; set; }
 
         public string OffSet { get; set; }
 

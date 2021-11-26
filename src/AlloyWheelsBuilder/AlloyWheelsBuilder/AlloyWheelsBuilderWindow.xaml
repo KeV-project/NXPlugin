@@ -68,22 +68,25 @@
             HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Black" 
             IsEnabled="False" Margin="5, 0, -25, 0"/>
 
-         <TextBlock Grid.Row="2" Grid.Column="0" Text="Посадочная ширина Lп: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
-         <TextBlock Grid.Row="2" Grid.Column="1" Text="28.396 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
-         <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"/>
-         <TextBlock Grid.Row="2" Grid.Column="3" Text="≤ 43.275" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBlock Grid.Row="2" Grid.Column="0" Text="Диаметр ЦО ØDIA: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
+         <TextBlock Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+                    Text="{Binding MinCentralHoleDiameter}"/>
+         <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Text="{Binding CentralHoleDiameter, Mode=TwoWay, 
+                     NotifyOnValidationError=True}" Style="{StaticResource ContactInfoStyle}"/>
+         <TextBlock Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+                    Text="{Binding MaxCentralHoleDiameter}"/>
          <TextBlock Grid.Row="2" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="3" Grid.ColumnSpan="5" Height="2"
             HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Black" 
             IsEnabled="False" Margin="5, 0, -25, 0"/>
 
-         <TextBlock Grid.Row="4" Grid.Column="0" Text="Диаметр ЦО ØDIA: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
+         <TextBlock Grid.Row="4" Grid.Column="0" Text="Посадочная ширина Lп: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
          <TextBlock Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
-                    Text="{Binding MinCentralHoleDiameter}"/>
+                    Text="{Binding MinWidth}"/>
          <TextBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center"/>
          <TextBlock Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
-                    Text="{Binding MaxCentralHoleDiameter}"/>
+                    Text="{Binding MaxWidth}"/>
          <TextBlock Grid.Row="4" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="5" Grid.ColumnSpan="5" Height="2"

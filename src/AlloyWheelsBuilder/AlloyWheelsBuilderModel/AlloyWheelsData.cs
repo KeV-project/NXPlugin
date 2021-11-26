@@ -156,6 +156,8 @@ namespace AlloyWheelsBuilderModel
 			get => new List<ArcData>() { };
 		}
 
+		// Диаметр
+
 		public double MinDiameter { get => 101.6; }
 
 		public double MaxDiameter { get => 1447.8; }
@@ -178,11 +180,97 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
+		// Диаметр ЦО
+
+		private const double MIN_CENTER_HOLE_PERCENT = 10;
+
+		private const double MIX_CENTER_HOLE_PERCENT = 18;
+
+		public double MinCentralHoleDiameter
+		{
+			get
+			{
+				if (double.IsNaN(Diameter))
+				{
+					return double.NaN;
+				}
+				else
+				{
+					return Math.Round((Diameter / 2 * MIN_CENTER_HOLE_PERCENT / 100) * 2, 
+						2, MidpointRounding.AwayFromZero);
+				}
+			}
+		}
+
+		public double MaxCentralHoleDiameter
+		{
+			get
+			{
+				if (double.IsNaN(Diameter))
+				{
+					return double.NaN;
+				}
+				else
+				{
+					return Math.Round((Diameter / 2 * MIX_CENTER_HOLE_PERCENT / 100) * 2, 
+						2, MidpointRounding.AwayFromZero);
+				}
+			}
+		}
+
+		private double _centralHoleDiameter;
+
+		public double CentralHoleDiameter
+		{
+			get => _centralHoleDiameter;
+			set
+			{
+				_centralHoleDiameter = double.NaN;
+				if (!double.IsNaN(value))
+				{
+					const string context = "диаметр центрального отверстия диска";
+					ValueValidator.AssertNumberInRange(value,
+						MinCentralHoleDiameter, MaxCentralHoleDiameter, context);
+					_centralHoleDiameter = value;
+				}
+			}
+		}
+
+		// Посадочная ширина
+
 		private const double SKETCH_HEIGTH_TO_WIDTH = 1.524;
 
-		public double MinWidth { get => (Diameter / 2 - CentralHoleDiameter / 2) / SKETCH_HEIGTH_TO_WIDTH; }
+		public double MinWidth 
+		{
+			get
+			{
+				if (double.IsNaN(CentralHoleDiameter))
+				{
+					return double.NaN;
+				}
+				else
+				{
+					return Math.Round((Diameter / 2 - CentralHoleDiameter / 2) 
+						/ SKETCH_HEIGTH_TO_WIDTH, 2, MidpointRounding.AwayFromZero);
+				}
+			}
+		}
 
-		public double MaxWidth { get => Diameter / 2 - CentralHoleDiameter / 2; }
+		public double MaxWidth 
+		{
+			get
+			{
+				if (double.IsNaN(CentralHoleDiameter))
+				{
+					return double.NaN;
+				}
+				else
+				{
+					return Math.Round(Diameter / 2 - CentralHoleDiameter / 2, 
+						2, MidpointRounding.AwayFromZero);
+				}
+			}
+		}
 
 		private double _width;
 
@@ -197,57 +285,6 @@ namespace AlloyWheelsBuilderModel
 					const string context = "посадочную ширину диска";
 					ValueValidator.AssertNumberInRange(_width, MinWidth,
 						MaxWidth, context);
-				}
-			}
-		}
-
-		private const double MIN_CENTER_HOLE_PERCENT = 10;
-
-		private const double MIX_CENTER_HOLE_PERCENT = 18;
-
-		public double MinCentralHoleDiameter
-		{
-			get
-			{
-				if(double.IsNaN(Diameter))
-				{
-					return double.NaN;
-				}
-				else
-				{
-					return Diameter / 2 * MIN_CENTER_HOLE_PERCENT / 100;
-				}
-			}
-		}
-
-		public double MaxCentralHoleDiameter 
-		{
-			get
-			{
-				if (double.IsNaN(Diameter))
-				{
-					return double.NaN;
-				}
-				else
-				{
-					return Diameter / 2 * MIX_CENTER_HOLE_PERCENT / 100;
-				}
-			}
-		}
-
-		private double _centralHoleDiameter;
-
-		public double CentralHoleDiameter 
-		{
-			get => _centralHoleDiameter;
-			set
-			{
-				_centralHoleDiameter = value;
-				if (!double.IsNaN(_centralHoleDiameter))
-				{
-					const string context = "диаметр центрального отверстия диска";
-					ValueValidator.AssertNumberInRange(_centralHoleDiameter, 
-						MinCentralHoleDiameter, MaxCentralHoleDiameter, context);
 				}
 			}
 		}

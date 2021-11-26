@@ -14,6 +14,12 @@ namespace AlloyWheelsBuilderViewModel
     {
         private AlloyWheelsData _alloyWheelsData;
 
+        public string MinDiameter { get => _alloyWheelsData.
+                MinDiameter.ToString() + " ≤"; }
+
+        public string MaxDiameter { get => "≤ " + _alloyWheelsData.
+                MaxDiameter.ToString(); }
+
         private string _diameter = "";
 
         public string Diameter 

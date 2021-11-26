@@ -56,10 +56,12 @@
          </Grid.ColumnDefinitions>
 
          <TextBlock Grid.Row="0" Grid.Column="0" Text="Диаметр D: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
-         <TextBlock Grid.Row="0" Grid.Column="1" Text="101.6 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+                    Text="{Binding MinDiameter}"/>
          <TextBox Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Text="{Binding Diameter, Mode=TwoWay, NotifyOnValidationError=True}"
                      Style="{StaticResource ContactInfoStyle}"/>
-         <TextBlock Grid.Row="0" Grid.Column="3" Text="≤ 1447.8" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBlock Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+                    Text="{Binding MaxDiameter}"/>
          <TextBlock Grid.Row="0" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="1" Grid.ColumnSpan="5" Height="2"

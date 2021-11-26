@@ -155,22 +155,22 @@ namespace AlloyWheelsBuilderViewModel
         {
             get => _width;
             set
-			{
-                //SetProperty(nameof(Width), () =>
-                //{
-                //    _width = value;
-                //    if (double.TryParse(value, out double width))
-                //    {
-                //        _alloyWheelsData.Width = width;
-                //    }
-                //    else
-                //    {
-                //        _alloyWheelsData.Width = double.NaN;
-                //        throw new ArgumentException(value + " не является "
-                //            + "вещественным числом и не может задавать "
-                //            + "посадочную ширину диска");
-                //    }
-                //});
+            {
+                SetProperty(nameof(Width), () =>
+                {
+                    _width = value;
+                    if (double.TryParse(value, out double width))
+                    {
+                        _alloyWheelsData.Width = width;
+                    }
+                    else
+                    {
+                        _alloyWheelsData.Width = double.NaN;
+                        throw new ArgumentException("\"" + value + "\""
+                            + " не является вещественным числом и"
+                            + " не может задавать посадочную ширину диска");
+                    }
+                }, null);
             }
         }
 
@@ -230,7 +230,7 @@ namespace AlloyWheelsBuilderViewModel
                 AddError(property, ex.Message);
             }
 
-            raiseProperties();
+            raiseProperties?.Invoke();
             RaisePropertyChanged(property);
         }
     }

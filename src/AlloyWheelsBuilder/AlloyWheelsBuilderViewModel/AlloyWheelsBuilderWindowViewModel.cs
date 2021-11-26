@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 using GalaSoft.MvvmLight.Command;
 using ViewModelLib;
 using AlloyWheelsBuilderModel;
@@ -13,15 +14,27 @@ namespace AlloyWheelsBuilderViewModel
     {
         private AlloyWheelsData _alloyWheelsData;
 
+        private string _diameter = "";
+
         public string Diameter 
         {
-            get => _alloyWheelsData.Diameter.ToString();
+            get => _diameter;
             set
             {
                 SetProperty(nameof(Diameter), () =>
                 {
-                    double.TryParse(value, out double diameter);
-                    _alloyWheelsData.Diameter = diameter;
+                    _diameter = value;
+                    if (double.TryParse(value, out double diameter))
+					{
+                        _alloyWheelsData.Diameter = diameter;
+                    }
+                    else
+					{
+                        _alloyWheelsData.Diameter = double.NaN;
+                        throw new ArgumentException(value + " не является " 
+                            + "вещественным числом и не может задавать " 
+                            + "диаметр диска");
+                    }
                 });
             }
         }

@@ -168,9 +168,12 @@ namespace AlloyWheelsBuilderModel
 			set
 			{
 				_diameter = value;
-				const string context = "диаметр диска";
-				ValueValidator.AssertNumberInRange(value, MinDiameter, 
-					MaxDiameter, context);
+				if(!double.IsNaN(_diameter))
+				{
+					const string context = "диаметр диска";
+					ValueValidator.AssertNumberInRange(value, MinDiameter,
+						MaxDiameter, context);
+				}
 			}
 		}
 
@@ -247,7 +250,7 @@ namespace AlloyWheelsBuilderModel
 
 		public AlloyWheelsData()
 		{
-			Diameter = MinDiameter;
+			
 		}
 	}
 }

@@ -160,44 +160,97 @@ namespace AlloyWheelsBuilderModel
 
 		public double MaxDiameter { get => 1447.8; }
 
-		private double _diameter;
+		private double _diameter = double.NaN;
 
 		public double Diameter 
 		{
 			get => _diameter;
 			set
 			{
-				_diameter = value;
-				if(!double.IsNaN(_diameter))
+				_diameter = double.NaN;
+				if (!double.IsNaN(value))
 				{
 					const string context = "диаметр диска";
 					ValueValidator.AssertNumberInRange(value, MinDiameter,
 						MaxDiameter, context);
+					_diameter = value;
 				}
 			}
 		}
 
 		private const double SKETCH_HEIGTH_TO_WIDTH = 1.524;
 
-		public double MinWidth { get; }
+		public double MinWidth { get => (Diameter / 2 - CentralHoleDiameter / 2) / SKETCH_HEIGTH_TO_WIDTH; }
 
-		public double MaxWidth { get; }
+		public double MaxWidth { get => Diameter / 2 - CentralHoleDiameter / 2; }
 
 		private double _width;
 
-		public double Width { get; set; }
+		public double Width 
+		{
+			get => _width;
+			set
+			{
+				_width = value;
+				if (!double.IsNaN(_width))
+				{
+					const string context = "посадочную ширину диска";
+					ValueValidator.AssertNumberInRange(_width, MinWidth,
+						MaxWidth, context);
+				}
+			}
+		}
 
 		private const double MIN_CENTER_HOLE_PERCENT = 10;
 
 		private const double MIX_CENTER_HOLE_PERCENT = 18;
 
-		public double MinCentralHoleDiameter { get; }
+		public double MinCentralHoleDiameter
+		{
+			get
+			{
+				if(double.IsNaN(Diameter))
+				{
+					return double.NaN;
+				}
+				else
+				{
+					return Diameter / 2 * MIN_CENTER_HOLE_PERCENT / 100;
+				}
+			}
+		}
 
-		public double MaxCentralHoleDiameter { get; }
+		public double MaxCentralHoleDiameter 
+		{
+			get
+			{
+				if (double.IsNaN(Diameter))
+				{
+					return double.NaN;
+				}
+				else
+				{
+					return Diameter / 2 * MIX_CENTER_HOLE_PERCENT / 100;
+				}
+			}
+		}
 
 		private double _centralHoleDiameter;
 
-		public double CentralHoleDiameter { get; set; }
+		public double CentralHoleDiameter 
+		{
+			get => _centralHoleDiameter;
+			set
+			{
+				_centralHoleDiameter = value;
+				if (!double.IsNaN(_centralHoleDiameter))
+				{
+					const string context = "диаметр центрального отверстия диска";
+					ValueValidator.AssertNumberInRange(_centralHoleDiameter, 
+						MinCentralHoleDiameter, MaxCentralHoleDiameter, context);
+				}
+			}
+		}
 
 		private const double MIN_OFFSET_PERCENT = 15;
 

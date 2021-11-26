@@ -37,15 +37,80 @@ namespace AlloyWheelsBuilderViewModel
                     else
 					{
                         _alloyWheelsData.Diameter = double.NaN;
-                        throw new ArgumentException(value + " не является " 
-                            + "вещественным числом и не может задавать " 
-                            + "диаметр диска");
+                        throw new ArgumentException("\"" + value + "\"" 
+                            + " не является вещественным числом и" 
+                            + " не может задавать диаметр диска");
                     }
+                }, () =>
+                {
+                    RaisePropertyChanged(nameof(MinCentralHoleDiameter));
+                    RaisePropertyChanged(nameof(MaxCentralHoleDiameter));
                 });
             }
         }
 
-        public string Width { get; set; }
+        public string MinWidth { get => _alloyWheelsData.
+                MinWidth.ToString() + " ≤"; }
+
+        public string MaxWidth { get => "≤ " + _alloyWheelsData.
+                MaxWidth.ToString(); }
+
+        private string _width = "";
+
+        public string Width 
+        {
+            get => _width;
+            set
+			{
+                //SetProperty(nameof(Width), () =>
+                //{
+                //    _width = value;
+                //    if (double.TryParse(value, out double width))
+                //    {
+                //        _alloyWheelsData.Width = width;
+                //    }
+                //    else
+                //    {
+                //        _alloyWheelsData.Width = double.NaN;
+                //        throw new ArgumentException(value + " не является "
+                //            + "вещественным числом и не может задавать "
+                //            + "посадочную ширину диска");
+                //    }
+                //});
+            }
+        }
+
+        public string MinCentralHoleDiameter
+		{
+			get
+			{
+                if(double.IsNaN(_alloyWheelsData.MinCentralHoleDiameter))
+				{
+                    return "";
+				}
+                else
+				{
+                    return _alloyWheelsData.MinCentralHoleDiameter.
+                        ToString() + " ≤";
+				}
+			}
+		}
+
+        public string MaxCentralHoleDiameter
+        {
+            get
+            {
+                if (double.IsNaN(_alloyWheelsData.MaxCentralHoleDiameter))
+                {
+                    return "";
+                }
+                else
+                {
+                    return "≤ " + _alloyWheelsData.MaxCentralHoleDiameter.
+                        ToString();
+                }
+            }
+        }
 
         public string CentralHoleDiameter { get; set; }
 
@@ -92,7 +157,8 @@ namespace AlloyWheelsBuilderViewModel
             }
 		}
 
-        private void SetProperty(string property, Action setProperty)
+        private void SetProperty(string property, Action setProperty, 
+            Action raiseProperties)
         {
             try
             {
@@ -104,6 +170,7 @@ namespace AlloyWheelsBuilderViewModel
                 AddError(property, ex.Message);
             }
 
+            raiseProperties();
             RaisePropertyChanged(property);
         }
     }

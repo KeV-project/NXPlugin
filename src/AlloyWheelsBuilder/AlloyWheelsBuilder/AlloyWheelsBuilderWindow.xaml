@@ -79,9 +79,11 @@
             IsEnabled="False" Margin="5, 0, -25, 0"/>
 
          <TextBlock Grid.Row="4" Grid.Column="0" Text="Диаметр ЦО ØDIA: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
-         <TextBlock Grid.Row="4" Grid.Column="1" Text="10.160 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBlock Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+                    Text="{Binding MinCentralHoleDiameter}"/>
          <TextBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center"/>
-         <TextBlock Grid.Row="4" Grid.Column="3" Text="≤ 18.288" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBlock Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+                    Text="{Binding MaxCentralHoleDiameter}"/>
          <TextBlock Grid.Row="4" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="5" Grid.ColumnSpan="5" Height="2"

@@ -9,6 +9,8 @@ namespace AlloyWheelsBuilderModel
 {
 	public class AlloyWheelsData
 	{
+		public int SketchArcsCount => 45;
+
 		public List<ArcData> SketchArcs
 		{
 			get => new List<ArcData>()

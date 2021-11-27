@@ -235,9 +235,22 @@ namespace AlloyWheelsBuilderModel
                 width, _alloyWheelsData.Width, false);
         }
 
-        private void ChangeCentralHoleDiameter()
+        private void ChangeCentralHoleDiameter(Session session)
         {
+            for (int i = 1; i <= _alloyWheelsData.SketchArcsCount; i++)
+            {
+                Arc arc = (Arc)session.ActiveSketch.FindObject(
+                    "Curve Arc" + i);
+                arc.SetParameters(arc.Radius, new Point3d(
+                    arc.CenterPoint.X, arc.CenterPoint.Y 
+                    + _alloyWheelsData.CentralHoleDiameter / 2, 
+                    arc.CenterPoint.Z), arc.StartAngle, arc.EndAngle);
 
+                const int geomsCount = 1;
+                SmartObject[] geoms = new SmartObject[geomsCount];
+                geoms[0] = arc;
+                session.ActiveSketch.UpdateGeometryDisplay(geoms);
+            }
         }
 
         private double GetCenterFullWidthX()
@@ -284,6 +297,7 @@ namespace AlloyWheelsBuilderModel
             CreateSketch(session, workPart);
             ChangeDiameter(session, workPart);
             ChangeWidth(session, workPart);
+            ChangeCentralHoleDiameter(session);
             FinishSketch(session);
         }
 

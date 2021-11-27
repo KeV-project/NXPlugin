@@ -75,12 +75,6 @@ namespace AlloyWheelsBuilderModel
                 Sketch.UpdateLevel.Model);
         }
 
-        private double SetVerticalLinearDimension(string dimensionName,
-            Arc arc, Point point)
-        {
-            return 0.0;
-        }
-
         private double SetVerticalLinearDimension(Part workPart, 
             string dimensionName, Arc bottomArc, Arc topArc)
         {
@@ -124,12 +118,6 @@ namespace AlloyWheelsBuilderModel
             sketchLinearDimensionBuilder.Destroy();
 
             return topPoint.Y - bottomPoint.Y;
-        }
-
-        private double SetHorizontalLinearDimension(string dimensionName,
-            Arc arc, Point point)
-        {
-            return 0.0;
         }
 
         private double SetHorizontalLinearDimension(Part workPart, 
@@ -251,11 +239,6 @@ namespace AlloyWheelsBuilderModel
                 geoms[0] = arc;
                 session.ActiveSketch.UpdateGeometryDisplay(geoms);
             }
-        }
-
-        private double GetCenterFullWidthX()
-        {
-            return 0.0;
         }
 
         private void ChangeOffset()

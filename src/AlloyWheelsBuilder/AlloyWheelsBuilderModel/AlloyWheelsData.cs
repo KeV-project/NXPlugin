@@ -184,7 +184,7 @@ namespace AlloyWheelsBuilderModel
 
 		private const double MIN_CENTER_HOLE_PERCENT = 10;
 
-		private const double MIX_CENTER_HOLE_PERCENT = 18;
+		private const double MAX_CENTER_HOLE_PERCENT = 18;
 
 		public double MinCentralHoleDiameter
 		{
@@ -212,7 +212,7 @@ namespace AlloyWheelsBuilderModel
 				}
 				else
 				{
-					return Math.Round((Diameter / 2 * MIX_CENTER_HOLE_PERCENT / 100) * 2, 
+					return Math.Round((Diameter / 2 * MAX_CENTER_HOLE_PERCENT / 100) * 2, 
 						2, MidpointRounding.AwayFromZero);
 				}
 			}
@@ -374,10 +374,5 @@ namespace AlloyWheelsBuilderModel
 		private int _spokesCount;
 
 		public int SpokesCount { get; set; }
-
-		public AlloyWheelsData()
-		{
-			
-		}
 	}
 }

@@ -132,10 +132,49 @@ namespace AlloyWheelsBuilderModel
             return 0.0;
         }
 
-        private double SetHorizontalLinearDimension(string dimensionName,
-            Arc leftArc, Arc rightArc)
+        private double SetHorizontalLinearDimension(Part workPart, 
+            string dimensionName, Arc leftArc, Arc rightArc)
         {
-            return 0.0;
+            Dimension nullNxOpenAnnotationsDimension = null;
+            SketchLinearDimensionBuilder sketchLinearDimensionBuilder =
+                workPart.Sketches.CreateLinearDimensionBuilder(
+                nullNxOpenAnnotationsDimension);
+
+            sketchLinearDimensionBuilder.Driving.ExpressionName = 
+                dimensionName;
+
+            Direction nullNxOpenDirection = null;
+            sketchLinearDimensionBuilder.Measurement.Direction = 
+                nullNxOpenDirection;
+
+            View nullNxOpenView = null;
+            sketchLinearDimensionBuilder.Measurement.DirectionView = 
+                nullNxOpenView;
+
+            Point3d startPoint = new Point3d(0.0, 0.0, 0.0);
+
+            Point3d leftPoint = new Point3d(leftArc.CenterPoint.X + leftArc.Radius
+                * Math.Cos(leftArc.StartAngle), leftArc.CenterPoint.Y + leftArc.Radius
+                * Math.Sin(leftArc.StartAngle), 0.0);
+            sketchLinearDimensionBuilder.FirstAssociativity.SetValue(
+                InferSnapType.SnapType.Start, leftArc,
+                workPart.ModelingViews.WorkView, leftPoint, null,
+                nullNxOpenView, startPoint);
+
+            Point3d rightPoint = new Point3d(rightArc.CenterPoint.X + rightArc.Radius
+                * Math.Cos(rightArc.StartAngle), rightArc.CenterPoint.Y + rightArc.Radius
+                * Math.Sin(rightArc.StartAngle), 0.0);
+            sketchLinearDimensionBuilder.SecondAssociativity.SetValue(
+                InferSnapType.SnapType.End, rightArc, workPart.ModelingViews.WorkView,
+                rightPoint, null, nullNxOpenView, startPoint);
+
+            sketchLinearDimensionBuilder.Origin.SetInferRelativeToGeometry(true);
+
+            sketchLinearDimensionBuilder.Commit();
+
+            sketchLinearDimensionBuilder.Destroy();
+
+            return rightPoint.X - leftPoint.X;
         }
 
         private void ChangeLinearDimension(Session session, Part workPart, 
@@ -175,8 +214,8 @@ namespace AlloyWheelsBuilderModel
 
         private void ChangeDiameter(Session session, Part workPart)
 		{
-            double radius = SetVerticalLinearDimension(workPart, 
-                RADIUS_DIMENSION_NAME,
+            double radius = SetVerticalLinearDimension(
+                workPart, RADIUS_DIMENSION_NAME,
                 (Arc)session.ActiveSketch.FindObject(RADIUS_BOTTOM_ARC_NAME),
                 (Arc)session.ActiveSketch.FindObject(RADIUS_TOP_ARC_NAME));
             double newRadius = _alloyWheelsData.Diameter / 2;
@@ -184,6 +223,16 @@ namespace AlloyWheelsBuilderModel
             ChangeLinearDimension(session, workPart, RADIUS_DIMENSION_NAME, 
                 radius, newRadius - _alloyWheelsData.CentralHoleDiameter / 2, 
                 true);
+        }
+
+        private void ChangeWidth(Session session, Part workPart)
+		{
+            double width = SetHorizontalLinearDimension(
+                workPart, WIDTH_DIMENSION_NAME,
+                (Arc)session.ActiveSketch.FindObject(WIDTH_LEFT_ARC_NAME),
+                (Arc)session.ActiveSketch.FindObject(WIDTH_RIGHT_ARC_NAME));
+            ChangeLinearDimension(session, workPart, WIDTH_DIMENSION_NAME, 
+                width, _alloyWheelsData.Width, false);
         }
 
         private void ChangeCentralHoleDiameter()
@@ -234,6 +283,7 @@ namespace AlloyWheelsBuilderModel
             InitSketch(session, workPart);
             CreateSketch(session, workPart);
             ChangeDiameter(session, workPart);
+            ChangeWidth(session, workPart);
             FinishSketch(session);
         }
 

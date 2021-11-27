@@ -84,7 +84,8 @@
          <TextBlock Grid.Row="4" Grid.Column="0" Text="Посадочная ширина Lп: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
          <TextBlock Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MinWidth}"/>
-         <TextBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center"/>
+         <TextBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Text="{Binding Width, Mode=TwoWay, 
+                     NotifyOnValidationError=True}" Style="{StaticResource ContactInfoStyle}"/>
          <TextBlock Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MaxWidth}"/>
          <TextBlock Grid.Row="4" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -94,9 +95,12 @@
             IsEnabled="False" Margin="5, 0, -25, 0"/>
 
          <TextBlock Grid.Row="6" Grid.Column="0" Text="Вылет ET: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
-         <TextBlock Grid.Row="6" Grid.Column="1" Text="-6.39 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
-         <TextBox Grid.Row="6" Grid.Column="2" VerticalAlignment="Center"/>
-         <TextBlock Grid.Row="6" Grid.Column="3" Text="≤ 11.6" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBlock Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+                    Text="{Binding MinOffSet}"/>
+         <TextBox Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" Text="{Binding OffSet, Mode=TwoWay, 
+                     NotifyOnValidationError=True}" Style="{StaticResource ContactInfoStyle}"/>
+         <TextBlock Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+                    Text="{Binding MaxOffSet}"/>
          <TextBlock Grid.Row="6" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="7" Grid.ColumnSpan="5" Height="2"

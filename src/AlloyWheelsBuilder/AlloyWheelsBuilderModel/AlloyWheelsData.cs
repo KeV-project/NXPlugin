@@ -289,17 +289,54 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
-		private const double MIN_OFFSET_PERCENT = 15;
+		private const double MIN_OFFSET_PERCENT = 20;
 
-		private double FullWidth { get; }
+		public double MinOffSet
+		{
+			get
+			{
+				if(double.IsNaN(Width))
+				{
+					return double.NaN;
+				}
+				else
+				{
+					return -1 * (Width / 2 * 20 / 100);
+				}
+			}
+		}
 
-		public double MinOffSet { get; }
-
-		public double MaxOffSet { get; }
+		public double MaxOffSet 
+		{
+			get
+			{
+				if (double.IsNaN(Width))
+				{
+					return double.NaN;
+				}
+				else
+				{
+					return Width / 2;
+				}
+			}
+		}
 
 		private double _offSet;
 
-		public double OffSet { get; set; }
+		public double OffSet
+		{
+			get => _offSet;
+			set
+			{
+				_offSet = value;
+				if (!double.IsNaN(_offSet))
+				{
+					const string context = "вылет диска";
+					ValueValidator.AssertNumberInRange(_offSet, MinOffSet,
+						MaxOffSet, context);
+				}
+			}
+		}
 
 		// Изменить
 		private const double INITIAL_DRILL_PLACE_HEIGHT = 0.0;

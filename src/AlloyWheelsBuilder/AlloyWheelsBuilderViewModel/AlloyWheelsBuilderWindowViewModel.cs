@@ -174,7 +174,60 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
-        public string OffSet { get; set; }
+        public string MinOffSet
+		{
+			get
+			{
+                if (double.IsNaN(_alloyWheelsData.MinOffSet))
+                {
+                    return "";
+                }
+                else
+                {
+                    return "≤ " + _alloyWheelsData.MinOffSet.ToString();
+                }
+            }
+		}
+
+        public string MaxOffSet
+		{
+			get
+			{
+                if (double.IsNaN(_alloyWheelsData.MaxOffSet))
+                {
+                    return "";
+                }
+                else
+                {
+                    return "≤ " + _alloyWheelsData.MaxOffSet.ToString();
+                }
+            }
+		}
+
+        private string _offSet = "";
+
+        public string OffSet
+		{
+            get => _offSet;
+            set
+            {
+                SetProperty(nameof(OffSet), () =>
+                {
+                    _offSet = value;
+                    if (double.TryParse(value, out double offSet))
+                    {
+                        _alloyWheelsData.OffSet = offSet;
+                    }
+                    else
+                    {
+                        _alloyWheelsData.OffSet = double.NaN;
+                        throw new ArgumentException("\"" + value + "\""
+                            + " не является вещественным числом и"
+                            + " не может задавать вылет диска");
+                    }
+                }, null);
+            }
+        }
 
         public string DrillDiameter { get; set; }
 

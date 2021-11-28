@@ -29,9 +29,11 @@ namespace AlloyWheelsBuilderModel
 
         private const string OFFSET_LEFT_ARC_NAME = "Curve Arc39";
 
+        private const string SKETCH_NAME = "SKETCH(1)";
+
         private AlloyWheelsData _alloyWheelsData;
 
-        private void InitSketch(Session session, Part workPart)
+        private Sketch InitSketch(Session session, Part workPart)
         {
             Sketch nullNxOpenSketch = null;
             SketchInPlaceBuilder sketchInPlaceBuilder = workPart.Sketches.
@@ -57,6 +59,8 @@ namespace AlloyWheelsBuilderModel
 
             string sketchName = "SKETCH_000";
             session.ActiveSketch.SetName(sketchName);
+
+            return sketch;
         }
 
         private void CreateSketch(Session session, Part workPart)
@@ -383,6 +387,70 @@ namespace AlloyWheelsBuilderModel
             MovePointOnArc(session, workPart, OFFSET_LEFT_ARC_NAME, dx);
         }
 
+        private void Revolve(Part workPart, Sketch sketch, Section section, 
+            string sketchName, string revolveArcName, Point3d helpPoint, 
+            Direction direction)
+		{
+            Feature nullNxOpenFeaturesFeature = null;
+            RevolveBuilder revolveBuilder = workPart.Features.
+                CreateRevolveBuilder(nullNxOpenFeaturesFeature);
+
+            revolveBuilder.Limits.StartExtend.Value.RightHandSide = "0";
+            revolveBuilder.Limits.EndExtend.Value.RightHandSide = "360";
+
+            // Определение объекта(секции) вращения
+            revolveBuilder.Section = section;
+            const int featuresCount = 1;
+            Feature[] features = new Feature[featuresCount];
+            SketchFeature sketchFeature = (SketchFeature)workPart.Features.
+                FindObject(sketchName);
+            features[0] = sketchFeature;
+            CurveFeatureRule curveFeatureRule = workPart.ScRuleFactory.
+                CreateRuleCurveFeature(features);
+            section.AllowSelfIntersection(false);
+            const int selectionIntentRuleCount = 1;
+            SelectionIntentRule[] rules = new SelectionIntentRule[
+                selectionIntentRuleCount];
+            rules[0] = curveFeatureRule;
+            Arc arc = (Arc)sketch.FindObject(revolveArcName);
+            NXObject nullNxOpenNxObject = null;
+            section.AddToSection(rules, arc, nullNxOpenNxObject,
+                nullNxOpenNxObject, helpPoint, Section.Mode.Create, false);
+
+            // Создание оси вращнеия 
+            Point nullNxOpenPoint = null;
+            Axis axis = workPart.Axes.CreateAxis(nullNxOpenPoint,
+                direction, SmartObject.UpdateOption.WithinModeling);
+            revolveBuilder.Axis = axis;
+
+            // Врещение
+            revolveBuilder.CommitFeature();
+
+            revolveBuilder.Destroy();
+        }
+
+        private void RevolveSketch(Part workPart, Sketch sketch)
+		{
+            const double sectionX = 0.0094999999999999998;
+            const double sectionY = 0.01;
+            const double sectionZ = 0.5;
+            Section section = workPart.Sections.CreateSection(
+                sectionX, sectionY, sectionZ);
+
+            const double helpX = 18.064839800768446;
+            const double helpY = 24.907312265123721;
+            const double helpZ = 0.0;
+            Point3d helpPoint = new Point3d(helpX, helpY, helpZ);
+
+            Point3d origin = new Point3d(0.0, 0.0, 0.0);
+            Vector3d vector = new Vector3d(1.0, 0.0, 0.0);
+            Direction direction = workPart.Directions.CreateDirection(
+                origin, vector, SmartObject.UpdateOption.WithinModeling);
+
+            Revolve(workPart, sketch, section, SKETCH_NAME, 
+                OFFSET_RIGHT_ARC_NAME, helpPoint, direction);
+		}
+
         private void CreateHole()
         {
 
@@ -413,13 +481,15 @@ namespace AlloyWheelsBuilderModel
             Session session = Session.GetSession();
             Part workPart = session.Parts.Work;
 
-            InitSketch(session, workPart);
+            Sketch sketch = InitSketch(session, workPart);
             CreateSketch(session, workPart);
             ChangeDiameter(session, workPart);
             ChangeWidth(session, workPart);
             ChangeCentralHoleDiameter(session);
             ChangeOffset(session, workPart);
             FinishSketch(session);
+
+            RevolveSketch(workPart, sketch);
         }
 
         public AlloyWheelsBuilder(AlloyWheelsData alloyWheelsData)

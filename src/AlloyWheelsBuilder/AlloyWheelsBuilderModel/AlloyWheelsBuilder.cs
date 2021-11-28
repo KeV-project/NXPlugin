@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NXOpen;
 using NXOpen.Annotations;
 using NXOpen.Features;
+using NXOpen.GeometricUtilities;
 
 namespace AlloyWheelsBuilderModel
 {
@@ -29,7 +30,13 @@ namespace AlloyWheelsBuilderModel
 
         private const string OFFSET_LEFT_ARC_NAME = "Curve Arc39";
 
-        private const string SKETCH_NAME = "SKETCH(1)";
+        private const string SKETCH_FEATURE_NAME = "SKETCH(1)";
+
+        private const string SKETCH_NAME = "SKETCH_000";
+
+        private const string REVOLVED_NAME = "REVOLVED(2)";
+
+        private const string HOLE_ARC_NAME = "Curve Arc37";
 
         private AlloyWheelsData _alloyWheelsData;
 
@@ -447,13 +454,63 @@ namespace AlloyWheelsBuilderModel
             Direction direction = workPart.Directions.CreateDirection(
                 origin, vector, SmartObject.UpdateOption.WithinModeling);
 
-            Revolve(workPart, sketch, section, SKETCH_NAME, 
+            Revolve(workPart, sketch, section, SKETCH_FEATURE_NAME, 
                 OFFSET_RIGHT_ARC_NAME, helpPoint, direction);
 		}
 
-        private void CreateHole()
+        private void CreateHole(Part workPart, string bodyName, 
+            string sketchFeatureName, string sketchName, string holeArcName, 
+            double scalarValue, double holeDiameter)
         {
+            HolePackage nullNxOpenFeaturesHolePackage = null;
+            HolePackageBuilder holePackageBuilder = workPart.Features.
+                CreateHolePackageBuilder(nullNxOpenFeaturesHolePackage);
 
+            holePackageBuilder.Tolerance = 0.01;
+
+            const int targetBodiesCount = 1;
+            Body[] targetBodies = new Body[targetBodiesCount];
+            Body body = workPart.Bodies.FindObject(bodyName);
+            targetBodies[0] = body;
+            holePackageBuilder.BooleanOperation.SetTargetBodies(
+                targetBodies);
+
+            // Оверстие через тело
+            holePackageBuilder.HoleDepthLimitOption = HolePackageBuilder.
+                HoleDepthLimitOptions.ThroughBody;
+
+            SketchFeature sketchFeature = (SketchFeature)workPart.
+                Features.FindObject(sketchFeatureName);
+            Sketch sketch = (Sketch)sketchFeature.FindObject(sketchName);
+            
+            Arc arc = (Arc)sketch.FindObject(holeArcName);
+            Scalar scalar = workPart.Scalars.CreateScalar(scalarValue,
+                Scalar.DimensionalityType.None,
+                SmartObject.UpdateOption.WithinModeling);
+            Point point = workPart.Points.CreatePoint(arc, scalar, 
+                SmartObject.UpdateOption.WithinModeling);
+
+            const int pointsCount = 1;
+            Point[] points = new Point[pointsCount];
+            points[0] = point;
+            CurveDumbRule curveDumbRule = workPart.ScRuleFactory.
+                CreateRuleCurveDumbFromPoints(points);
+
+            const int rulesCount = 1;
+            SelectionIntentRule[] rules = new SelectionIntentRule[
+                rulesCount];
+            rules[0] = curveDumbRule;
+            NXObject nullNxOpenNXObject = null;
+            Point3d helpPoint = new Point3d(0.0, 0.0, 0.0);
+            holePackageBuilder.HolePosition.AddToSection(rules, 
+                nullNxOpenNXObject, nullNxOpenNXObject, nullNxOpenNXObject, 
+                helpPoint, Section.Mode.Create, false);
+
+            holePackageBuilder.GeneralSimpleHoleDiameter.RightHandSide = 
+                holeDiameter.ToString().Replace(',', '.');
+
+            holePackageBuilder.Commit();
+            holePackageBuilder.Destroy();
         }
 
         private bool IsHolesIntersect()
@@ -481,15 +538,20 @@ namespace AlloyWheelsBuilderModel
             Session session = Session.GetSession();
             Part workPart = session.Parts.Work;
 
-            Sketch sketch = InitSketch(session, workPart);
-            CreateSketch(session, workPart);
-            ChangeDiameter(session, workPart);
-            ChangeWidth(session, workPart);
-            ChangeCentralHoleDiameter(session);
-            ChangeOffset(session, workPart);
-            FinishSketch(session);
+			Sketch sketch = InitSketch(session, workPart);
+			CreateSketch(session, workPart);
+			ChangeDiameter(session, workPart);
+			ChangeWidth(session, workPart);
+			ChangeCentralHoleDiameter(session);
+			ChangeOffset(session, workPart);
+			FinishSketch(session);
 
-            RevolveSketch(workPart, sketch);
+			RevolveSketch(workPart, sketch);
+            const double scalarValue = 0.5;
+			CreateHole(workPart, REVOLVED_NAME, SKETCH_FEATURE_NAME, 
+                SKETCH_NAME, HOLE_ARC_NAME, scalarValue, 
+                _alloyWheelsData.DrillDiameter);
+
         }
 
         public AlloyWheelsBuilder(AlloyWheelsData alloyWheelsData)

@@ -108,9 +108,12 @@
             IsEnabled="False" Margin="5, 0, -25, 0"/>
 
          <TextBlock Grid.Row="8" Grid.Column="0" Text="Диаметр сверловки B: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
-         <TextBlock Grid.Row="8" Grid.Column="1" Text="4.422 ≤" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
-         <TextBox Grid.Row="8" Grid.Column="2" VerticalAlignment="Center"/>
-         <TextBlock Grid.Row="8" Grid.Column="3" Text="≤ 5.498" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"/>
+         <TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+                    Text="{Binding MinDrillDiameter}"/>
+         <TextBox Grid.Row="8" Grid.Column="2" VerticalAlignment="Center" Text="{Binding DrillDiameter, Mode=TwoWay, 
+                     NotifyOnValidationError=True}" Style="{StaticResource ContactInfoStyle}"/>
+         <TextBlock Grid.Row="8" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+                    Text="{Binding MaxDrillDiameter}"/>
          <TextBlock Grid.Row="8" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="9" Grid.ColumnSpan="5" Height="2"

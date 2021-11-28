@@ -63,7 +63,9 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return _alloyWheelsData.MinCentralHoleDiameter.
+                    return Math.Round(_alloyWheelsData.
+                        MinCentralHoleDiameter, 2, 
+                        MidpointRounding.AwayFromZero).
                         ToString() + " ≤";
                 }
             }
@@ -79,7 +81,9 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return "≤ " + _alloyWheelsData.MaxCentralHoleDiameter.
+                    return "≤ " + Math.Round(_alloyWheelsData.
+                        MaxCentralHoleDiameter, 2, 
+                        MidpointRounding.AwayFromZero).
                         ToString();
                 }
             }
@@ -113,6 +117,8 @@ namespace AlloyWheelsBuilderViewModel
                 {
                     RaisePropertyChanged(nameof(MinWidth));
                     RaisePropertyChanged(nameof(MaxWidth));
+                    RaisePropertyChanged(nameof(MinDrillDiameter));
+                    RaisePropertyChanged(nameof(MaxDrillDiameter));
                 });
             }
         }
@@ -129,7 +135,8 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return _alloyWheelsData. MinWidth.ToString() + " ≤";
+                    return Math.Round(_alloyWheelsData.MinWidth, 2, 
+                        MidpointRounding.AwayFromZero).ToString() + " ≤";
                 }
             }
         }
@@ -144,7 +151,8 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return "≤ " + _alloyWheelsData.MaxWidth.ToString();
+                    return "≤ " + Math.Round(_alloyWheelsData.MaxWidth, 
+                        2, MidpointRounding.AwayFromZero).ToString();
                 }
             }
         }
@@ -233,7 +241,68 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
-        public string DrillDiameter { get; set; }
+        public string MinDrillDiameter
+		{
+            get
+            {
+                if (double.IsNaN(_alloyWheelsData.MinDrillDiameter))
+                {
+                    return "";
+                }
+                else
+                {
+                    return Math.Round(_alloyWheelsData.MinDrillDiameter, 
+                        2, MidpointRounding.AwayFromZero).ToString()
+                        + " ≤";
+                }
+            }
+        }
+
+        public string MaxDrillDiameter
+        {
+            get
+            {
+                if (double.IsNaN(_alloyWheelsData.MaxDrillDiameter))
+                {
+                    return "";
+                }
+                else
+                {
+                    return "≤ " + Math.Round(_alloyWheelsData.
+                        MaxDrillDiameter, 2, MidpointRounding.AwayFromZero).
+                        ToString();
+                }
+            }
+        }
+
+        private string _drillDiameter = "";
+
+        public string DrillDiameter 
+        {
+            get => _drillDiameter;
+            set
+            {
+                SetProperty(nameof(DrillDiameter), () =>
+                {
+                    _drillDiameter = value;
+                    if (double.TryParse(value, out double drillDiameter))
+                    {
+                        _alloyWheelsData.DrillDiameter = drillDiameter;
+                    }
+                    else
+                    {
+                        _alloyWheelsData.DrillDiameter = double.NaN;
+                        throw new ArgumentException("\"" + value + "\""
+                            + " не является вещественным числом и"
+                            + " не может задавать диаметр сверловки");
+                    }
+                }, () =>
+                {
+                    RaisePropertyChanged(nameof(DrillingsCount));
+                    RaisePropertyChanged(nameof(DrillingsCount));
+                });
+            }
+        }
 
         public string DrillingsCount { get; set; }
 

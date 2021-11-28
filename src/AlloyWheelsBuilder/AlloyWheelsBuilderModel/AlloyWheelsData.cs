@@ -198,8 +198,7 @@ namespace AlloyWheelsBuilderModel
 				}
 				else
 				{
-					return Math.Round((Diameter / 2 * MIN_CENTER_HOLE_PERCENT / 100) * 2, 
-						2, MidpointRounding.AwayFromZero);
+					return (Diameter / 2 * MIN_CENTER_HOLE_PERCENT / 100) * 2;
 				}
 			}
 		}
@@ -214,13 +213,12 @@ namespace AlloyWheelsBuilderModel
 				}
 				else
 				{
-					return Math.Round((Diameter / 2 * MAX_CENTER_HOLE_PERCENT / 100) * 2, 
-						2, MidpointRounding.AwayFromZero);
+					return (Diameter / 2 * MAX_CENTER_HOLE_PERCENT / 100) * 2;
 				}
 			}
 		}
 
-		private double _centralHoleDiameter;
+		private double _centralHoleDiameter = double.NaN;
 
 		public double CentralHoleDiameter
 		{
@@ -252,8 +250,8 @@ namespace AlloyWheelsBuilderModel
 				}
 				else
 				{
-					return Math.Round((Diameter / 2 - CentralHoleDiameter / 2) 
-						/ SKETCH_HEIGTH_TO_WIDTH, 2, MidpointRounding.AwayFromZero);
+					return (Diameter / 2 - CentralHoleDiameter / 2)
+						/ SKETCH_HEIGTH_TO_WIDTH;
 				}
 			}
 		}
@@ -268,13 +266,12 @@ namespace AlloyWheelsBuilderModel
 				}
 				else
 				{
-					return Math.Round(Diameter / 2 - CentralHoleDiameter / 2, 
-						2, MidpointRounding.AwayFromZero);
+					return Diameter / 2 - CentralHoleDiameter / 2;
 				}
 			}
 		}
 
-		private double _width;
+		private double _width = double.NaN;
 
 		public double Width 
 		{
@@ -323,7 +320,7 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
-		private double _offSet;
+		private double _offSet = double.NaN;
 
 		public double OffSet
 		{
@@ -340,20 +337,74 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
-		// Изменить
-		private const double INITIAL_DRILL_PLACE_HEIGHT = 0.0;
+		private const double DRILL_PLACE_COEFFICIENT = 7;
+
+		public double DrillPlaceHeight
+		{
+			get
+			{
+				if(double.IsNaN(Diameter) || double.IsNaN(CentralHoleDiameter))
+				{
+					return double.NaN;
+				}
+				else
+				{
+					return ((Diameter - CentralHoleDiameter) / 2) 
+						/ DRILL_PLACE_COEFFICIENT;
+				}
+			}
+		}
 
 		private const double MIN_DRILL_DIAMETER_PERCENT = 67.0;
 
 		private const double MAX_DRILL_DIAMETER_PERCENT = 83.3;
 
-		public double MinDrillDiameter { get; }
+		public double MinDrillDiameter 
+		{
+			get
+			{
+				if(double.IsNaN(DrillPlaceHeight))
+				{
+					return double.NaN;
+				}
+				else
+				{
+					return DrillPlaceHeight * MIN_DRILL_DIAMETER_PERCENT / 100;
+				}
+			} 
+		}
 
-		public double MaxDrillDiameter { get; }
+		public double MaxDrillDiameter 
+		{
+			get
+			{
+				if (double.IsNaN(DrillPlaceHeight))
+				{
+					return double.NaN;
+				}
+				else
+				{
+					return DrillPlaceHeight * MAX_DRILL_DIAMETER_PERCENT / 100;
+				}
+			}
+		}
 
-		private double _drillDiameter;
+		private double _drillDiameter = double.NaN;
 
-		public double DrillDiameter { get; set; }
+		public double DrillDiameter 
+		{
+			get => _drillDiameter;
+			set
+			{
+				_drillDiameter = value;
+				if (!double.IsNaN(_drillDiameter))
+				{
+					const string context = "диаметр сверловки";
+					ValueValidator.AssertNumberInRange(_drillDiameter, 
+						MinDrillDiameter,MaxDrillDiameter, context);
+				}
+			}
+		}
 
 		private const int MIN_DRILLINGS_COUNT = 4;
 

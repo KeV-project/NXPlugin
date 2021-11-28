@@ -312,7 +312,30 @@ namespace AlloyWheelsBuilderViewModel
 
         // Количество отверстий для сверловки
 
-        public string DrillingsCount { get; set; }
+        private string _drillingsCount = "";
+
+        public string DrillingsCount 
+        {
+            get => _drillingsCount;
+            set
+            {
+                SetProperty(nameof(DrillingsCount), () =>
+                {
+                    _drillingsCount = value;
+                    if (int.TryParse(value, out int drillingsCount))
+                    {
+                        _alloyWheelsData.DrillingsCount = drillingsCount;
+                    }
+                    else
+                    {
+                        _alloyWheelsData.DrillingsCount = int.MinValue;
+                        throw new ArgumentException("\"" + value + "\""
+                            + " не является целым числом и"
+                            + " не может определять количество отверстий");
+                    }
+                }, null);
+            }
+        }
 
         // Количество спиц
 

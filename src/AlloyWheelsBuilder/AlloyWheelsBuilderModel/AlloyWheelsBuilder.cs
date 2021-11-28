@@ -38,7 +38,7 @@ namespace AlloyWheelsBuilderModel
 
         private const string HOLE_ARC_NAME = "Curve Arc37";
 
-        private const string HOLE_NAME = "SIMPLE HOLE(4)";
+        private const string HOLE_NAME = "SIMPLE HOLE(3)";
 
         private AlloyWheelsData _alloyWheelsData;
 
@@ -585,7 +585,8 @@ namespace AlloyWheelsBuilderModel
             axis.Point = point3;
 
             patternFeatureBuilder.PatternService.CircularDefinition.
-                AngularSpacing.NCopies.RightHandSide = elementsCount.ToString();
+                AngularSpacing.NCopies.RightHandSide = 
+                elementsCount.ToString();
 
             patternFeatureBuilder.ParentFeatureInternal = false;
 

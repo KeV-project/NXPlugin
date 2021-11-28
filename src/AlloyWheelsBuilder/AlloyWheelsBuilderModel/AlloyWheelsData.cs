@@ -412,9 +412,22 @@ namespace AlloyWheelsBuilderModel
 
 		public int MaxDrillingsCount { get; }
 
-		private int _drillingsCount;
+		private int _drillingsCount = int.MinValue;
 
-		public int DrillingsCount { get; set; }
+		public int DrillingsCount 
+		{
+			get => _drillingsCount;
+			set
+			{
+				_drillingsCount = value;
+				if (_drillingsCount != int.MinValue)
+				{
+					//const string context = "количество отверстий";
+					//ValueValidator.AssertNumberInRange(_drillingsCount,
+					//	MinDrillingsCount, MaxDrillingsCount, context);
+				}
+			}
+		}
 
 		private const int MIN_SPOKES_COUNT = 4;
 

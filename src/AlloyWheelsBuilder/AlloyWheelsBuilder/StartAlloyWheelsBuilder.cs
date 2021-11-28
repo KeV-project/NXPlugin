@@ -1,4 +1,6 @@
-﻿namespace AlloyWheelsBuilder
+﻿using NXOpen;
+
+namespace AlloyWheelsBuilder
 {
     public class StartAlloyWheelsBuilder
     {
@@ -6,6 +8,11 @@
         {
             AlloyWheelsBuilderWindow mainWindow = new AlloyWheelsBuilderWindow();
             mainWindow.ShowDialog();
+        }
+
+        public static int GetUnloadOption(string dummy)
+        {
+            return (int)Session.LibraryUnloadOption.Immediately;
         }
     }
 }

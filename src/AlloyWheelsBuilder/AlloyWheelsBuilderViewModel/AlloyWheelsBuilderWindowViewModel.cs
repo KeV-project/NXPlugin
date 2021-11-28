@@ -186,6 +186,8 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
+        // Вылет 
+
         public string MinOffSet
 		{
 			get
@@ -196,7 +198,8 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return _alloyWheelsData.MinOffSet.ToString() + " ≤";
+                    return Math.Round(_alloyWheelsData.MinOffSet, 2, 
+                        MidpointRounding.AwayFromZero).ToString() + " ≤";
                 }
             }
 		}
@@ -211,7 +214,8 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return "≤ " + _alloyWheelsData.MaxOffSet.ToString();
+                    return "≤ " + Math.Round(_alloyWheelsData.MaxOffSet, 2,
+                        MidpointRounding.AwayFromZero).ToString();
                 }
             }
 		}
@@ -240,6 +244,8 @@ namespace AlloyWheelsBuilderViewModel
                 }, null);
             }
         }
+
+        // Диаметр сверловки
 
         public string MinDrillDiameter
 		{
@@ -304,7 +310,11 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
+        // Количество отверстий для сверловки
+
         public string DrillingsCount { get; set; }
+
+        // Количество спиц
 
         public string SpokesCount { get; set; }
 

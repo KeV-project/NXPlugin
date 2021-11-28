@@ -38,6 +38,8 @@ namespace AlloyWheelsBuilderModel
 
         private const string HOLE_ARC_NAME = "Curve Arc37";
 
+        private const string HOLE_NAME = "SIMPLE HOLE(4)";
+
         private AlloyWheelsData _alloyWheelsData;
 
         private Sketch InitSketch(Session session, Part workPart)
@@ -518,9 +520,78 @@ namespace AlloyWheelsBuilderModel
             return false;
 		}
 
-        private void CreateElemetsArray()
+        private void CreateElemetsArray(Part workPart, string arrayObjectName,
+            string arrayPlaceName, int elementsCount)
         {
+            Feature nullNxOpenFeaturesFeature = null;
+            PatternFeatureBuilder patternFeatureBuilder = workPart.Features.
+                CreatePatternFeatureBuilder(nullNxOpenFeaturesFeature);
 
+            Point3d origin = new Point3d(0.0, 0.0, 0.0);
+            Vector3d normal = new Vector3d(0.0, 0.0, 1.0);
+
+            Plane plane = workPart.Planes.CreatePlane(origin, normal, 
+                SmartObject.UpdateOption.WithinModeling);
+            patternFeatureBuilder.PatternService.MirrorDefinition.
+                NewPlane = plane;
+
+            patternFeatureBuilder.PatternService.PatternType = 
+                PatternDefinition.PatternEnum.Circular;
+            patternFeatureBuilder.PatternService.CircularDefinition.
+                AngularSpacing.SpaceType = PatternSpacing.SpacingType.Span;
+
+            patternFeatureBuilder.PatternService.CircularDefinition.
+                AngularSpacing.SpanAngle.RightHandSide = "360";
+
+            patternFeatureBuilder.PatternMethod = PatternFeatureBuilder.
+                PatternMethodOptions.Variational;
+
+            Vector3d vector = new Vector3d(1.0, 0.0, 0.0);
+            Direction direction = workPart.Directions.CreateDirection(
+                origin, vector, SmartObject.UpdateOption.WithinModeling);
+
+            Point nullNxOpenPoint = null;
+            Axis axis = workPart.Axes.CreateAxis(nullNxOpenPoint, direction, 
+                SmartObject.UpdateOption.WithinModeling);
+            patternFeatureBuilder.PatternService.CircularDefinition.
+                RotationAxis = axis;
+
+            const int objectsCount = 1;
+            Feature[] objects = new Feature[objectsCount];
+            HolePackage holePackage = (HolePackage)workPart.Features.
+                FindObject(arrayObjectName);
+            objects[0] = holePackage;
+            patternFeatureBuilder.FeatureList.Add(objects);
+
+            Revolve revolve = (Revolve)workPart.Features.FindObject(
+                arrayPlaceName);
+            Edge edge = (Edge)revolve.FindObject("EDGE * 5 * 6 " +
+                "{" 
+                    + "(85.7231350896827,53.5038941198678,-30.8904876727989)" 
+                    + "(85.7231350896827,0,61.7809753455978)" 
+                    + "(85.7231350896827,-53.5038941198678,-30.8904876727989) " 
+                    + "REVOLVED(2)" +
+                "}");
+
+            workPart.Xforms.CreateExtractXform(edge, SmartObject.UpdateOption.
+                WithinModeling, false, out NXObject nXObject);
+
+            Edge edge2 = (Edge)nXObject;
+            Point point3 = workPart.Points.CreatePoint(edge2, 
+                SmartObject.UpdateOption.WithinModeling);
+
+            point3.RemoveViewDependency();
+
+            axis.Point = point3;
+
+            patternFeatureBuilder.PatternService.CircularDefinition.
+                AngularSpacing.NCopies.RightHandSide = elementsCount.ToString();
+
+            patternFeatureBuilder.ParentFeatureInternal = false;
+
+            patternFeatureBuilder.Commit();
+
+            patternFeatureBuilder.Destroy();
         }
 
         private void CreatePetalSketch()
@@ -547,11 +618,15 @@ namespace AlloyWheelsBuilderModel
 			FinishSketch(session);
 
 			RevolveSketch(workPart, sketch);
-            const double scalarValue = 0.5;
-			CreateHole(workPart, REVOLVED_NAME, SKETCH_FEATURE_NAME, 
-                SKETCH_NAME, HOLE_ARC_NAME, scalarValue, 
-                _alloyWheelsData.DrillDiameter);
-
+			const double scalarValue = 0.5;
+			CreateHole(workPart, REVOLVED_NAME, SKETCH_FEATURE_NAME,
+				SKETCH_NAME, HOLE_ARC_NAME, scalarValue,
+				_alloyWheelsData.DrillDiameter);
+            if(_alloyWheelsData.DrillingsCount != 0)
+			{
+                CreateElemetsArray(workPart, HOLE_NAME, REVOLVED_NAME,
+                _alloyWheelsData.DrillingsCount);
+            }
         }
 
         public AlloyWheelsBuilder(AlloyWheelsData alloyWheelsData)

@@ -291,7 +291,7 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
-		private const double MIN_OFFSET_PERCENT = 20;
+		private const double MIN_OFFSET_PERCENT = 5;
 
 		public double MinOffSet
 		{
@@ -303,7 +303,7 @@ namespace AlloyWheelsBuilderModel
 				}
 				else
 				{
-					return -1 * (Width / 2 * 20 / 100);
+					return -1 * (Width / 2 * MIN_OFFSET_PERCENT / 100);
 				}
 			}
 		}

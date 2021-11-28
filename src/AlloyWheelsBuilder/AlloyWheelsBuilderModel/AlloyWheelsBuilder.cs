@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NXOpen;
 using NXOpen.Annotations;
+using NXOpen.Features;
 
 namespace AlloyWheelsBuilderModel
 {
@@ -24,6 +25,9 @@ namespace AlloyWheelsBuilderModel
 
         private const string WHEELS_MATING_PLACE_ARC_NAME = "Curve Arc34";
 
+        private const string OFFSET_RIGHT_ARC_NAME = "Curve Arc32";
+
+        private const string OFFSET_LEFT_ARC_NAME = "Curve Arc39";
 
         private AlloyWheelsData _alloyWheelsData;
 
@@ -241,7 +245,73 @@ namespace AlloyWheelsBuilderModel
             }
         }
 
-        private void ChangeOffset(Session session)
+        private void MovePointOnArc(Session session, Part workPart, 
+            string arcName, double dx)
+		{
+            Arc arc = (Arc)session.ActiveSketch.FindObject(arcName);
+            AssociativeArcBuilder associativeArcBuilder = workPart.
+                BaseFeatures.CreateAssociativeArcBuilder(arc);
+
+            Unit unit = associativeArcBuilder.Radius.Units;
+
+            Expression xExpression = workPart.Expressions.
+                CreateSystemExpressionWithUnits((arc.CenterPoint.X 
+                + arc.Radius * Math.Cos(arc.EndAngle)).ToString().
+                Replace(',', '.'), unit);
+            Expression yExpression = workPart.Expressions.
+                CreateSystemExpressionWithUnits((arc.CenterPoint.Y 
+                + arc.Radius * Math.Sin(arc.EndAngle)).ToString().
+                Replace(',', '.'), unit);
+            Expression zExpression = workPart.Expressions.
+                CreateSystemExpressionWithUnits("0", unit);
+
+            xExpression.RightHandSide = (arc.CenterPoint.X + arc.Radius 
+                * Math.Cos(arc.EndAngle) + dx).ToString().Replace(',', '.');
+            Scalar xScalar = workPart.Scalars.CreateScalarExpression(
+                xExpression, Scalar.DimensionalityType.Length, 
+                SmartObject.UpdateOption.WithinModeling);
+
+            yExpression.RightHandSide = (arc.CenterPoint.Y + arc.Radius 
+                * Math.Sin(arc.EndAngle)).ToString().Replace(',', '.');
+            Scalar yScalar = workPart.Scalars.CreateScalarExpression(
+                yExpression, Scalar.DimensionalityType.Length, 
+                SmartObject.UpdateOption.WithinModeling);
+
+            zExpression.RightHandSide = "0";
+            Scalar zScalar = workPart.Scalars.CreateScalarExpression(
+                zExpression, Scalar.DimensionalityType.Length, 
+                SmartObject.UpdateOption.WithinModeling);
+
+            Point3d origin = new Point3d(0.0, 0.0, 0.0);
+            Vector3d xDirection = new Vector3d(1.0, 0.0, 0.0);
+            Vector3d yDirection = new Vector3d(0.0, 1.0, 0.0);
+            Xform xform = workPart.Xforms.CreateXform(origin, xDirection,
+                yDirection, SmartObject.UpdateOption.WithinModeling, 1.0);
+
+            CartesianCoordinateSystem cartesianCoordinateSystem = 
+                workPart.CoordinateSystems.CreateCoordinateSystem(
+                    xform, SmartObject.UpdateOption.WithinModeling);
+
+            Point point = workPart.Points.CreatePoint(
+                cartesianCoordinateSystem, xScalar, yScalar, zScalar, 
+                SmartObject.UpdateOption.WithinModeling);
+
+            associativeArcBuilder.EndPoint.Value = point;
+
+            associativeArcBuilder.Commit();
+
+            associativeArcBuilder.Destroy();
+
+            session.ActiveSketch.Preferences.ContinuousAutoDimensioningSetting = false;
+
+            session.ActiveSketch.Update();
+
+            session.ActiveSketch.Preferences.ContinuousAutoDimensioningSetting = true;
+
+            session.ActiveSketch.RunAutoDimension();
+        }
+
+        private void ChangeOffset(Session session, Part workPart)
         {
             // Находим X середины ширины диска
             Arc leftArc = (Arc)session.ActiveSketch.FindObject(
@@ -308,6 +378,9 @@ namespace AlloyWheelsBuilderModel
                     + dx, arc.CenterPoint.Y, arc.CenterPoint.Z),
                     arc.StartAngle, arc.EndAngle);
             }
+
+            MovePointOnArc(session, workPart, OFFSET_RIGHT_ARC_NAME, dx);
+            MovePointOnArc(session, workPart, OFFSET_LEFT_ARC_NAME, dx);
         }
 
         private void CreateHole()
@@ -345,7 +418,7 @@ namespace AlloyWheelsBuilderModel
             ChangeDiameter(session, workPart);
             ChangeWidth(session, workPart);
             ChangeCentralHoleDiameter(session);
-            ChangeOffset(session);
+            ChangeOffset(session, workPart);
             FinishSketch(session);
         }
 

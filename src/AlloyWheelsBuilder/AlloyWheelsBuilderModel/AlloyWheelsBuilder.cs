@@ -241,9 +241,73 @@ namespace AlloyWheelsBuilderModel
             }
         }
 
-        private void ChangeOffset()
+        private void ChangeOffset(Session session)
         {
+            // Находим X середины ширины диска
+            Arc leftArc = (Arc)session.ActiveSketch.FindObject(
+                WIDTH_LEFT_ARC_NAME);
+            Arc rightArc = (Arc)session.ActiveSketch.FindObject(
+                WIDTH_RIGHT_ARC_NAME);
 
+            double leftX = leftArc.CenterPoint.X + leftArc.Radius
+                * Math.Cos(leftArc.StartAngle);
+            double rightX = rightArc.CenterPoint.X + rightArc.Radius
+                * Math.Cos(rightArc.StartAngle);
+
+            double centerX = leftX + ((rightX - leftX) / 2);
+
+            //TODO: тут надо считать от центра дуги 
+            Arc wheelsMatingPlaceArc = ((Arc)session.ActiveSketch.FindObject(
+                WHEELS_MATING_PLACE_ARC_NAME));
+
+            double dx = 0.0;
+            if(_alloyWheelsData.OffSet < 0)
+			{
+                // одинаковый случай
+                dx = centerX - (wheelsMatingPlaceArc.CenterPoint.X 
+                    + wheelsMatingPlaceArc.Radius 
+                    * Math.Cos(wheelsMatingPlaceArc.StartAngle)) 
+                    - _alloyWheelsData.OffSet;
+            }
+            else if(_alloyWheelsData.OffSet > 0)
+			{
+                if(centerX - (wheelsMatingPlaceArc.CenterPoint.X
+                    + wheelsMatingPlaceArc.Radius
+                    * Math.Cos(wheelsMatingPlaceArc.StartAngle)) <
+                    centerX - _alloyWheelsData.OffSet)
+				{
+                    dx = -1 * (_alloyWheelsData.OffSet - 
+                        (centerX - (wheelsMatingPlaceArc.CenterPoint.X
+                        + wheelsMatingPlaceArc.Radius
+                        * Math.Cos(wheelsMatingPlaceArc.StartAngle))));
+				}
+                else if(centerX - (wheelsMatingPlaceArc.CenterPoint.X
+                    + wheelsMatingPlaceArc.Radius
+                    * Math.Cos(wheelsMatingPlaceArc.StartAngle)) >
+                    centerX - _alloyWheelsData.OffSet)
+				{
+                    // Одинаковый случай
+                    dx = centerX - _alloyWheelsData.OffSet - 
+                        (wheelsMatingPlaceArc.CenterPoint.X
+                        + wheelsMatingPlaceArc.Radius
+                        * Math.Cos(wheelsMatingPlaceArc.StartAngle));
+				}
+			}
+            else
+			{
+                dx = centerX - (wheelsMatingPlaceArc.CenterPoint.X
+                    + wheelsMatingPlaceArc.Radius
+                    * Math.Cos(wheelsMatingPlaceArc.StartAngle));
+            }
+
+            for (int i = 33; i <= 38; i++)
+            {
+                Arc arc = (Arc)session.ActiveSketch.FindObject(
+                    "Curve Arc" + i);
+                arc.SetParameters(arc.Radius, new Point3d(arc.CenterPoint.X 
+                    + dx, arc.CenterPoint.Y, arc.CenterPoint.Z),
+                    arc.StartAngle, arc.EndAngle);
+            }
         }
 
         private void CreateHole()
@@ -281,6 +345,7 @@ namespace AlloyWheelsBuilderModel
             ChangeDiameter(session, workPart);
             ChangeWidth(session, workPart);
             ChangeCentralHoleDiameter(session);
+            ChangeOffset(session);
             FinishSketch(session);
         }
 

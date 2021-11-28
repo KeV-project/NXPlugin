@@ -170,7 +170,11 @@ namespace AlloyWheelsBuilderViewModel
                             + " не является вещественным числом и"
                             + " не может задавать посадочную ширину диска");
                     }
-                }, null);
+                }, () =>
+                {
+                    RaisePropertyChanged(nameof(MinOffSet));
+                    RaisePropertyChanged(nameof(MaxOffSet));
+                });
             }
         }
 
@@ -184,7 +188,7 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return "≤ " + _alloyWheelsData.MinOffSet.ToString();
+                    return _alloyWheelsData.MinOffSet.ToString() + " ≤";
                 }
             }
 		}

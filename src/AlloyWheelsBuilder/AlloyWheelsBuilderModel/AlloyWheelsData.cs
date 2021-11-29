@@ -406,7 +406,7 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
-		private const int MIN_DRILLINGS_COUNT = 0;
+		private const int MIN_DRILLINGS_COUNT = 4;
 
 		public int MinDrillingsCount
 		{
@@ -436,7 +436,7 @@ namespace AlloyWheelsBuilderModel
 					const double centerX = 0.0;
 					const double centerY = 0.0;
 					double radius = CentralHoleDiameter / 2 + DrillPlaceHeight / 2;
-					int maxDrillingsCount = 2;
+					int maxDrillingsCount = MIN_DRILLINGS_COUNT;
 					while(true)
 					{
 						if(Сalculator.IsCirclesIntersect(centerX, centerY, radius,

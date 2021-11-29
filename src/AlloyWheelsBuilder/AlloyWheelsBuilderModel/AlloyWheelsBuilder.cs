@@ -515,11 +515,6 @@ namespace AlloyWheelsBuilderModel
             holePackageBuilder.Destroy();
         }
 
-        private bool IsHolesIntersect()
-		{
-            return false;
-		}
-
         private void CreateElemetsArray(Part workPart, string arrayObjectName,
             string arrayPlaceName, int elementsCount)
         {
@@ -623,11 +618,8 @@ namespace AlloyWheelsBuilderModel
 			CreateHole(workPart, REVOLVED_NAME, SKETCH_FEATURE_NAME,
 				SKETCH_NAME, HOLE_ARC_NAME, scalarValue,
 				_alloyWheelsData.DrillDiameter);
-            if(_alloyWheelsData.DrillingsCount != 0)
-			{
-                CreateElemetsArray(workPart, HOLE_NAME, REVOLVED_NAME,
-                _alloyWheelsData.DrillingsCount);
-            }
+            CreateElemetsArray(workPart, HOLE_NAME, REVOLVED_NAME,
+                 _alloyWheelsData.DrillingsCount);
         }
 
         public AlloyWheelsBuilder(AlloyWheelsData alloyWheelsData)

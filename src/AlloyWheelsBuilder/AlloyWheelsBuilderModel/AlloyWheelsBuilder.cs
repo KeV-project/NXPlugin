@@ -40,6 +40,8 @@ namespace AlloyWheelsBuilderModel
 
         private const string HOLE_NAME = "SIMPLE HOLE(3)";
 
+        private const string LAST_ARC_NAME = "Curve Arc45";
+
         private AlloyWheelsData _alloyWheelsData;
 
         private Sketch InitSketch(Session session, Part workPart)
@@ -590,9 +592,112 @@ namespace AlloyWheelsBuilderModel
             patternFeatureBuilder.Destroy();
         }
 
-        private void CreatePetalSketch()
-        {
+        private void InitPetalSketch(Session session, Part workPart)
+		{
+            session.BeginTaskEnvironment();
 
+            Sketch nullNXOpen_Sketch = null;
+            SketchInPlaceBuilder sketchInPlaceBuilder = workPart.Sketches.
+                CreateSketchInPlaceBuilder2(nullNXOpen_Sketch);
+
+            Point3d origin = new Point3d(0.0, 0.0, 0.0);
+            Vector3d normal = new Vector3d(0.0, 0.0, 1.0);
+            Plane plane = workPart.Planes.CreatePlane(origin, normal, 
+                SmartObject.UpdateOption.WithinModeling);
+
+            sketchInPlaceBuilder.PlaneReference = plane;
+
+            SketchAlongPathBuilder sketchAlongPathBuilder = workPart.
+                Sketches.CreateSketchAlongPathBuilder(nullNXOpen_Sketch);
+            sketchInPlaceBuilder.PlaneOption = Sketch.PlaneOption.
+                ExistingPlane;
+            sketchAlongPathBuilder.PlaneLocation.Expression.
+                RightHandSide = "0";
+
+            Revolve revolve = (Revolve)workPart.Features.
+                FindObject("REVOLVED(2)");
+            Face face = (Face)revolve.FindObject("FACE 7");
+            Line line = workPart.Lines.CreateFaceAxis(face, 
+                SmartObject.UpdateOption.WithinModeling);
+
+            plane.SetMethod(PlaneTypes.MethodType.Distance);
+
+            DatumPlane datumPlane = (DatumPlane)workPart.Datums.
+                FindObject("DATUM_CSYS(0) YZ plane");
+            NXObject[] geom = new NXObject[1];
+            geom[0] = datumPlane;
+            plane.SetGeometry(geom);
+
+            plane.Evaluate();
+
+            TaggedObject[] objects = new TaggedObject[1];
+            objects[0] = line;
+
+            DatumAxis datumAxis = (DatumAxis)workPart.Datums.
+                FindObject("DATUM_CSYS(0) Y axis");
+            Direction direction = workPart.Directions.CreateDirection(
+                datumAxis, Sense.Forward, 
+                SmartObject.UpdateOption.WithinModeling);
+            sketchInPlaceBuilder.AxisReference = direction;
+
+            Edge edge = (Edge)revolve.FindObject("EDGE * 3 * 4 " +
+                "{" 
+                    + "(12.2937697235662,7.9122352397363,-4.5681311455534)" 
+                    + "(12.2937697235662,0,9.1362622911068)" 
+                    + "(12.2937697235662,-7.9122352397363,-4.5681311455534) " 
+                    + "REVOLVED(2)" +
+                "}");
+
+            workPart.Xforms.CreateExtractXform(edge, SmartObject.
+                UpdateOption.WithinModeling, false, out NXObject nXObject);
+
+            Edge edge2 = (Edge)nXObject;
+            Point point = workPart.Points.CreatePoint(edge2, 
+                SmartObject.UpdateOption.WithinModeling);
+            sketchInPlaceBuilder.SketchOrigin = point;
+
+            Sketch sketch = (Sketch)sketchInPlaceBuilder.Commit();
+            sketch.Activate(Sketch.ViewReorient.True);
+
+            sketchInPlaceBuilder.Destroy();
+            sketchAlongPathBuilder.Destroy();
+
+            session.ActiveSketch.SetName("SKETCH_001");
+        }
+
+        private void CreatePetalSketch(Session session, Part workPart)
+        {
+            SketchFeature sketchFeature = (SketchFeature)workPart.
+                Features.FindObject(SKETCH_FEATURE_NAME);
+            Sketch sketch = (Sketch)sketchFeature.FindObject(SKETCH_NAME);
+            Arc offsetRightArc = (Arc)sketch.FindObject(
+                OFFSET_RIGHT_ARC_NAME);
+            double offsetRightArcTopY = offsetRightArc.CenterPoint.Y 
+                + offsetRightArc.Radius * Math.Sin(
+                    offsetRightArc.StartAngle);
+            double offsetRightArcBottomY = offsetRightArc.CenterPoint.Y
+                + offsetRightArc.Radius * Math.Sin(
+                    offsetRightArc.EndAngle);
+
+            const int indentPercent = 10;
+            double indent = (offsetRightArcTopY - offsetRightArcBottomY) 
+                * indentPercent / 100;
+            double startPointY = offsetRightArcTopY - indent;
+            double endPointY = offsetRightArcBottomY + indent;
+
+            Arc placeArc = (Arc)sketch.FindObject(LAST_ARC_NAME);
+            double x = placeArc.CenterPoint.X + placeArc.Radius 
+                * Math.Cos(placeArc.StartAngle);
+
+            double z = 0.0;
+
+            Point3d startPoint = new Point3d(x, startPointY, z);
+            Point3d endPoint = new Point3d(x, endPointY, z);
+            Line line = workPart.Curves.CreateLine(startPoint, endPoint);
+            session.ActiveSketch.AddGeometry(line, Sketch.
+                InferConstraintsOption.InferNoConstraints);
+
+            session.ActiveSketch.Update();
         }
 
         private void Extrusion()
@@ -618,8 +723,10 @@ namespace AlloyWheelsBuilderModel
 			CreateHole(workPart, REVOLVED_NAME, SKETCH_FEATURE_NAME,
 				SKETCH_NAME, HOLE_ARC_NAME, scalarValue,
 				_alloyWheelsData.DrillDiameter);
-            CreateElemetsArray(workPart, HOLE_NAME, REVOLVED_NAME,
-                 _alloyWheelsData.DrillingsCount);
+			CreateElemetsArray(workPart, HOLE_NAME, REVOLVED_NAME,
+				 _alloyWheelsData.DrillingsCount);
+			InitPetalSketch(session, workPart);
+            //CreatePetalSketch(session, workPart);
         }
 
         public AlloyWheelsBuilder(AlloyWheelsData alloyWheelsData)

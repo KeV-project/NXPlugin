@@ -304,13 +304,43 @@ namespace AlloyWheelsBuilderViewModel
                     }
                 }, () =>
                 {
-                    RaisePropertyChanged(nameof(DrillingsCount));
-                    RaisePropertyChanged(nameof(DrillingsCount));
+                    RaisePropertyChanged(nameof(MinDrillingsCount));
+                    RaisePropertyChanged(nameof(MaxDrillingsCount));
                 });
             }
         }
 
         // Количество отверстий для сверловки
+
+        public string MinDrillingsCount
+		{
+			get
+			{
+                if(_alloyWheelsData.MinDrillingsCount == int.MinValue)
+				{
+                    return "";
+				}
+				else
+				{
+                    return _alloyWheelsData.MinDrillingsCount + " ≤";
+				}
+			}
+		}
+
+        public string MaxDrillingsCount
+		{
+			get
+			{
+                if(_alloyWheelsData.MaxDrillingsCount == int.MaxValue)
+				{
+                    return "";
+				}
+                else
+				{
+                    return "≤ " + _alloyWheelsData.MaxDrillingsCount;
+				}
+			}
+		}
 
         private string _drillingsCount = "";
 

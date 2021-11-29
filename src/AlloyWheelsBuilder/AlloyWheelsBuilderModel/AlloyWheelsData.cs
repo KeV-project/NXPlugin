@@ -406,11 +406,49 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
-		private const int MIN_DRILLINGS_COUNT = 4;
+		private const int MIN_DRILLINGS_COUNT = 0;
 
-		public int MinDrillingsCount { get => MIN_DRILLINGS_COUNT; }
+		public int MinDrillingsCount
+		{
+			get
+			{
+				if (double.IsNaN(DrillDiameter))
+				{
+					return int.MinValue;
+				}
+				else
+				{
+					return MIN_DRILLINGS_COUNT;
+				}
+			}
+		}
 
-		public int MaxDrillingsCount { get; }
+		public int MaxDrillingsCount 
+		{
+			get
+			{
+				if (double.IsNaN(DrillDiameter))
+				{
+					return int.MaxValue;
+				}
+				else
+				{
+					const double centerX = 0.0;
+					const double centerY = 0.0;
+					double radius = CentralHoleDiameter / 2 + DrillPlaceHeight / 2;
+					int maxDrillingsCount = 2;
+					while(true)
+					{
+						if(Сalculator.IsCirclesIntersect(centerX, centerY, radius,
+							DrillDiameter / 2, maxDrillingsCount))
+						{
+							return maxDrillingsCount - 1;
+						}
+						maxDrillingsCount++;
+					}
+				}
+			}
+		}
 
 		private int _drillingsCount = int.MinValue;
 
@@ -422,9 +460,9 @@ namespace AlloyWheelsBuilderModel
 				_drillingsCount = value;
 				if (_drillingsCount != int.MinValue)
 				{
-					//const string context = "количество отверстий";
-					//ValueValidator.AssertNumberInRange(_drillingsCount,
-					//	MinDrillingsCount, MaxDrillingsCount, context);
+					const string context = "количество отверстий";
+					ValueValidator.AssertNumberInRange(_drillingsCount,
+						MinDrillingsCount, MaxDrillingsCount, context);
 				}
 			}
 		}

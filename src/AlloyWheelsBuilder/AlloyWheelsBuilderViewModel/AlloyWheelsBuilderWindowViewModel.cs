@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Globalization;
 using GalaSoft.MvvmLight.Command;
 using ViewModelLib;
 using AlloyWheelsBuilderModel;
@@ -63,10 +58,7 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return Math.Round(_alloyWheelsData.
-                        MinCentralHoleDiameter, 2, 
-                        MidpointRounding.AwayFromZero).
-                        ToString() + " ≤";
+                    return _alloyWheelsData.MinCentralHoleDiameter + " ≤";
                 }
             }
         }
@@ -81,10 +73,7 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return "≤ " + Math.Round(_alloyWheelsData.
-                        MaxCentralHoleDiameter, 2, 
-                        MidpointRounding.AwayFromZero).
-                        ToString();
+                    return "≤ " + _alloyWheelsData.MaxCentralHoleDiameter;
                 }
             }
         }
@@ -135,8 +124,7 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return Math.Round(_alloyWheelsData.MinWidth, 2, 
-                        MidpointRounding.AwayFromZero).ToString() + " ≤";
+                    return _alloyWheelsData.MinWidth + " ≤";
                 }
             }
         }
@@ -151,8 +139,7 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return "≤ " + Math.Round(_alloyWheelsData.MaxWidth, 
-                        2, MidpointRounding.AwayFromZero).ToString();
+                    return "≤ " + _alloyWheelsData.MaxWidth;
                 }
             }
         }
@@ -198,8 +185,7 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return Math.Round(_alloyWheelsData.MinOffSet, 2, 
-                        MidpointRounding.AwayFromZero).ToString() + " ≤";
+                    return _alloyWheelsData.MinOffSet + " ≤";
                 }
             }
 		}
@@ -214,8 +200,7 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return "≤ " + Math.Round(_alloyWheelsData.MaxOffSet, 2,
-                        MidpointRounding.AwayFromZero).ToString();
+                    return "≤ " + _alloyWheelsData.MaxOffSet;
                 }
             }
 		}
@@ -257,9 +242,7 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return Math.Round(_alloyWheelsData.MinDrillDiameter, 
-                        2, MidpointRounding.AwayFromZero).ToString()
-                        + " ≤";
+                    return _alloyWheelsData.MinDrillDiameter + " ≤";
                 }
             }
         }
@@ -274,9 +257,7 @@ namespace AlloyWheelsBuilderViewModel
                 }
                 else
                 {
-                    return "≤ " + Math.Round(_alloyWheelsData.
-                        MaxDrillDiameter, 2, MidpointRounding.AwayFromZero).
-                        ToString();
+                    return "≤ " + _alloyWheelsData.MaxDrillDiameter;
                 }
             }
         }
@@ -400,7 +381,8 @@ namespace AlloyWheelsBuilderViewModel
                 return _buildCommand ??
                   (_buildCommand = new RelayCommand(() =>
                   {
-                      AlloyWheelsBuilder alloyWheelsBuilder = new AlloyWheelsBuilder(_alloyWheelsData);
+                      AlloyWheelsBuilder alloyWheelsBuilder = 
+                      new AlloyWheelsBuilder(_alloyWheelsData);
                       alloyWheelsBuilder.Build();
                   }));
             }

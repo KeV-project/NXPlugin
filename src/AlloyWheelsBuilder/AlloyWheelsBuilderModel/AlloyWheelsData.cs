@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NXOpen;
 
 namespace AlloyWheelsBuilderModel
@@ -212,7 +209,8 @@ namespace AlloyWheelsBuilderModel
 				}
 				else
 				{
-					return (Diameter / 2 * MIN_CENTER_HOLE_PERCENT / 100) * 2;
+					return Math.Round((Diameter * MIN_CENTER_HOLE_PERCENT 
+						/ 100), 3);
 				}
 			}
 		}
@@ -227,7 +225,8 @@ namespace AlloyWheelsBuilderModel
 				}
 				else
 				{
-					return (Diameter / 2 * MAX_CENTER_HOLE_PERCENT / 100) * 2;
+					return Math.Round((Diameter * MAX_CENTER_HOLE_PERCENT 
+						/ 100), 3);
 				}
 			}
 		}
@@ -264,8 +263,8 @@ namespace AlloyWheelsBuilderModel
 				}
 				else
 				{
-					return (Diameter / 2 - CentralHoleDiameter / 2)
-						/ SKETCH_HEIGTH_TO_WIDTH;
+					return Math.Round((Diameter / 2 - CentralHoleDiameter / 2) 
+						/ SKETCH_HEIGTH_TO_WIDTH, 3);
 				}
 			}
 		}
@@ -280,7 +279,7 @@ namespace AlloyWheelsBuilderModel
 				}
 				else
 				{
-					return Diameter / 2 - CentralHoleDiameter / 2;
+					return Math.Round(Diameter / 2 - CentralHoleDiameter / 2, 3);
 				}
 			}
 		}
@@ -314,7 +313,7 @@ namespace AlloyWheelsBuilderModel
 				}
 				else
 				{
-					return -1 * (Width / 2 * MIN_OFFSET_PERCENT / 100);
+					return Math.Round(-1 * (Width / 2 * MIN_OFFSET_PERCENT / 100), 3);
 				}
 			}
 		}
@@ -329,7 +328,7 @@ namespace AlloyWheelsBuilderModel
 				}
 				else
 				{
-					return Width / 2;
+					return Math.Round(Width / 2, 3);
 				}
 			}
 		}
@@ -383,7 +382,8 @@ namespace AlloyWheelsBuilderModel
 				}
 				else
 				{
-					return DrillPlaceHeight * MIN_DRILL_DIAMETER_PERCENT / 100;
+					return Math.Round(DrillPlaceHeight * MIN_DRILL_DIAMETER_PERCENT 
+						/ 100, 3);
 				}
 			} 
 		}
@@ -398,7 +398,8 @@ namespace AlloyWheelsBuilderModel
 				}
 				else
 				{
-					return DrillPlaceHeight * MAX_DRILL_DIAMETER_PERCENT / 100;
+					return Math.Round(DrillPlaceHeight * MAX_DRILL_DIAMETER_PERCENT 
+						/ 100, 3);
 				}
 			}
 		}

@@ -5,20 +5,38 @@ using AlloyWheelsBuilderModel;
 
 namespace AlloyWheelsBuilderViewModel
 {
-    public class AlloyWheelsBuilderWindowViewModel: NotifyDataErrorViewModelBase
+    /// <summary>
+    /// Класс <see cref="AlloyWheelsBuilderWindowViewModel"/> 
+    /// предназначен для взаимодействия интерфейса и модели
+    /// </summary>
+    public class AlloyWheelsBuilderWindowViewModel: 
+        NotifyDataErrorViewModelBase
     {
+        /// <summary>
+        /// Параметры автомобильного диска
+        /// </summary>
         private AlloyWheelsData _alloyWheelsData;
 
-        // Диаметр 
-
+        /// <summary>
+        /// Возвращает минимальный диаметр
+        /// </summary>
         public string MinDiameter { get => _alloyWheelsData.
                 MinDiameter.ToString() + " ≤"; }
 
+        /// <summary>
+		/// Возвращает максимальный диаметр
+		/// </summary>
         public string MaxDiameter { get => "≤ " + _alloyWheelsData.
                 MaxDiameter.ToString(); }
 
+        /// <summary>
+		/// Хранит диаметр
+		/// </summary>
         private string _diameter = "";
 
+        /// <summary>
+		/// Устанавливает и возвращает диаметр
+		/// </summary>
         public string Diameter 
         {
             get => _diameter;
@@ -47,8 +65,9 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
-        // Диаметр ЦО
-
+        /// <summary>
+		/// Возвращает минимальный диаметр центрального отверстия
+		/// </summary>
         public string MinCentralHoleDiameter
         {
             get
@@ -64,6 +83,9 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
+        /// <summary>
+		/// Возвращает максимальный диаметр центрального отверстия
+		/// </summary>
         public string MaxCentralHoleDiameter
         {
             get
@@ -79,11 +101,15 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
-        public bool IsCentralHoleDiameterEnabled { get; set; }
-            = false;
-
+        /// <summary>
+		/// Диаметр центрального отверстия
+		/// </summary>
         private string _centralHoleDiameter = "";
 
+        /// <summary>
+		/// Устанавливает и возвращает 
+        /// значение диаметра центрального отверстия
+		/// </summary>
         public string CentralHoleDiameter 
         {
             get => _centralHoleDiameter;
@@ -118,8 +144,9 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
-        // Посадочная ширина
-
+        /// <summary>
+        /// Возвращает минимальный размер посадочной ширины
+        /// </summary>
         public string MinWidth 
         {
             get
@@ -135,6 +162,9 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
+        /// <summary>
+		/// Возвращает максимальный размер посадочной ширины
+		/// </summary>
         public string MaxWidth 
         {
             get
@@ -150,8 +180,14 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
+        /// <summary>
+		/// Посадочная ширина
+		/// </summary>
         private string _width = "";
 
+        /// <summary>
+		/// Устанавливает и возвращает посадочную ширину диска
+		/// </summary>
         public string Width 
         {
             get => _width;
@@ -180,8 +216,9 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
-        // Вылет 
-
+        /// <summary>
+        /// Возвращает максимальный отрицательный вылет
+        /// </summary>
         public string MinOffSet
 		{
 			get
@@ -197,6 +234,9 @@ namespace AlloyWheelsBuilderViewModel
             }
 		}
 
+        /// <summary>
+		/// Возвращает максимальный положительный вылет
+		/// </summary>
         public string MaxOffSet
 		{
 			get
@@ -212,8 +252,14 @@ namespace AlloyWheelsBuilderViewModel
             }
 		}
 
+        /// <summary>
+		/// Вылет диска
+		/// </summary>
         private string _offSet = "";
 
+        /// <summary>
+		/// Устанавливает и возвращает вылет диска
+		/// </summary>
         public string OffSet
 		{
             get => _offSet;
@@ -237,8 +283,9 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
-        // Диаметр сверловки
-
+        /// <summary>
+        /// Возвращает минимальный диаметр сверловки
+        /// </summary>
         public string MinDrillDiameter
 		{
             get
@@ -254,6 +301,9 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
+        /// <summary>
+		/// Возвращает максимальный диаметр сверловки
+		/// </summary>
         public string MaxDrillDiameter
         {
             get
@@ -269,8 +319,14 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
+        /// <summary>
+		/// Диаметр сверловки
+		/// </summary>
         private string _drillDiameter = "";
 
+        /// <summary>
+		/// Устанавливает и возвращает диаметр сверловки
+		/// </summary>
         public string DrillDiameter 
         {
             get => _drillDiameter;
@@ -299,8 +355,9 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
-        // Количество отверстий для сверловки
-
+        /// <summary>
+        /// Возвращает минимальное количество отверстий
+        /// </summary>
         public string MinDrillingsCount
 		{
 			get
@@ -316,6 +373,9 @@ namespace AlloyWheelsBuilderViewModel
 			}
 		}
 
+        /// <summary>
+		/// Возвращает максимальное количество отверстий
+		/// </summary>
         public string MaxDrillingsCount
 		{
 			get
@@ -331,8 +391,14 @@ namespace AlloyWheelsBuilderViewModel
 			}
 		}
 
+        /// <summary>
+		/// Количество отверстий
+		/// </summary>
         private string _drillingsCount = "";
 
+        /// <summary>
+		/// Устанавливает и возвращает количество отверстий
+		/// </summary>
         public string DrillingsCount 
         {
             get => _drillingsCount;
@@ -356,18 +422,28 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
-        // Количество спиц
-
+        /// <summary>
+        /// Устанавливает и возвращает количество спиц
+        /// </summary>
         public string SpokesCount { get; set; }
 
-
+        /// <summary>
+        /// Инициализирует объект класса 
+        /// <see cref="AlloyWheelsBuilderWindowViewModel"/>
+        /// </summary>
         public AlloyWheelsBuilderWindowViewModel()
 		{
             _alloyWheelsData = new AlloyWheelsData();
 		}
 
+        /// <summary>
+        /// Команда очистки полей для ввода параметров
+        /// </summary>
         private RelayCommand _cancelCommand;
 
+        /// <summary>
+        /// Возвращает команду очистки полей для ввода параметров
+        /// </summary>
         public RelayCommand CancelCommand
 		{
 			get
@@ -380,8 +456,14 @@ namespace AlloyWheelsBuilderViewModel
             }
 		}
 
+        /// <summary>
+        /// Командля построения модели
+        /// </summary>
         private RelayCommand _buildCommand;
 
+        /// <summary>
+        /// Возвращает команду построения модели
+        /// </summary>
         public RelayCommand BuildCommand
 		{
 			get
@@ -396,6 +478,14 @@ namespace AlloyWheelsBuilderViewModel
             }
 		}
 
+        /// <summary>
+        /// Устанавливает значение свойства
+        /// </summary>
+        /// <param name="property">Имя свойства</param>
+        /// <param name="setProperty">Метод, 
+        /// выполняющий установку значения свойства</param>
+        /// <param name="raiseProperties">Метод, 
+        /// выполняющий обновление зависимых полей</param>
         private void SetProperty(string property, Action setProperty, 
             Action raiseProperties)
         {

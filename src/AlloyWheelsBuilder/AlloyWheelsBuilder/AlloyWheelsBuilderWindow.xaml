@@ -3,14 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AlloyWheelsBuilder"
         mc:Ignorable="d"
         Title="Моделирование автомобильного диска" Height="610.5" Width="998" FontSize="15"
         MinWidth="998" MinHeight="611">
 
    <Window.Resources>
 
-      <Style x:Key="ContactInfoStyle">
+      <Style x:Key="ParametersStyle">
          <Setter Property="Control.Margin" Value="0,5,0,5"/>
          <Setter Property="Control.Padding" Value="0,3,0,0"/>
          <Style.Triggers>
@@ -59,7 +58,7 @@
          <TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MinDiameter}"/>
          <TextBox Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Text="{Binding Diameter, Mode=TwoWay, NotifyOnValidationError=True}"
-                     Style="{StaticResource ContactInfoStyle}"/>
+                     Style="{StaticResource ParametersStyle}"/>
          <TextBlock Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MaxDiameter}"/>
          <TextBlock Grid.Row="0" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -72,7 +71,7 @@
          <TextBlock Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MinCentralHoleDiameter}"/>
          <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Text="{Binding CentralHoleDiameter, Mode=TwoWay, 
-                     NotifyOnValidationError=True}" Style="{StaticResource ContactInfoStyle}"/>
+                     NotifyOnValidationError=True}" Style="{StaticResource ParametersStyle}"/>
          <TextBlock Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MaxCentralHoleDiameter}"/>
          <TextBlock Grid.Row="2" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -85,7 +84,7 @@
          <TextBlock Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MinWidth}"/>
          <TextBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Text="{Binding Width, Mode=TwoWay, 
-                     NotifyOnValidationError=True}" Style="{StaticResource ContactInfoStyle}"/>
+                     NotifyOnValidationError=True}" Style="{StaticResource ParametersStyle}"/>
          <TextBlock Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MaxWidth}"/>
          <TextBlock Grid.Row="4" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -98,7 +97,7 @@
          <TextBlock Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MinOffSet}"/>
          <TextBox Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" Text="{Binding OffSet, Mode=TwoWay, 
-                     NotifyOnValidationError=True}" Style="{StaticResource ContactInfoStyle}"/>
+                     NotifyOnValidationError=True}" Style="{StaticResource ParametersStyle}"/>
          <TextBlock Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MaxOffSet}"/>
          <TextBlock Grid.Row="6" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -111,7 +110,7 @@
          <TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MinDrillDiameter}"/>
          <TextBox Grid.Row="8" Grid.Column="2" VerticalAlignment="Center" Text="{Binding DrillDiameter, Mode=TwoWay, 
-                     NotifyOnValidationError=True}" Style="{StaticResource ContactInfoStyle}"/>
+                     NotifyOnValidationError=True}" Style="{StaticResource ParametersStyle}"/>
          <TextBlock Grid.Row="8" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MaxDrillDiameter}"/>
          <TextBlock Grid.Row="8" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -125,7 +124,7 @@
          <TextBlock Grid.Row="10" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MinDrillingsCount}"/>
          <TextBox Grid.Row="10" Grid.Column="2" VerticalAlignment="Center" Text="{Binding DrillingsCount, Mode=TwoWay, 
-                     NotifyOnValidationError=True}" Style="{StaticResource ContactInfoStyle}"/>
+                     NotifyOnValidationError=True}" Style="{StaticResource ParametersStyle}"/>
          <TextBlock Grid.Row="10" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MaxDrillingsCount}"/>
          <TextBlock Grid.Row="10" Grid.Column="4" Text="шт" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -166,7 +165,7 @@
 
             <Button Grid.Column="0" Content="Очистить" Height="32" Width="160" HorizontalAlignment="Right" Margin="5, 2, 0, 2"/>
             <Button Grid.Column="1" Content="Построить" Height="32" Width="160" HorizontalAlignment="Right" Margin="5, 2, 10, 2"
-                    Command="{Binding BuildCommand}"/>
+                    Command="{Binding BuildCommand}" IsEnabled="{Binding IsValid, NotifyOnValidationError=True}"/>
          </Grid>
       </Grid>
 

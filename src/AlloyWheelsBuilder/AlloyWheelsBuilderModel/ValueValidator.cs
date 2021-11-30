@@ -14,12 +14,6 @@ namespace AlloyWheelsBuilderModel
 			return minLimit <= number && maxLimit >= number;
 		}
 
-		private static bool IsNumberPositive(double number)
-		{
-			return false;
-		}
-
-
 		public static void AssertNumberInRange(double number, 
 			double minLimit, double maxLimit, string context)
 		{
@@ -30,12 +24,6 @@ namespace AlloyWheelsBuilderModel
 					+ minLimit + ", " + maxLimit + "]"
 					+ "\nи не может определять " + context);
 			}
-		}
-
-		public static void AssertNumberIsPositive(double number, 
-			string context)
-		{
-
 		}
 	}
 }

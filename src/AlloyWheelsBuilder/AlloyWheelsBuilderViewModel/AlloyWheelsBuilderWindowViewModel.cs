@@ -40,6 +40,7 @@ namespace AlloyWheelsBuilderViewModel
                     }
                 }, () =>
                 {
+                    CentralHoleDiameter = "";
                     RaisePropertyChanged(nameof(MinCentralHoleDiameter));
                     RaisePropertyChanged(nameof(MaxCentralHoleDiameter));
                 });
@@ -78,6 +79,9 @@ namespace AlloyWheelsBuilderViewModel
             }
         }
 
+        public bool IsCentralHoleDiameterEnabled { get; set; }
+            = false;
+
         private string _centralHoleDiameter = "";
 
         public string CentralHoleDiameter 
@@ -104,6 +108,8 @@ namespace AlloyWheelsBuilderViewModel
                     }
                 }, () =>
                 {
+                    Width = "";
+                    DrillDiameter = "";
                     RaisePropertyChanged(nameof(MinWidth));
                     RaisePropertyChanged(nameof(MaxWidth));
                     RaisePropertyChanged(nameof(MinDrillDiameter));
@@ -167,6 +173,7 @@ namespace AlloyWheelsBuilderViewModel
                     }
                 }, () =>
                 {
+                    OffSet = "";
                     RaisePropertyChanged(nameof(MinOffSet));
                     RaisePropertyChanged(nameof(MaxOffSet));
                 });
@@ -285,6 +292,7 @@ namespace AlloyWheelsBuilderViewModel
                     }
                 }, () =>
                 {
+                    DrillingsCount = "";
                     RaisePropertyChanged(nameof(MinDrillingsCount));
                     RaisePropertyChanged(nameof(MaxDrillingsCount));
                 });

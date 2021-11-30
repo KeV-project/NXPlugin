@@ -4,10 +4,20 @@ using NXOpen;
 
 namespace AlloyWheelsBuilderModel
 {
+	/// <summary>
+	/// Класс <see cref="AlloyWheelsData"/> предназначен для хранения данных, 
+	/// необходимых для построения модели автомобильного диска
+	/// </summary>
 	public class AlloyWheelsData
 	{
+		/// <summary>
+		/// Возвращает количество дуг эскиза автомобильного диска
+		/// </summary>
 		public int SketchArcsCount => 45;
 
+		/// <summary>
+		/// Возвращает список дуг эскиза автомобильного диска
+		/// </summary>
 		public List<ArcData> SketchArcs
 		{
 			get => new List<ArcData>()
@@ -150,6 +160,9 @@ namespace AlloyWheelsBuilderModel
 			};
 		}
 
+		/// <summary>
+		/// Возвращает список дуг эскиза рисунка на внешней стороне диска
+		/// </summary>
 		public List<ArcData> PetalSketchArcs
 		{
 			get => new List<ArcData>() 
@@ -169,14 +182,24 @@ namespace AlloyWheelsBuilderModel
 			};
 		}
 
-		// Диаметр
-
+		/// <summary>
+		/// Возвращает минимальный диаметр
+		/// </summary>
 		public double MinDiameter { get => 101.6; }
 
+		/// <summary>
+		/// Возвращает максимальный диаметр
+		/// </summary>
 		public double MaxDiameter { get => 1447.8; }
 
+		/// <summary>
+		/// Хранит диаметр
+		/// </summary>
 		private double _diameter = double.NaN;
 
+		/// <summary>
+		/// Устанавливает и возвращает диаметр
+		/// </summary>
 		public double Diameter 
 		{
 			get => _diameter;
@@ -193,12 +216,21 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
-		// Диаметр ЦО
-
+		/// <summary>
+		/// Минимальный процент от диаметра диска, 
+		/// который может составлять диаметр центрального отверстия
+		/// </summary>
 		private const double MIN_CENTER_HOLE_PERCENT = 10;
 
+		/// <summary>
+		/// Максимальный процент от диаметра диска, 
+		/// который может составлять диаметр центрального отверстия
+		/// </summary>
 		private const double MAX_CENTER_HOLE_PERCENT = 18;
 
+		/// <summary>
+		/// Возвращает минимальный диаметр центрального отверстия
+		/// </summary>
 		public double MinCentralHoleDiameter
 		{
 			get
@@ -215,6 +247,9 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
+		/// <summary>
+		/// Возвращает максимальный диаметр центрального отверстия
+		/// </summary>
 		public double MaxCentralHoleDiameter
 		{
 			get
@@ -231,8 +266,14 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
+		/// <summary>
+		/// Диаметр центрального отверстия
+		/// </summary>
 		private double _centralHoleDiameter = double.NaN;
 
+		/// <summary>
+		/// Устанавливает и возвращает значение диаметра центрального отверстия
+		/// </summary>
 		public double CentralHoleDiameter
 		{
 			get => _centralHoleDiameter;
@@ -249,10 +290,14 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
-		// Посадочная ширина
-
+		/// <summary>
+		/// Коэффициент для расчета минимальной посадочной ширины
+		/// </summary>
 		private const double SKETCH_HEIGTH_TO_WIDTH = 1.524;
 
+		/// <summary>
+		/// Возвращает минимальный размер посадочной ширины
+		/// </summary>
 		public double MinWidth 
 		{
 			get
@@ -269,6 +314,9 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
+		/// <summary>
+		/// Возвращает максимальный размер посадочной ширины
+		/// </summary>
 		public double MaxWidth 
 		{
 			get
@@ -284,8 +332,14 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
+		/// <summary>
+		/// Посадочная ширина
+		/// </summary>
 		private double _width = double.NaN;
 
+		/// <summary>
+		/// Устанавливает и возвращает посадочную ширину диска
+		/// </summary>
 		public double Width 
 		{
 			get => _width;
@@ -301,8 +355,15 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
+		/// <summary>
+		/// Минимальный процент от половины посадочной ширины диска, 
+		/// который может составлять отрицательный вылет
+		/// </summary>
 		private const double MIN_OFFSET_PERCENT = 5;
 
+		/// <summary>
+		/// Возвращает максимальный отрицательный вылет
+		/// </summary>
 		public double MinOffSet
 		{
 			get
@@ -318,6 +379,9 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
+		/// <summary>
+		/// Возвращает максимальный положительный вылет
+		/// </summary>
 		public double MaxOffSet 
 		{
 			get
@@ -333,8 +397,14 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
+		/// <summary>
+		/// Вылет диска
+		/// </summary>
 		private double _offSet = double.NaN;
 
+		/// <summary>
+		/// Устанавливает и возвращает вылет диска
+		/// </summary>
 		public double OffSet
 		{
 			get => _offSet;
@@ -350,8 +420,14 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
+		/// <summary>
+		/// Коэффициент для расчета высоты привалочной плоскости
+		/// </summary>
 		private const double DRILL_PLACE_COEFFICIENT = 7;
 
+		/// <summary>
+		/// Возвращает высоту привалочной поверхности
+		/// </summary>
 		public double DrillPlaceHeight
 		{
 			get
@@ -368,10 +444,21 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
+		/// <summary>
+		/// Минимальный процент от высоты привалочной поверхности, 
+		/// который может составлять диаметр сверловки 
+		/// </summary>
 		private const double MIN_DRILL_DIAMETER_PERCENT = 67.0;
 
+		/// <summary>
+		/// Максимальный процент от высоты привалочной поверхности, 
+		/// который может составлять диаметр сверловки 
+		/// </summary>
 		private const double MAX_DRILL_DIAMETER_PERCENT = 83.3;
 
+		/// <summary>
+		/// Возвращает минимальный диаметр сверловки
+		/// </summary>
 		public double MinDrillDiameter 
 		{
 			get
@@ -388,6 +475,9 @@ namespace AlloyWheelsBuilderModel
 			} 
 		}
 
+		/// <summary>
+		/// Возвращает максимальный диаметр сверловки
+		/// </summary>
 		public double MaxDrillDiameter 
 		{
 			get
@@ -404,8 +494,14 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
+		/// <summary>
+		/// Диаметр сверловки
+		/// </summary>
 		private double _drillDiameter = double.NaN;
 
+		/// <summary>
+		/// Устанавливает и возвращает диаметр сверловки
+		/// </summary>
 		public double DrillDiameter 
 		{
 			get => _drillDiameter;
@@ -421,8 +517,14 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
+		/// <summary>
+		/// Минимальное количество отверстий
+		/// </summary>
 		private const int MIN_DRILLINGS_COUNT = 4;
 
+		/// <summary>
+		/// Возвращает минимальное количество отверстий
+		/// </summary>
 		public int MinDrillingsCount
 		{
 			get
@@ -438,6 +540,9 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
+		/// <summary>
+		/// Возвращает максимальное количество отверстий
+		/// </summary>
 		public int MaxDrillingsCount 
 		{
 			get
@@ -465,8 +570,14 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
+		/// <summary>
+		/// Количество отверстий
+		/// </summary>
 		private int _drillingsCount = int.MinValue;
 
+		/// <summary>
+		/// Устанавливает и возвращает количество отверстий
+		/// </summary>
 		public int DrillingsCount 
 		{
 			get => _drillingsCount;
@@ -482,16 +593,24 @@ namespace AlloyWheelsBuilderModel
 			}
 		}
 
-		private const int MIN_SPOKES_COUNT = 4;
+		/// <summary>
+		/// Возвращает минимальное количество спиц
+		/// </summary>
+		public int MinSpokesCount => 4;
 
-		private const int MAX_SPOKES_COUNT = 13;
+		/// <summary>
+		/// Возвращает максимальное количество спиц
+		/// </summary>
+		public int MaxSpokesCount => 13;
 
-		public int MinSpokesCount { get => MIN_SPOKES_COUNT; }
-
-		public int MaxSpokesCount { get => MAX_SPOKES_COUNT; }
-
+		/// <summary>
+		/// Количество спиц
+		/// </summary>
 		private int _spokesCount;
 
+		/// <summary>
+		/// Устанавливает и возвращает количество спиц
+		/// </summary>
 		public int SpokesCount { get; set; }
 	}
 }

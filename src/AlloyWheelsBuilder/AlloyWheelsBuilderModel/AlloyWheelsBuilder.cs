@@ -7,32 +7,87 @@ using NXOpen.GeometricUtilities;
 
 namespace AlloyWheelsBuilderModel
 {
+    /// <summary>
+    /// Класс <see cref="AlloyWheelsBuilder"/> предназначен для 
+    /// построения модели автомобильного диска
+    /// </summary>
     public class AlloyWheelsBuilder
     {
+        /// <summary>
+        /// Имя эскиза автомобильного диска
+        /// </summary>
         private const string SKETCH_NAME = "SKETCH_000";
+        /// <summary>
+        /// Имя эскиза автомобильного диска
+        /// </summary>
         private const string SKETCH_FEATURE_NAME = "SKETCH(1)";
         
+        /// <summary>
+        /// Имя размера, задающего радиус диска
+        /// </summary>
         private const string RADIUS_DIMENSION_NAME = "p4";
+        /// <summary>
+        /// Имя нижней дуги, от которой задается размер радиуса
+        /// </summary>
         private const string RADIUS_BOTTOM_ARC_NAME = "Curve Arc35";
+        /// <summary>
+        /// Имя верхней дуги, от которой задается размер радиуса
+        /// </summary>
         private const string RADIUS_TOP_ARC_NAME = "Curve Arc44";
 
+        /// <summary>
+        /// Имя размера, задающего посадочную ширину диска
+        /// </summary>
         private const string WIDTH_DIMENSION_NAME = "p5";
+        /// <summary>
+        /// Имя левой дуги, от которой задается размер посадочной ширины
+        /// </summary>
         private const string WIDTH_LEFT_ARC_NAME = "Curve Arc3";
+        /// <summary>
+        /// Имя правой дуги, от которой задается размер посадочной ширины
+        /// </summary>
         private const string WIDTH_RIGHT_ARC_NAME = "Curve Arc16";
 
+        /// <summary>
+        /// Имя дуги привалочной поверхности диска
+        /// </summary>
         private const string WHEELS_MATING_PLACE_ARC_NAME = "Curve Arc34";
 
+        /// <summary>
+        /// Имя дуги, внутренней поверхности диска
+        /// </summary>
         private const string OFFSET_RIGHT_ARC_NAME = "Curve Arc32";
+        /// <summary>
+        /// Имя дуги, внешней поверхности диска
+        /// </summary>
         private const string OFFSET_LEFT_ARC_NAME = "Curve Arc39";
 
+        /// <summary>
+        /// Имя объкта вращения
+        /// </summary>
         private const string REVOLVED_NAME = "REVOLVED(2)";
 
+        /// <summary>
+        /// Имя дуги, на которой располагается сверловка
+        /// </summary>
         private const string HOLE_ARC_NAME = "Curve Arc37";
+        /// <summary>
+        /// Имя отверстия
+        /// </summary>
         private const string HOLE_NAME = "SIMPLE HOLE(3)";
 
-
+        /// <summary>
+        /// Хранит параметры модели диска
+        /// </summary>
         private AlloyWheelsData _alloyWheelsData;
 
+        /// <summary>
+        /// Создает эскиз в среде задач
+        /// </summary>
+        /// <param name="session">Текущая сессия</param>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <param name="sketchName">Имя эскиза</param>
+        /// <returns>Возвращает созданный эскиз</returns>
         private Sketch InitSketch(Session session, Part workPart, 
             string sketchName)
         {
@@ -63,6 +118,12 @@ namespace AlloyWheelsBuilderModel
             return sketch;
         }
 
+        /// <summary>
+        /// Создает эскиз из списка дуг
+        /// </summary>
+        /// <param name="session">Текущая сессия</param>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <param name="arcs">Список дуг</param>
         private void CreateSketch(Session session, Part workPart, 
             List<ArcData> arcs)
         {
@@ -76,6 +137,10 @@ namespace AlloyWheelsBuilderModel
             }
         }
 
+        /// <summary>
+        /// Завершает создание эскиза
+        /// </summary>
+        /// <param name="session">Текущая сессия</param>
         private void FinishSketch(Session session)
 		{
             session.ActiveSketch.Update();
@@ -83,6 +148,12 @@ namespace AlloyWheelsBuilderModel
                 Sketch.UpdateLevel.Model);
         }
 
+        /// <summary>
+        /// Создает эскиз автомобильного диска
+        /// </summary>
+        /// <param name="session">Текущая сессия</param>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <returns>Возвращает эскиз автомобильного диска</returns>
         private Sketch CreateAlloyWheelsSketch(Session session, 
             Part workPart)
 		{
@@ -96,6 +167,15 @@ namespace AlloyWheelsBuilderModel
             return sketch;
         }
 
+        /// <summary>
+        /// Устанавнивает линейный размер на эскизе
+        /// </summary>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <param name="dimensionName">Имя размера</param>
+        /// <param name="bottomArc">Нижняя дуги, 
+        /// от которой задается размер</param>
+        /// <param name="topArc">Верхняя дуга, 
+        /// от которой задается размер</param>
         private void SetLinearDimension(Part workPart, 
             string dimensionName, Arc bottomArc, Arc topArc)
         {
@@ -157,6 +237,15 @@ namespace AlloyWheelsBuilderModel
             sketchLinearDimensionBuilder.Destroy();
         }
 
+        /// <summary>
+        /// Изменяет линейный размер
+        /// </summary>
+        /// <param name="session">Текущая сессия</param>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <param name="dimensionName">Имя размера</param>
+        /// <param name="oldDimension">Старый размер</param>
+        /// <param name="newDimension">Новый размер</param>
+        /// <param name="isNeededScaling">Нужно ли масштабирование</param>
         private void ChangeLinearDimension(Session session, Part workPart, 
             string dimensionName, double oldDimension, 
             double newDimension, bool isNeededScaling)
@@ -193,6 +282,11 @@ namespace AlloyWheelsBuilderModel
             sketchLinearDimensionBuilder.Destroy();
         }
 
+        /// <summary>
+        /// Изменяет диаметр диска
+        /// </summary>
+        /// <param name="session">Текущая сессия</param>
+        /// <param name="workPart">Рабочая часть</param>
         private void ChangeDiameter(Session session, Part workPart)
 		{
             Arc bottomArc = (Arc)session.ActiveSketch.FindObject(
@@ -215,6 +309,11 @@ namespace AlloyWheelsBuilderModel
                 true);
         }
 
+        /// <summary>
+        /// Изменяет посадочную ширину диска
+        /// </summary>
+        /// <param name="session">Текущая сессия</param>
+        /// <param name="workPart">Рабочая часть</param>
         private void ChangeWidth(Session session, Part workPart)
 		{
             Arc leftArc = (Arc)session.ActiveSketch.FindObject(
@@ -235,6 +334,10 @@ namespace AlloyWheelsBuilderModel
                 width, _alloyWheelsData.Width, false);
         }
 
+        /// <summary>
+        /// Изменяет диаметр центрального отверстия
+        /// </summary>
+        /// <param name="session">Текущая сессия</param>
         private void ChangeCentralHoleDiameter(Session session)
         {
             for (int i = 1; i <= _alloyWheelsData.SketchArcsCount; i++)
@@ -253,6 +356,13 @@ namespace AlloyWheelsBuilderModel
             }
         }
 
+        /// <summary>
+        /// Перемещает точку дуги
+        /// </summary>
+        /// <param name="session">Текущая сессия</param>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <param name="arcName">Имя дуги</param>
+        /// <param name="dx">Смещение</param>
         private void MovePointOnArc(Session session, Part workPart, 
             string arcName, double dx)
 		{
@@ -321,6 +431,11 @@ namespace AlloyWheelsBuilderModel
             session.ActiveSketch.RunAutoDimension();
         }
 
+        /// <summary>
+        /// Изменяет вылет диска
+        /// </summary>
+        /// <param name="session">Текущая сессия</param>
+        /// <param name="workPart">Рабочая часть</param>
         private void ChangeOffset(Session session, Part workPart)
         {
             Arc leftArc = (Arc)session.ActiveSketch.FindObject(
@@ -391,6 +506,16 @@ namespace AlloyWheelsBuilderModel
             MovePointOnArc(session, workPart, OFFSET_LEFT_ARC_NAME, dx);
         }
 
+        /// <summary>
+        /// Выполняет вращение
+        /// </summary>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <param name="sketch">Объект вращение</param>
+        /// <param name="section">Сессия</param>
+        /// <param name="sketchName">Имя эскиза</param>
+        /// <param name="revolveArcName">Дуга пращения</param>
+        /// <param name="helpPoint">Вспомогательная точка</param>
+        /// <param name="direction">Направление</param>
         private void Revolve(Part workPart, Sketch sketch, Section section, 
             string sketchName, string revolveArcName, Point3d helpPoint, 
             Direction direction)
@@ -433,6 +558,11 @@ namespace AlloyWheelsBuilderModel
             revolveBuilder.Destroy();
         }
 
+        /// <summary>
+        /// Выполняе вращение эскиза диска
+        /// </summary>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <param name="sketch">Имя эскиза</param>
         private void RevolveSketch(Part workPart, Sketch sketch)
 		{
             const double sectionX = 0.0094999999999999998;
@@ -455,6 +585,17 @@ namespace AlloyWheelsBuilderModel
                 OFFSET_RIGHT_ARC_NAME, helpPoint, direction);
 		}
 
+        /// <summary>
+        /// Создает отверстие
+        /// </summary>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <param name="bodyName">Имя тела вращения</param>
+        /// <param name="sketchFeatureName">Имя эскиза</param>
+        /// <param name="sketchName">Имя эскиза</param>
+        /// <param name="holeArcName">Дуга, 
+        /// на которой будет располагаться отверстие</param>
+        /// <param name="scalarValue">Скаляр</param>
+        /// <param name="holeDiameter">Диаметр отверстия</param>
         private void CreateHole(Part workPart, string bodyName, 
             string sketchFeatureName, string sketchName, string holeArcName, 
             double scalarValue, double holeDiameter)
@@ -510,6 +651,14 @@ namespace AlloyWheelsBuilderModel
             holePackageBuilder.Destroy();
         }
 
+        /// <summary>
+        /// Создает массив элементов
+        /// </summary>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <param name="arrayObjectName">Имя объекта</param>
+        /// <param name="arrayPlaceName">Имя плоскости для 
+        /// расположение массива</param>
+        /// <param name="elementsCount">Количество элементов</param>
         private void CreateElemetsArray(Part workPart, 
             string arrayObjectName, string arrayPlaceName, int elementsCount)
         {
@@ -563,8 +712,9 @@ namespace AlloyWheelsBuilderModel
                     + " " + REVOLVED_NAME +
                 "}");
 
-            workPart.Xforms.CreateExtractXform(edge, SmartObject.UpdateOption.
-                WithinModeling, false, out NXObject nXObject);
+            workPart.Xforms.CreateExtractXform(edge, 
+                SmartObject.UpdateOption.WithinModeling, 
+                false, out NXObject nXObject);
 
             Edge edge2 = (Edge)nXObject;
             Point point = workPart.Points.CreatePoint(edge2, 
@@ -585,6 +735,9 @@ namespace AlloyWheelsBuilderModel
             patternFeatureBuilder.Destroy();
         }
 
+        /// <summary>
+        /// Создает модель автомобильного диска
+        /// </summary>
         public void Build()
 		{
 			Session session = Session.GetSession();
@@ -602,6 +755,10 @@ namespace AlloyWheelsBuilderModel
 				 _alloyWheelsData.DrillingsCount);
         }
 
+        /// <summary>
+        /// Инициализирует объект класса <see cref="AlloyWheelsBuilder"/>
+        /// </summary>
+        /// <param name="alloyWheelsData">Параметры модели</param>
         public AlloyWheelsBuilder(AlloyWheelsData alloyWheelsData)
 		{
             _alloyWheelsData = alloyWheelsData;

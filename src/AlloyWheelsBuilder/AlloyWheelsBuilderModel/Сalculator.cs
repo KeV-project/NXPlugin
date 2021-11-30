@@ -2,8 +2,24 @@
 
 namespace AlloyWheelsBuilderModel
 {
+	/// <summary>
+	/// Класс <see cref="Сalculator"/> предназначен для выполнения 
+	/// математических проверок и операция
+	/// </summary>
 	public static class Сalculator
 	{
+		/// <summary>
+		/// Проверяет окружности на пересечение
+		/// </summary>
+		/// <param name="centerX">X координата центра оси, на которой 
+		/// располагаются окружности</param>
+		/// <param name="centerY">Y координата центра оси, на которой 
+		/// располагаются окружности</param>
+		/// <param name="radius">Радиус оси</param>
+		/// <param name="circlesRadius">Радиус окружностей</param>
+		/// <param name="circlesCount">Количество окружностей</param>
+		/// <returns>Возвращает true, если окружностипересекаются, 
+		/// иначе возвращает false</returns>
 		public static bool IsCirclesIntersect(double centerX, double centerY,
 			double radius, double circlesRadius, int circlesCount)
 		{

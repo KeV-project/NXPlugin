@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NXOpen;
 using NXOpen.Annotations;
 using NXOpen.Features;
@@ -12,39 +9,32 @@ namespace AlloyWheelsBuilderModel
 {
     public class AlloyWheelsBuilder
     {
+        private const string SKETCH_NAME = "SKETCH_000";
+        private const string SKETCH_FEATURE_NAME = "SKETCH(1)";
+        
         private const string RADIUS_DIMENSION_NAME = "p4";
-
         private const string RADIUS_BOTTOM_ARC_NAME = "Curve Arc35";
-
         private const string RADIUS_TOP_ARC_NAME = "Curve Arc44";
 
         private const string WIDTH_DIMENSION_NAME = "p5";
-
         private const string WIDTH_LEFT_ARC_NAME = "Curve Arc3";
-
         private const string WIDTH_RIGHT_ARC_NAME = "Curve Arc16";
 
         private const string WHEELS_MATING_PLACE_ARC_NAME = "Curve Arc34";
 
         private const string OFFSET_RIGHT_ARC_NAME = "Curve Arc32";
-
         private const string OFFSET_LEFT_ARC_NAME = "Curve Arc39";
-
-        private const string SKETCH_FEATURE_NAME = "SKETCH(1)";
-
-        private const string SKETCH_NAME = "SKETCH_000";
 
         private const string REVOLVED_NAME = "REVOLVED(2)";
 
         private const string HOLE_ARC_NAME = "Curve Arc37";
-
         private const string HOLE_NAME = "SIMPLE HOLE(3)";
 
-        private const string LAST_ARC_NAME = "Curve Arc45";
 
         private AlloyWheelsData _alloyWheelsData;
 
-        private Sketch InitSketch(Session session, Part workPart)
+        private Sketch InitSketch(Session session, Part workPart, 
+            string sketchName)
         {
             Sketch nullNxOpenSketch = null;
             SketchInPlaceBuilder sketchInPlaceBuilder = workPart.Sketches.
@@ -56,8 +46,8 @@ namespace AlloyWheelsBuilderModel
                 SmartObject.UpdateOption.WithinModeling);
             sketchInPlaceBuilder.PlaneReference = plane;
 
-            SketchAlongPathBuilder sketchAlongPathBuilder = workPart.Sketches.
-                CreateSketchAlongPathBuilder(nullNxOpenSketch);
+            SketchAlongPathBuilder sketchAlongPathBuilder = workPart.
+                Sketches.CreateSketchAlongPathBuilder(nullNxOpenSketch);
 
             NXObject nXObject = sketchInPlaceBuilder.Commit();
 
@@ -68,15 +58,15 @@ namespace AlloyWheelsBuilderModel
             sketchAlongPathBuilder.Destroy();
             plane.DestroyPlane();
 
-            string sketchName = "SKETCH_000";
             session.ActiveSketch.SetName(sketchName);
 
             return sketch;
         }
 
-        private void CreateSketch(Session session, Part workPart)
+        private void CreateSketch(Session session, Part workPart, 
+            List<ArcData> arcs)
         {
-            foreach (ArcData arcData in _alloyWheelsData.SketchArcs)
+            foreach (ArcData arcData in arcs)
             {
                 Arc arc = workPart.Curves.CreateArc(arcData.StartPoint, 
                     arcData.PointOn, arcData.EndPoint, 
@@ -89,60 +79,27 @@ namespace AlloyWheelsBuilderModel
         private void FinishSketch(Session session)
 		{
             session.ActiveSketch.Update();
-
             session.ActiveSketch.Deactivate(Sketch.ViewReorient.True,
                 Sketch.UpdateLevel.Model);
         }
 
-        private double SetVerticalLinearDimension(Part workPart, 
+        private Sketch CreateAlloyWheelsSketch(Session session, 
+            Part workPart)
+		{
+            Sketch sketch = InitSketch(session, workPart, SKETCH_NAME);
+            CreateSketch(session, workPart, _alloyWheelsData.SketchArcs);
+            ChangeDiameter(session, workPart);
+            ChangeWidth(session, workPart);
+            ChangeCentralHoleDiameter(session);
+            ChangeOffset(session, workPart);
+            FinishSketch(session);
+            return sketch;
+        }
+
+        private void SetLinearDimension(Part workPart, 
             string dimensionName, Arc bottomArc, Arc topArc)
         {
            Dimension nullNxOpenAnnotationsDimension = null;
-            SketchLinearDimensionBuilder sketchLinearDimensionBuilder =
-                workPart.Sketches.CreateLinearDimensionBuilder(
-                nullNxOpenAnnotationsDimension);
-
-            sketchLinearDimensionBuilder.Driving.ExpressionName = dimensionName;
-
-            Direction nullNxOpenDirection = null;
-            sketchLinearDimensionBuilder.Measurement.Direction = nullNxOpenDirection;
-
-            View nullNxOpenView = null;
-            sketchLinearDimensionBuilder.Measurement.DirectionView = nullNxOpenView;
-
-            Point3d startPoint = new Point3d(0.0, 0.0, 0.0);
-
-            Point3d bottomPoint = new Point3d(bottomArc.CenterPoint.X + bottomArc.Radius
-                * Math.Cos(bottomArc.StartAngle), bottomArc.CenterPoint.Y + bottomArc.Radius
-                * Math.Sin(bottomArc.StartAngle), 0.0);
-            sketchLinearDimensionBuilder.FirstAssociativity.SetValue(
-                InferSnapType.SnapType.Start, bottomArc,
-                workPart.ModelingViews.WorkView, bottomPoint, null,
-                nullNxOpenView, startPoint);
-
-            Point3d topPoint = new Point3d(topArc.CenterPoint.X + topArc.Radius
-                * Math.Cos(topArc.EndAngle), topArc.CenterPoint.Y + topArc.Radius
-                * Math.Sin(topArc.EndAngle), 0.0);
-            sketchLinearDimensionBuilder.SecondAssociativity.SetValue(
-                InferSnapType.SnapType.End, topArc, workPart.ModelingViews.WorkView,
-                topPoint, null, nullNxOpenView, startPoint);
-
-            sketchLinearDimensionBuilder.Origin.SetInferRelativeToGeometry(true);
-
-            Point3d point3 = new Point3d(-16.425305624190489, 3.4224712283621521, 0.0);
-            sketchLinearDimensionBuilder.Origin.Origin.SetValue(null, nullNxOpenView, point3);
-
-            sketchLinearDimensionBuilder.Commit();
-
-            sketchLinearDimensionBuilder.Destroy();
-
-            return topPoint.Y - bottomPoint.Y;
-        }
-
-        private double SetHorizontalLinearDimension(Part workPart, 
-            string dimensionName, Arc leftArc, Arc rightArc)
-        {
-            Dimension nullNxOpenAnnotationsDimension = null;
             SketchLinearDimensionBuilder sketchLinearDimensionBuilder =
                 workPart.Sketches.CreateLinearDimensionBuilder(
                 nullNxOpenAnnotationsDimension);
@@ -160,28 +117,44 @@ namespace AlloyWheelsBuilderModel
 
             Point3d startPoint = new Point3d(0.0, 0.0, 0.0);
 
-            Point3d leftPoint = new Point3d(leftArc.CenterPoint.X + leftArc.Radius
-                * Math.Cos(leftArc.StartAngle), leftArc.CenterPoint.Y + leftArc.Radius
-                * Math.Sin(leftArc.StartAngle), 0.0);
+            double bottomPointX = bottomArc.CenterPoint.X + bottomArc.Radius
+                * Math.Cos(bottomArc.StartAngle);
+            double bottomPointY = bottomArc.CenterPoint.Y + bottomArc.Radius
+                * Math.Sin(bottomArc.StartAngle);
+            const double bottomPointZ = 0.0;
+            Point3d bottomPoint = new Point3d(bottomPointX, bottomPointY, 
+                bottomPointZ);
             sketchLinearDimensionBuilder.FirstAssociativity.SetValue(
-                InferSnapType.SnapType.Start, leftArc,
-                workPart.ModelingViews.WorkView, leftPoint, null,
+                InferSnapType.SnapType.Start, bottomArc,
+                workPart.ModelingViews.WorkView, bottomPoint, null,
                 nullNxOpenView, startPoint);
 
-            Point3d rightPoint = new Point3d(rightArc.CenterPoint.X + rightArc.Radius
-                * Math.Cos(rightArc.StartAngle), rightArc.CenterPoint.Y + rightArc.Radius
-                * Math.Sin(rightArc.StartAngle), 0.0);
+            double topPointX = topArc.CenterPoint.X + topArc.Radius
+                * Math.Cos(topArc.EndAngle);
+            double topPointY = topArc.CenterPoint.Y + topArc.Radius
+                * Math.Sin(topArc.EndAngle);
+            const double topPointZ = 0.0;
+            Point3d topPoint = new Point3d(topPointX, topPointY, topPointZ);
             sketchLinearDimensionBuilder.SecondAssociativity.SetValue(
-                InferSnapType.SnapType.End, rightArc, workPart.ModelingViews.WorkView,
-                rightPoint, null, nullNxOpenView, startPoint);
+                InferSnapType.SnapType.End, topArc, 
+                workPart.ModelingViews.WorkView,
+                topPoint, null, nullNxOpenView, startPoint);
 
-            sketchLinearDimensionBuilder.Origin.SetInferRelativeToGeometry(true);
+            sketchLinearDimensionBuilder.Origin.
+                SetInferRelativeToGeometry(true);
+
+            // Для выравнивания размера
+            const double originPointX = -16.425305624190489;
+            const double originPointY = 3.4224712283621521;
+            const double originPointZ = 0.0;
+            Point3d point = new Point3d(originPointX, 
+                originPointY, originPointZ);
+            sketchLinearDimensionBuilder.Origin.Origin.SetValue(null, 
+                nullNxOpenView, point);
 
             sketchLinearDimensionBuilder.Commit();
 
             sketchLinearDimensionBuilder.Destroy();
-
-            return rightPoint.X - leftPoint.X;
         }
 
         private void ChangeLinearDimension(Session session, Part workPart, 
@@ -211,7 +184,8 @@ namespace AlloyWheelsBuilderModel
 
             if (isNeededScaling)
             {
-                session.ActiveSketch.Scale(newDimension / oldDimension);
+                session.ActiveSketch.Scale(Math.Abs(
+                    newDimension / oldDimension));
             }
 
             session.ActiveSketch.LocalUpdate();
@@ -221,10 +195,19 @@ namespace AlloyWheelsBuilderModel
 
         private void ChangeDiameter(Session session, Part workPart)
 		{
-            double radius = SetVerticalLinearDimension(
-                workPart, RADIUS_DIMENSION_NAME,
-                (Arc)session.ActiveSketch.FindObject(RADIUS_BOTTOM_ARC_NAME),
-                (Arc)session.ActiveSketch.FindObject(RADIUS_TOP_ARC_NAME));
+            Arc bottomArc = (Arc)session.ActiveSketch.FindObject(
+                RADIUS_BOTTOM_ARC_NAME);
+            Arc topArc = (Arc)session.ActiveSketch.FindObject(
+                RADIUS_TOP_ARC_NAME);
+            SetLinearDimension(workPart, RADIUS_DIMENSION_NAME, 
+                bottomArc, topArc);
+
+            double bottomPointY = bottomArc.CenterPoint.Y + bottomArc.Radius
+                * Math.Sin(bottomArc.StartAngle);
+            double topPointY = topArc.CenterPoint.Y + topArc.Radius
+                * Math.Sin(topArc.EndAngle);
+            double radius = topPointY - bottomPointY;
+
             double newRadius = _alloyWheelsData.Diameter / 2;
 
             ChangeLinearDimension(session, workPart, RADIUS_DIMENSION_NAME, 
@@ -234,10 +217,20 @@ namespace AlloyWheelsBuilderModel
 
         private void ChangeWidth(Session session, Part workPart)
 		{
-            double width = SetHorizontalLinearDimension(
-                workPart, WIDTH_DIMENSION_NAME,
-                (Arc)session.ActiveSketch.FindObject(WIDTH_LEFT_ARC_NAME),
-                (Arc)session.ActiveSketch.FindObject(WIDTH_RIGHT_ARC_NAME));
+            Arc leftArc = (Arc)session.ActiveSketch.FindObject(
+                WIDTH_LEFT_ARC_NAME);
+            Arc rightArc = (Arc)session.ActiveSketch.FindObject(
+                WIDTH_RIGHT_ARC_NAME);
+
+            SetLinearDimension(workPart, WIDTH_DIMENSION_NAME, 
+                leftArc, rightArc);
+            
+            double leftPointX = leftArc.CenterPoint.X + leftArc.Radius
+                * Math.Cos(leftArc.StartAngle);
+            double rightPointX = rightArc.CenterPoint.X + rightArc.Radius
+                * Math.Cos(rightArc.EndAngle);
+            double width = rightPointX - leftPointX;
+
             ChangeLinearDimension(session, workPart, WIDTH_DIMENSION_NAME, 
                 width, _alloyWheelsData.Width, false);
         }
@@ -317,18 +310,19 @@ namespace AlloyWheelsBuilderModel
 
             associativeArcBuilder.Destroy();
 
-            session.ActiveSketch.Preferences.ContinuousAutoDimensioningSetting = false;
+            session.ActiveSketch.Preferences.
+                ContinuousAutoDimensioningSetting = false;
 
             session.ActiveSketch.Update();
 
-            session.ActiveSketch.Preferences.ContinuousAutoDimensioningSetting = true;
+            session.ActiveSketch.Preferences.
+                ContinuousAutoDimensioningSetting = true;
 
             session.ActiveSketch.RunAutoDimension();
         }
 
         private void ChangeOffset(Session session, Part workPart)
         {
-            // Находим X середины ширины диска
             Arc leftArc = (Arc)session.ActiveSketch.FindObject(
                 WIDTH_LEFT_ARC_NAME);
             Arc rightArc = (Arc)session.ActiveSketch.FindObject(
@@ -341,14 +335,12 @@ namespace AlloyWheelsBuilderModel
 
             double centerX = leftX + ((rightX - leftX) / 2);
 
-            //TODO: тут надо считать от центра дуги 
             Arc wheelsMatingPlaceArc = ((Arc)session.ActiveSketch.FindObject(
                 WHEELS_MATING_PLACE_ARC_NAME));
 
             double dx = 0.0;
             if(_alloyWheelsData.OffSet < 0)
 			{
-                // одинаковый случай
                 dx = centerX - (wheelsMatingPlaceArc.CenterPoint.X 
                     + wheelsMatingPlaceArc.Radius 
                     * Math.Cos(wheelsMatingPlaceArc.StartAngle)) 
@@ -371,7 +363,6 @@ namespace AlloyWheelsBuilderModel
                     * Math.Cos(wheelsMatingPlaceArc.StartAngle)) >
                     centerX - _alloyWheelsData.OffSet)
 				{
-                    // Одинаковый случай
                     dx = centerX - _alloyWheelsData.OffSet - 
                         (wheelsMatingPlaceArc.CenterPoint.X
                         + wheelsMatingPlaceArc.Radius
@@ -385,7 +376,9 @@ namespace AlloyWheelsBuilderModel
                     * Math.Cos(wheelsMatingPlaceArc.StartAngle));
             }
 
-            for (int i = 33; i <= 38; i++)
+            const int startArcIndex = 33;
+            const int endArcIndex = 38;
+            for (int i = startArcIndex; i <= endArcIndex; i++)
             {
                 Arc arc = (Arc)session.ActiveSketch.FindObject(
                     "Curve Arc" + i);
@@ -517,8 +510,8 @@ namespace AlloyWheelsBuilderModel
             holePackageBuilder.Destroy();
         }
 
-        private void CreateElemetsArray(Part workPart, string arrayObjectName,
-            string arrayPlaceName, int elementsCount)
+        private void CreateElemetsArray(Part workPart, 
+            string arrayObjectName, string arrayPlaceName, int elementsCount)
         {
             Feature nullNxOpenFeaturesFeature = null;
             PatternFeatureBuilder patternFeatureBuilder = workPart.Features.
@@ -566,20 +559,20 @@ namespace AlloyWheelsBuilderModel
                 "{" 
                     + "(85.7231350896827,53.5038941198678,-30.8904876727989)" 
                     + "(85.7231350896827,0,61.7809753455978)" 
-                    + "(85.7231350896827,-53.5038941198678,-30.8904876727989) " 
-                    + "REVOLVED(2)" +
+                    + "(85.7231350896827,-53.5038941198678,-30.8904876727989)"
+                    + " " + REVOLVED_NAME +
                 "}");
 
             workPart.Xforms.CreateExtractXform(edge, SmartObject.UpdateOption.
                 WithinModeling, false, out NXObject nXObject);
 
             Edge edge2 = (Edge)nXObject;
-            Point point3 = workPart.Points.CreatePoint(edge2, 
+            Point point = workPart.Points.CreatePoint(edge2, 
                 SmartObject.UpdateOption.WithinModeling);
 
-            point3.RemoveViewDependency();
+            point.RemoveViewDependency();
 
-            axis.Point = point3;
+            axis.Point = point;
 
             patternFeatureBuilder.PatternService.CircularDefinition.
                 AngularSpacing.NCopies.RightHandSide = 
@@ -592,141 +585,21 @@ namespace AlloyWheelsBuilderModel
             patternFeatureBuilder.Destroy();
         }
 
-        private void InitPetalSketch(Session session, Part workPart)
-		{
-            session.BeginTaskEnvironment();
-
-            Sketch nullNXOpen_Sketch = null;
-            SketchInPlaceBuilder sketchInPlaceBuilder = workPart.Sketches.
-                CreateSketchInPlaceBuilder2(nullNXOpen_Sketch);
-
-            Point3d origin = new Point3d(0.0, 0.0, 0.0);
-            Vector3d normal = new Vector3d(0.0, 0.0, 1.0);
-            Plane plane = workPart.Planes.CreatePlane(origin, normal, 
-                SmartObject.UpdateOption.WithinModeling);
-
-            sketchInPlaceBuilder.PlaneReference = plane;
-
-            SketchAlongPathBuilder sketchAlongPathBuilder = workPart.
-                Sketches.CreateSketchAlongPathBuilder(nullNXOpen_Sketch);
-            sketchInPlaceBuilder.PlaneOption = Sketch.PlaneOption.
-                ExistingPlane;
-            sketchAlongPathBuilder.PlaneLocation.Expression.
-                RightHandSide = "0";
-
-            Revolve revolve = (Revolve)workPart.Features.
-                FindObject("REVOLVED(2)");
-            Face face = (Face)revolve.FindObject("FACE 7");
-            Line line = workPart.Lines.CreateFaceAxis(face, 
-                SmartObject.UpdateOption.WithinModeling);
-
-            plane.SetMethod(PlaneTypes.MethodType.Distance);
-
-            DatumPlane datumPlane = (DatumPlane)workPart.Datums.
-                FindObject("DATUM_CSYS(0) YZ plane");
-            NXObject[] geom = new NXObject[1];
-            geom[0] = datumPlane;
-            plane.SetGeometry(geom);
-
-            plane.Evaluate();
-
-            TaggedObject[] objects = new TaggedObject[1];
-            objects[0] = line;
-
-            DatumAxis datumAxis = (DatumAxis)workPart.Datums.
-                FindObject("DATUM_CSYS(0) Y axis");
-            Direction direction = workPart.Directions.CreateDirection(
-                datumAxis, Sense.Forward, 
-                SmartObject.UpdateOption.WithinModeling);
-            sketchInPlaceBuilder.AxisReference = direction;
-
-            Edge edge = (Edge)revolve.FindObject("EDGE * 3 * 4 " +
-                "{" 
-                    + "(12.2937697235662,7.9122352397363,-4.5681311455534)" 
-                    + "(12.2937697235662,0,9.1362622911068)" 
-                    + "(12.2937697235662,-7.9122352397363,-4.5681311455534) " 
-                    + "REVOLVED(2)" +
-                "}");
-
-            workPart.Xforms.CreateExtractXform(edge, SmartObject.
-                UpdateOption.WithinModeling, false, out NXObject nXObject);
-
-            Edge edge2 = (Edge)nXObject;
-            Point point = workPart.Points.CreatePoint(edge2, 
-                SmartObject.UpdateOption.WithinModeling);
-            sketchInPlaceBuilder.SketchOrigin = point;
-
-            Sketch sketch = (Sketch)sketchInPlaceBuilder.Commit();
-            sketch.Activate(Sketch.ViewReorient.True);
-
-            sketchInPlaceBuilder.Destroy();
-            sketchAlongPathBuilder.Destroy();
-
-            session.ActiveSketch.SetName("SKETCH_001");
-        }
-
-        private void CreatePetalSketch(Session session, Part workPart)
-        {
-            SketchFeature sketchFeature = (SketchFeature)workPart.
-                Features.FindObject(SKETCH_FEATURE_NAME);
-            Sketch sketch = (Sketch)sketchFeature.FindObject(SKETCH_NAME);
-            Arc offsetRightArc = (Arc)sketch.FindObject(
-                OFFSET_RIGHT_ARC_NAME);
-            double offsetRightArcTopY = offsetRightArc.CenterPoint.Y 
-                + offsetRightArc.Radius * Math.Sin(
-                    offsetRightArc.StartAngle);
-            double offsetRightArcBottomY = offsetRightArc.CenterPoint.Y
-                + offsetRightArc.Radius * Math.Sin(
-                    offsetRightArc.EndAngle);
-
-            const int indentPercent = 10;
-            double indent = (offsetRightArcTopY - offsetRightArcBottomY) 
-                * indentPercent / 100;
-            double startPointY = offsetRightArcTopY - indent;
-            double endPointY = offsetRightArcBottomY + indent;
-
-            Arc placeArc = (Arc)sketch.FindObject(LAST_ARC_NAME);
-            double x = placeArc.CenterPoint.X + placeArc.Radius 
-                * Math.Cos(placeArc.StartAngle);
-
-            double z = 0.0;
-
-            Point3d startPoint = new Point3d(x, startPointY, z);
-            Point3d endPoint = new Point3d(x, endPointY, z);
-            Line line = workPart.Curves.CreateLine(startPoint, endPoint);
-            session.ActiveSketch.AddGeometry(line, Sketch.
-                InferConstraintsOption.InferNoConstraints);
-
-            session.ActiveSketch.Update();
-        }
-
-        private void Extrusion()
-        {
-
-        }
-
         public void Build()
 		{
-            Session session = Session.GetSession();
-            Part workPart = session.Parts.Work;
+			Session session = Session.GetSession();
+			Part workPart = session.Parts.Work;
 
-			Sketch sketch = InitSketch(session, workPart);
-			CreateSketch(session, workPart);
-			ChangeDiameter(session, workPart);
-			ChangeWidth(session, workPart);
-			ChangeCentralHoleDiameter(session);
-			ChangeOffset(session, workPart);
-			FinishSketch(session);
+			Sketch alloyWheelsSketch = CreateAlloyWheelsSketch(session,
+				workPart);
 
-			RevolveSketch(workPart, sketch);
+			RevolveSketch(workPart, alloyWheelsSketch);
 			const double scalarValue = 0.5;
 			CreateHole(workPart, REVOLVED_NAME, SKETCH_FEATURE_NAME,
 				SKETCH_NAME, HOLE_ARC_NAME, scalarValue,
 				_alloyWheelsData.DrillDiameter);
 			CreateElemetsArray(workPart, HOLE_NAME, REVOLVED_NAME,
 				 _alloyWheelsData.DrillingsCount);
-			InitPetalSketch(session, workPart);
-            //CreatePetalSketch(session, workPart);
         }
 
         public AlloyWheelsBuilder(AlloyWheelsData alloyWheelsData)

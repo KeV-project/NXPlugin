@@ -21,7 +21,6 @@ namespace AlloyWheelsBuilder
         /// <summary>
         /// Завершает процесс NX
         /// </summary>
-        /// <returns></returns>
         public static int GetUnloadOption(string dummy)
         {
             return (int)Session.LibraryUnloadOption.Immediately;

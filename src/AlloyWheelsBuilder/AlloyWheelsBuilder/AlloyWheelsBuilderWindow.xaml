@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Моделирование автомобильного диска" Height="610.5" Width="998" FontSize="15"
-        MinWidth="998" MinHeight="611">
+        Title="Моделирование автомобильного диска" Height="610.5" Width="998" 
+        FontSize="15" MinWidth="998" MinHeight="611">
 
    <Window.Resources>
 
@@ -54,98 +54,141 @@
             <ColumnDefinition Width="50"/>
          </Grid.ColumnDefinitions>
 
-         <TextBlock Grid.Row="0" Grid.Column="0" Text="Диаметр D: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
-         <TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+         <TextBlock Grid.Row="0" Grid.Column="0" Text="Диаметр D: " 
+                    VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
+         <TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MinDiameter}"/>
-         <TextBox Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Text="{Binding Diameter, Mode=TwoWay, NotifyOnValidationError=True}"
-                     Style="{StaticResource ParametersStyle}"/>
-         <TextBlock Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+         <TextBox Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" 
+                  Text="{Binding Diameter, Mode=TwoWay, 
+                  NotifyOnValidationError=True}"
+                  Style="{StaticResource ParametersStyle}"/>
+         <TextBlock Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MaxDiameter}"/>
-         <TextBlock Grid.Row="0" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+         <TextBlock Grid.Row="0" Grid.Column="4" Text="мм" 
+                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="1" Grid.ColumnSpan="5" Height="2"
-            HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Black" 
-            IsEnabled="False" Margin="5, 0, -25, 0"/>
+            HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+            Background="Black" IsEnabled="False" Margin="5, 0, -25, 0"/>
 
-         <TextBlock Grid.Row="2" Grid.Column="0" Text="Диаметр ЦО ØDIA: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
-         <TextBlock Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+         <TextBlock Grid.Row="2" Grid.Column="0" Text="Диаметр ЦО ØDIA: " 
+                    VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
+         <TextBlock Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MinCentralHoleDiameter}"/>
-         <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Text="{Binding CentralHoleDiameter, Mode=TwoWay, 
-                     NotifyOnValidationError=True}" Style="{StaticResource ParametersStyle}"/>
-         <TextBlock Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+         <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" 
+                  Text="{Binding CentralHoleDiameter, Mode=TwoWay, 
+                  NotifyOnValidationError=True}" 
+                  Style="{StaticResource ParametersStyle}"/>
+         <TextBlock Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MaxCentralHoleDiameter}"/>
-         <TextBlock Grid.Row="2" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+         <TextBlock Grid.Row="2" Grid.Column="4" Text="мм" 
+                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="3" Grid.ColumnSpan="5" Height="2"
-            HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Black" 
-            IsEnabled="False" Margin="5, 0, -25, 0"/>
+            HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+            Background="Black" IsEnabled="False" Margin="5, 0, -25, 0"/>
 
-         <TextBlock Grid.Row="4" Grid.Column="0" Text="Посадочная ширина Lп: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
-         <TextBlock Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+         <TextBlock Grid.Row="4" Grid.Column="0" 
+                    Text="Посадочная ширина Lп: " VerticalAlignment="Center" 
+                    Margin="8, 0, 0, 0"/>
+         <TextBlock Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MinWidth}"/>
-         <TextBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Text="{Binding Width, Mode=TwoWay, 
-                     NotifyOnValidationError=True}" Style="{StaticResource ParametersStyle}"/>
-         <TextBlock Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+         <TextBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" 
+                     Text="{Binding Width, Mode=TwoWay, 
+                     NotifyOnValidationError=True}" 
+                  Style="{StaticResource ParametersStyle}"/>
+         <TextBlock Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MaxWidth}"/>
-         <TextBlock Grid.Row="4" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+         <TextBlock Grid.Row="4" Grid.Column="4" Text="мм" 
+                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="5" Grid.ColumnSpan="5" Height="2"
-            HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Black" 
-            IsEnabled="False" Margin="5, 0, -25, 0"/>
+            HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+            Background="Black" IsEnabled="False" Margin="5, 0, -25, 0"/>
 
-         <TextBlock Grid.Row="6" Grid.Column="0" Text="Вылет ET: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
-         <TextBlock Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+         <TextBlock Grid.Row="6" Grid.Column="0" Text="Вылет ET: " 
+                    VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
+         <TextBlock Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MinOffSet}"/>
-         <TextBox Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" Text="{Binding OffSet, Mode=TwoWay, 
-                     NotifyOnValidationError=True}" Style="{StaticResource ParametersStyle}"/>
-         <TextBlock Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+         <TextBox Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" 
+                  Text="{Binding OffSet, Mode=TwoWay, 
+                  NotifyOnValidationError=True}" 
+                  Style="{StaticResource ParametersStyle}"/>
+         <TextBlock Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MaxOffSet}"/>
-         <TextBlock Grid.Row="6" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+         <TextBlock Grid.Row="6" Grid.Column="4" Text="мм" 
+                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="7" Grid.ColumnSpan="5" Height="2"
-            HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Black" 
-            IsEnabled="False" Margin="5, 0, -25, 0"/>
+            HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+            Background="Black" IsEnabled="False" Margin="5, 0, -25, 0"/>
 
-         <TextBlock Grid.Row="8" Grid.Column="0" Text="Диаметр сверловки B: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
-         <TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+         <TextBlock Grid.Row="8" Grid.Column="0" Text="Диаметр сверловки B: " 
+                    VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
+         <TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MinDrillDiameter}"/>
-         <TextBox Grid.Row="8" Grid.Column="2" VerticalAlignment="Center" Text="{Binding DrillDiameter, Mode=TwoWay, 
-                     NotifyOnValidationError=True}" Style="{StaticResource ParametersStyle}"/>
-         <TextBlock Grid.Row="8" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+         <TextBox Grid.Row="8" Grid.Column="2" VerticalAlignment="Center" 
+                  Text="{Binding DrillDiameter, Mode=TwoWay, 
+                  NotifyOnValidationError=True}" 
+                  Style="{StaticResource ParametersStyle}"/>
+         <TextBlock Grid.Row="8" Grid.Column="3" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MaxDrillDiameter}"/>
-         <TextBlock Grid.Row="8" Grid.Column="4" Text="мм" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+         <TextBlock Grid.Row="8" Grid.Column="4" Text="мм" 
+                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="9" Grid.ColumnSpan="5" Height="2"
-            HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Black" 
-            IsEnabled="False" Margin="5, 0, -25, 0"/>
+            HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+            Background="Black" IsEnabled="False" Margin="5, 0, -25, 0"/>
 
 
-         <TextBlock Grid.Row="10" Grid.Column="0" Text="Сверловка: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
-         <TextBlock Grid.Row="10" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+         <TextBlock Grid.Row="10" Grid.Column="0" Text="Сверловка: " 
+                    VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
+         <TextBlock Grid.Row="10" Grid.Column="1" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MinDrillingsCount}"/>
-         <TextBox Grid.Row="10" Grid.Column="2" VerticalAlignment="Center" Text="{Binding DrillingsCount, Mode=TwoWay, 
-                     NotifyOnValidationError=True}" Style="{StaticResource ParametersStyle}"/>
-         <TextBlock Grid.Row="10" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+         <TextBox Grid.Row="10" Grid.Column="2" VerticalAlignment="Center" 
+                  Text="{Binding DrillingsCount, Mode=TwoWay, 
+                  NotifyOnValidationError=True}" 
+                  Style="{StaticResource ParametersStyle}"/>
+         <TextBlock Grid.Row="10" Grid.Column="3" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MaxDrillingsCount}"/>
-         <TextBlock Grid.Row="10" Grid.Column="4" Text="шт" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+         <TextBlock Grid.Row="10" Grid.Column="4" Text="шт" 
+                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
          <GridSplitter Grid.Row="11" Grid.ColumnSpan="5" Height="2"
-            HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Black" 
-            IsEnabled="False" Margin="5, 0, -25, 0"/>
+            HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+            Background="Black" IsEnabled="False" Margin="5, 0, -25, 0"/>
 
-         <TextBlock Grid.Row="12" Grid.Column="0" Text="Количество спиц: " VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
-         <TextBlock Grid.Row="12" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+         <TextBlock Grid.Row="12" Grid.Column="0" Text="Количество спиц: " 
+                    VerticalAlignment="Center" Margin="8, 0, 0, 0"/>
+         <TextBlock Grid.Row="12" Grid.Column="1" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MinSpokesCount}"/>
-         <TextBox Grid.Row="12" Grid.Column="2" VerticalAlignment="Center" Text="{Binding SpokesCount, Mode=TwoWay, 
-                     NotifyOnValidationError=True}" Style="{StaticResource ParametersStyle}"/>
-         <TextBlock Grid.Row="12" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#50545c"
+         <TextBox Grid.Row="12" Grid.Column="2" VerticalAlignment="Center" 
+                  Text="{Binding SpokesCount, Mode=TwoWay, 
+                  NotifyOnValidationError=True}" 
+                  Style="{StaticResource ParametersStyle}"/>
+         <TextBlock Grid.Row="12" Grid.Column="3" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Foreground="#50545c"
                     Text="{Binding MaxSpokesCount}"/>
-         <TextBlock Grid.Row="12" Grid.Column="4" Text="шт" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+         <TextBlock Grid.Row="12" Grid.Column="4" Text="шт" 
+                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
       </Grid>
 
       <GridSplitter Grid.Column="1" ShowsPreview="False" Width="2"
-            HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="Black" 
-            IsEnabled="False" Margin="0, 20, 0, 20"/>
+            HorizontalAlignment="Left" VerticalAlignment="Stretch" 
+            Background="Black" IsEnabled="False" Margin="0, 20, 0, 20"/>
 
       <Grid Grid.Column="2">
          <Grid.RowDefinitions>
@@ -157,7 +200,8 @@
          <Image Grid.Row="0" Source="Resources\Disk.png"/>
          <TextBlock Grid.Row="1" Height="50" Width="300" TextWrapping="Wrap"
                  TextAlignment="Center"
-                 Text="Чертеж моделируемого диска с обозначением изменяемых параметров" 
+                 Text="Чертеж моделируемого диска с 
+                    обозначением изменяемых параметров" 
                  VerticalAlignment="Center" HorizontalAlignment="Center"
                  FontSize="16" FontStyle="Italic"/>
          <Grid Grid.Row="2">
@@ -166,9 +210,14 @@
                <ColumnDefinition Width="180"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Content="Очистить" Height="32" Width="160" HorizontalAlignment="Right" Margin="5, 2, 0, 2"/>
-            <Button Grid.Column="1" Content="Построить" Height="32" Width="160" HorizontalAlignment="Right" Margin="5, 2, 10, 2"
-                    Command="{Binding BuildCommand}" IsEnabled="{Binding IsValid, NotifyOnValidationError=True}"/>
+            <Button Grid.Column="0" Content="Очистить" Height="32" 
+                    Width="160" HorizontalAlignment="Right" 
+                    Margin="5, 2, 0, 2"/>
+            <Button Grid.Column="1" Content="Построить" Height="32" 
+                    Width="160" HorizontalAlignment="Right" 
+                    Margin="5, 2, 10, 2" Command="{Binding BuildCommand}" 
+                    IsEnabled="{Binding IsValid, 
+                     NotifyOnValidationError=True}"/>
          </Grid>
       </Grid>
 

@@ -183,6 +183,21 @@ namespace AlloyWheelsBuilderModel
 		}
 
 		/// <summary>
+		/// Возвращает индекс первой дуги в эскизе лепестка
+		/// </summary>
+		public int MinPetalSketchArcsIndex => 46;
+
+		/// <summary>
+		/// Возвращает индекс последней дуги в эскизе лепестка
+		/// </summary>
+		public int MaxPetalSketchArcsIndex => 49;
+
+		/// <summary>
+		/// Возвращает первоначальную высоту эскиза лепестка рисунка
+		/// </summary>
+		public double PetalSketchHeight => 113.4;
+
+		/// <summary>
 		/// Возвращает минимальный диаметр
 		/// </summary>
 		public double MinDiameter { get => 101.6; }

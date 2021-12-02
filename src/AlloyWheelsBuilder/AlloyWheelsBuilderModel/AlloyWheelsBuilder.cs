@@ -76,10 +76,32 @@ namespace AlloyWheelsBuilderModel
         /// </summary>
         private const string HOLE_NAME = "SIMPLE HOLE(3)";
 
+        private const string REVOLVED_FACE_NAME = "FACE 7";
+
+        private const string DATUM_PLANE_NAME = "DATUM_CSYS(0) YZ plane";
+
+        private const string PETAL_SKETCH_NAME = "SKETCH_001";
+
+        private const string BOTTOM_PETAL_ARC = "Curve Arc49";
+
+        private const string TOP_PETAL_ARC = "Curve Arc46";
+
+        private const int MIN_PETAL_HEIGHT_DIMENSION_NAME_INDEX = 132;
+
+        private string PetalHeihgtDimensionName => "p" 
+            + (MIN_PETAL_HEIGHT_DIMENSION_NAME_INDEX 
+            + 5 * (_alloyWheelsData.DrillingsCount 
+            - _alloyWheelsData.MinDrillingsCount));
+
+
+        private const string PETAL_MIRROR_AXIS_NAME = "DATUM_CSYS(0) Y axis";
+
         /// <summary>
         /// Хранит параметры модели диска
         /// </summary>
         private AlloyWheelsData _alloyWheelsData;
+
+        
 
         /// <summary>
         /// Создает эскиз в среде задач
@@ -88,7 +110,7 @@ namespace AlloyWheelsBuilderModel
         /// <param name="workPart">Рабочая часть</param>
         /// <param name="sketchName">Имя эскиза</param>
         /// <returns>Возвращает созданный эскиз</returns>
-        private Sketch InitSketch(Session session, Part workPart, 
+        private Sketch InitAlloyWheelsSketch(Session session, Part workPart, 
             string sketchName)
         {
             Sketch nullNxOpenSketch = null;
@@ -101,10 +123,10 @@ namespace AlloyWheelsBuilderModel
                 SmartObject.UpdateOption.WithinModeling);
             sketchInPlaceBuilder.PlaneReference = plane;
 
-            SketchAlongPathBuilder sketchAlongPathBuilder = workPart.
-                Sketches.CreateSketchAlongPathBuilder(nullNxOpenSketch);
+			SketchAlongPathBuilder sketchAlongPathBuilder = workPart.
+				Sketches.CreateSketchAlongPathBuilder(nullNxOpenSketch);
 
-            NXObject nXObject = sketchInPlaceBuilder.Commit();
+			NXObject nXObject = sketchInPlaceBuilder.Commit();
 
             Sketch sketch = (Sketch)nXObject;
             sketch.Activate(Sketch.ViewReorient.True);
@@ -157,14 +179,15 @@ namespace AlloyWheelsBuilderModel
         private Sketch CreateAlloyWheelsSketch(Session session, 
             Part workPart)
 		{
-            Sketch sketch = InitSketch(session, workPart, SKETCH_NAME);
+            Sketch sketch = InitAlloyWheelsSketch(session, 
+                workPart, SKETCH_NAME);
             CreateSketch(session, workPart, _alloyWheelsData.SketchArcs);
             ChangeDiameter(session, workPart);
-            ChangeWidth(session, workPart);
-            ChangeCentralHoleDiameter(session);
-            ChangeOffset(session, workPart);
-            FinishSketch(session);
-            return sketch;
+			ChangeWidth(session, workPart);
+			ChangeCentralHoleDiameter(session);
+			ChangeOffset(session, workPart);
+			FinishSketch(session);
+			return sketch;
         }
 
         /// <summary>
@@ -176,8 +199,8 @@ namespace AlloyWheelsBuilderModel
         /// от которой задается размер</param>
         /// <param name="topArc">Верхняя дуга, 
         /// от которой задается размер</param>
-        private void SetLinearDimension(Part workPart, 
-            string dimensionName, Arc bottomArc, Arc topArc)
+        private void SetLinearDimension(Part workPart, Arc bottomArc, 
+            Arc topArc, string dimensionName)
         {
            Dimension nullNxOpenAnnotationsDimension = null;
             SketchLinearDimensionBuilder sketchLinearDimensionBuilder =
@@ -293,21 +316,21 @@ namespace AlloyWheelsBuilderModel
                 RADIUS_BOTTOM_ARC_NAME);
             Arc topArc = (Arc)session.ActiveSketch.FindObject(
                 RADIUS_TOP_ARC_NAME);
-            SetLinearDimension(workPart, RADIUS_DIMENSION_NAME, 
-                bottomArc, topArc);
+            SetLinearDimension(workPart, bottomArc, topArc, 
+                RADIUS_DIMENSION_NAME);
 
-            double bottomPointY = bottomArc.CenterPoint.Y + bottomArc.Radius
-                * Math.Sin(bottomArc.StartAngle);
-            double topPointY = topArc.CenterPoint.Y + topArc.Radius
-                * Math.Sin(topArc.EndAngle);
-            double radius = topPointY - bottomPointY;
+			double bottomPointY = bottomArc.CenterPoint.Y + bottomArc.Radius
+				* Math.Sin(bottomArc.StartAngle);
+			double topPointY = topArc.CenterPoint.Y + topArc.Radius
+				* Math.Sin(topArc.EndAngle);
+			double radius = topPointY - bottomPointY;
 
-            double newRadius = _alloyWheelsData.Diameter / 2;
+			double newRadius = _alloyWheelsData.Diameter / 2;
 
-            ChangeLinearDimension(session, workPart, RADIUS_DIMENSION_NAME, 
-                radius, newRadius - _alloyWheelsData.CentralHoleDiameter / 2, 
-                true);
-        }
+			ChangeLinearDimension(session, workPart, RADIUS_DIMENSION_NAME,
+				radius, newRadius - _alloyWheelsData.CentralHoleDiameter / 2,
+				true);
+		}
 
         /// <summary>
         /// Изменяет посадочную ширину диска
@@ -321,8 +344,8 @@ namespace AlloyWheelsBuilderModel
             Arc rightArc = (Arc)session.ActiveSketch.FindObject(
                 WIDTH_RIGHT_ARC_NAME);
 
-            SetLinearDimension(workPart, WIDTH_DIMENSION_NAME, 
-                leftArc, rightArc);
+            SetLinearDimension(workPart, leftArc, rightArc, 
+                WIDTH_DIMENSION_NAME);
             
             double leftPointX = leftArc.CenterPoint.X + leftArc.Radius
                 * Math.Cos(leftArc.StartAngle);
@@ -735,6 +758,183 @@ namespace AlloyWheelsBuilderModel
             patternFeatureBuilder.Destroy();
         }
 
+        private Sketch InitPetalSketch(Session session, Part workPart, 
+            string sketchName)
+		{
+			Sketch nullNxOpenSketch = null;
+			SketchInPlaceBuilder sketchInPlaceBuilder = workPart.Sketches.
+                CreateSketchInPlaceBuilder2(nullNxOpenSketch);
+
+			Point3d origin = new Point3d(0.0, 0.0, 0.0);
+			Vector3d normal = new Vector3d(0.0, 0.0, 1.0);
+			Plane plane = workPart.Planes.CreatePlane(origin, normal, 
+                SmartObject.UpdateOption.WithinModeling);
+			sketchInPlaceBuilder.PlaneReference = plane;
+
+			Unit unit = workPart.UnitCollection.FindObject("MilliMeter");
+			workPart.Expressions.CreateSystemExpressionWithUnits("0", unit);
+
+			sketchInPlaceBuilder.OriginOption = OriginMethod.WorkPartOrigin;
+
+            Vector3d vector = new Vector3d(0.0, 0.0, 1.0);
+            Direction direction = workPart.Directions.CreateDirection(origin, 
+                vector, SmartObject.UpdateOption.WithinModeling);
+            sketchInPlaceBuilder.AxisReference = direction;
+
+			Revolve revolve = (Revolve)workPart.Features.FindObject(REVOLVED_NAME);
+			Face face = (Face)revolve.FindObject(REVOLVED_FACE_NAME);
+			Line line = workPart.Lines.CreateFaceAxis(face, SmartObject.
+                UpdateOption.WithinModeling);
+			line.SetVisibility(SmartObject.VisibilityOption.Visible);
+
+			plane.SetMethod(PlaneTypes.MethodType.Distance);
+
+            const int geomsCount = 1;
+			NXObject[] geom = new NXObject[geomsCount];
+            DatumPlane datumPlane = (DatumPlane)workPart.Datums.
+                FindObject(DATUM_PLANE_NAME);
+            geom[0] = datumPlane;
+            plane.SetGeometry(geom);
+
+			plane.Evaluate();
+
+			NXObject nXObject = sketchInPlaceBuilder.Commit();
+
+            Sketch sketch = (Sketch)nXObject;
+            sketch.Activate(Sketch.ViewReorient.True);
+
+            sketchInPlaceBuilder.Destroy();
+
+            session.ActiveSketch.SetName(sketchName);
+
+            return sketch;
+        }
+
+        private void ChengePetalHeight(Session session, Part workPart, 
+            double newPetalHeight)
+		{
+			SetLinearDimension(workPart, 
+               (Arc)session.ActiveSketch.FindObject(BOTTOM_PETAL_ARC),
+			   (Arc)session.ActiveSketch.FindObject(TOP_PETAL_ARC),
+               PetalHeihgtDimensionName);
+
+			ChangeLinearDimension(session, workPart, PetalHeihgtDimensionName,
+				_alloyWheelsData.PetalSketchHeight, newPetalHeight, true);
+		}
+
+        private void MovePetal(Session session, double dy)
+		{
+            for (int i = _alloyWheelsData.MinPetalSketchArcsIndex; 
+                i <= _alloyWheelsData.MaxPetalSketchArcsIndex; i++)
+            {
+                Arc arc = (Arc)session.ActiveSketch.FindObject(
+                    "Curve Arc" + i);
+                arc.SetParameters(arc.Radius, new Point3d(arc.CenterPoint.X,
+                    arc.CenterPoint.Y + dy, arc.CenterPoint.Z),
+                    arc.StartAngle, arc.EndAngle);
+            }
+        }
+
+        private void CreateMirrorCurve(Session session, Part workPart, 
+            int minArcIndgex, int maxArcIndex, string petalMirrorAxisName)
+		{
+            SketchPattern nullNxOpenSketchPattern = null;
+            SketchMirrorPatternBuilder sketchMirrorPatternBuilder = workPart.
+                Sketches.CreateSketchMirrorPatternBuilder(
+                nullNxOpenSketchPattern);
+
+            Section section = sketchMirrorPatternBuilder.Section;
+
+            section.SetAllowedEntityTypes(Section.AllowTypes.CurvesAndPoints);
+
+            for (int i = minArcIndgex; i <= maxArcIndex; i++)
+            {
+                const int curvesCount = 1;
+                IBaseCurve[] curves = new IBaseCurve[curvesCount];
+                Arc arc = (Arc)session.ActiveSketch.FindObject(
+                    "Curve Arc" + i);
+                curves[0] = arc;
+                CurveDumbRule curveDumbRule = workPart.ScRuleFactory.
+                    CreateRuleBaseCurveDumb(curves);
+                section.AllowSelfIntersection(true);
+                const int rulesCount = 1;
+                SelectionIntentRule[] rules = new SelectionIntentRule[
+                    rulesCount];
+                rules[0] = curveDumbRule;
+                NXObject nullNxOpenNxObject = null;
+                const double helpPointCoordinate = 0.0;
+                Point3d helpPoint = new NXOpen.Point3d(helpPointCoordinate, 
+                    helpPointCoordinate, helpPointCoordinate);
+                section.AddToSection(rules, arc, nullNxOpenNxObject, 
+                    nullNxOpenNxObject, helpPoint, 
+                    Section.Mode.Create, false);
+            }
+
+            DatumAxis datumAxis = (DatumAxis)workPart.Datums.FindObject(
+                petalMirrorAxisName);
+            sketchMirrorPatternBuilder.DirectionObject.Value = datumAxis;
+
+            sketchMirrorPatternBuilder.Commit();
+
+            sketchMirrorPatternBuilder.Destroy();
+            section.Destroy();
+        }
+
+        private Sketch CreatePetalSketch(Session session, Part workPart)
+		{
+            Sketch petalSketch = InitPetalSketch(session, workPart,
+               PETAL_SKETCH_NAME);
+            CreateSketch(session, workPart, _alloyWheelsData.PetalSketchArcs);
+
+            SketchFeature sketchFeature = (SketchFeature)workPart.
+                    Features.FindObject(SKETCH_FEATURE_NAME);
+            Sketch sketch = (Sketch)sketchFeature.FindObject(SKETCH_NAME);
+            Arc offsetLeftArc = (Arc)sketch.FindObject(OFFSET_LEFT_ARC_NAME);
+            double offsetLeftArcTopY = offsetLeftArc.CenterPoint.Y
+                + offsetLeftArc.Radius * Math.Sin(offsetLeftArc.StartAngle);
+            double offsetLeftArcBottomY = offsetLeftArc.CenterPoint.Y
+                + offsetLeftArc.Radius * Math.Sin(offsetLeftArc.EndAngle);
+
+            if(offsetLeftArcTopY < offsetLeftArcBottomY)
+			{
+                double y = offsetLeftArcTopY;
+                offsetLeftArcTopY = offsetLeftArcBottomY;
+                offsetLeftArcBottomY = y;
+            }
+
+            double offsetLeftArcHeight = offsetLeftArcTopY 
+                - offsetLeftArcBottomY;
+
+            const int indentPercent = 10;
+            double indent = offsetLeftArcHeight * indentPercent / 100;
+
+            double newPetalHeight = offsetLeftArcHeight - indent * 1.2;
+
+			ChengePetalHeight(session, workPart, newPetalHeight);
+
+			Arc bottomPetalArc = (Arc)petalSketch.FindObject(BOTTOM_PETAL_ARC);
+			double petalBotoomY = bottomPetalArc.CenterPoint.Y
+				+ bottomPetalArc.Radius * Math.Sin(bottomPetalArc.StartAngle);
+
+			double newPetalBottomY = offsetLeftArcBottomY + indent;
+			double dy = newPetalBottomY - petalBotoomY;
+
+			MovePetal(session, dy);
+
+			CreateMirrorCurve(session, workPart, _alloyWheelsData.
+				MinPetalSketchArcsIndex, _alloyWheelsData.
+				MaxPetalSketchArcsIndex, PETAL_MIRROR_AXIS_NAME);
+
+			FinishSketch(session);
+
+			return petalSketch;
+        }
+
+        private void Extrude(Session session, Part workPart)
+		{
+            
+        }
+
         /// <summary>
         /// Создает модель автомобильного диска
         /// </summary>
@@ -753,7 +953,11 @@ namespace AlloyWheelsBuilderModel
 				_alloyWheelsData.DrillDiameter);
 			CreateElemetsArray(workPart, HOLE_NAME, REVOLVED_NAME,
 				 _alloyWheelsData.DrillingsCount);
-        }
+
+			Sketch petalSketch = CreatePetalSketch(session, workPart);
+
+            Extrude(session, workPart);
+		}
 
         /// <summary>
         /// Инициализирует объект класса <see cref="AlloyWheelsBuilder"/>

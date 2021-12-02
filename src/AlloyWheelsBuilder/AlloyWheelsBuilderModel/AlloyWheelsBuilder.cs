@@ -76,40 +76,73 @@ namespace AlloyWheelsBuilderModel
         /// </summary>
         private const string HOLE_NAME = "SIMPLE HOLE(3)";
 
+        /// <summary>
+        /// Имя внешней грани диска
+        /// </summary>
         private const string REVOLVED_FACE_NAME = "FACE 7";
 
+        /// <summary>
+        /// Имя плоскости для создания эскиза рисунка
+        /// </summary>
         private const string DATUM_PLANE_NAME = "DATUM_CSYS(0) YZ plane";
 
+        /// <summary>
+        /// Имя эскиза рисунка
+        /// </summary>
         private const string PETAL_SKETCH_NAME = "SKETCH_001";
 
+        /// <summary>
+        /// Имя эскиза рисунка
+        /// </summary>
         private const string PETAL_SKETCH_FEATURE_NAME = "SKETCH(5)";
 
+        /// <summary>
+        /// Имя нижней дуги эскиза рисунка
+        /// </summary>
         private const string BOTTOM_PETAL_ARC = "Curve Arc49";
 
+        /// <summary>
+        /// Имя верхней дуги эскиза рисунка
+        /// </summary>
         private const string TOP_PETAL_ARC = "Curve Arc46";
 
+        /// <summary>
+        /// Минимальный индекс, каторый может быть назначен размеру лепестка
+        /// </summary>
         private const int MIN_PETAL_HEIGHT_DIMENSION_NAME_INDEX = 132;
 
+        /// <summary>
+        /// Возвращает имя размера лепестка
+        /// </summary>
         private string PetalHeihgtDimensionName => "p" 
             + (MIN_PETAL_HEIGHT_DIMENSION_NAME_INDEX 
             + 5 * (_alloyWheelsData.DrillingsCount 
             - _alloyWheelsData.MinDrillingsCount));
 
-
+        /// <summary>
+        /// Имя оси для отражения эскиза лепестка
+        /// </summary>
         private const string PETAL_MIRROR_AXIS_NAME = "DATUM_CSYS(0) Y axis";
 
+        /// <summary>
+        /// Имя дуги тела выдавливания. Необходимо для создания массива элементов
+        /// </summary>
         private const string EXTRUDE_ARC_NAME = "Curve Arc52";
 
+        /// <summary>
+        /// Грань тела выдавливания. Необходимо для создания массива элементов
+        /// </summary>
         private const string EXTRUDE_FACE_NAME = "FACE 45";
 
+        /// <summary>
+        /// Имя тела выдавливания
+        /// </summary>
         private const string EXTRUDE_NAME = "EXTRUDE(6)";
 
         /// <summary>
         /// Хранит параметры модели диска
         /// </summary>
         private AlloyWheelsData _alloyWheelsData;
-
-        
 
         /// <summary>
         /// Создает эскиз в среде задач
@@ -765,6 +798,13 @@ namespace AlloyWheelsBuilderModel
             patternFeatureBuilder.Destroy();
         }
 
+        /// <summary>
+        /// Создает эскиз в среде задач 
+        /// </summary>
+        /// <param name="session">Текущая сессия</param>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <param name="sketchName">Имя эскиза</param>
+        /// <returns>Эскиз</returns>
         private Sketch InitPetalSketch(Session session, Part workPart, 
             string sketchName)
 		{
@@ -784,11 +824,12 @@ namespace AlloyWheelsBuilderModel
 			sketchInPlaceBuilder.OriginOption = OriginMethod.WorkPartOrigin;
 
             Vector3d vector = new Vector3d(0.0, 0.0, 1.0);
-            Direction direction = workPart.Directions.CreateDirection(origin, 
+            Direction direction = workPart.Directions.CreateDirection(origin,
                 vector, SmartObject.UpdateOption.WithinModeling);
             sketchInPlaceBuilder.AxisReference = direction;
 
-			Revolve revolve = (Revolve)workPart.Features.FindObject(REVOLVED_NAME);
+			Revolve revolve = (Revolve)workPart.Features.FindObject(
+                REVOLVED_NAME);
 			Face face = (Face)revolve.FindObject(REVOLVED_FACE_NAME);
 			Line line = workPart.Lines.CreateFaceAxis(face, SmartObject.
                 UpdateOption.WithinModeling);
@@ -817,6 +858,12 @@ namespace AlloyWheelsBuilderModel
             return sketch;
         }
 
+        /// <summary>
+        /// Изменяет высоту эскиза лепестка
+        /// </summary>
+        /// <param name="session">Текущая сессия</param>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <param name="newPetalHeight">Новый размер</param>
         private void ChengePetalHeight(Session session, Part workPart, 
             double newPetalHeight)
 		{
@@ -829,6 +876,11 @@ namespace AlloyWheelsBuilderModel
 				_alloyWheelsData.PetalSketchHeight, newPetalHeight, true);
 		}
 
+        /// <summary>
+        /// Перемещает эскиз лепестка по оси Y
+        /// </summary>
+        /// <param name="session">текущая сессия</param>
+        /// <param name="dy">Смещение</param>
         private void MovePetal(Session session, double dy)
 		{
             for (int i = _alloyWheelsData.MinPetalSketchArcsIndex; 
@@ -842,6 +894,14 @@ namespace AlloyWheelsBuilderModel
             }
         }
 
+        /// <summary>
+        /// Создает зеркальную кривую
+        /// </summary>
+        /// <param name="session">Текущая сессия</param>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <param name="minArcIndgex">Первый индекс дуги эскиза</param>
+        /// <param name="maxArcIndex">Последний индекс дуги эскиза</param>
+        /// <param name="petalMirrorAxisName">Имя оси</param>
         private void CreateMirrorCurve(Session session, Part workPart, 
             int minArcIndgex, int maxArcIndex, string petalMirrorAxisName)
 		{
@@ -887,6 +947,12 @@ namespace AlloyWheelsBuilderModel
             section.Destroy();
         }
 
+        /// <summary>
+        /// Создает эскиз лепестка
+        /// </summary>
+        /// <param name="session">Текущая сессия</param>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <returns>Эскиз</returns>
         private Sketch CreatePetalSketch(Session session, Part workPart)
 		{
             Sketch petalSketch = InitPetalSketch(session, workPart,
@@ -937,6 +1003,17 @@ namespace AlloyWheelsBuilderModel
 			return petalSketch;
         }
 
+        /// <summary>
+        /// Выдавливание
+        /// </summary>
+        /// <param name="workPart">Рабочая часть</param>
+        /// <param name="extrudeFromObjectName">Объект 
+        /// из которого происходит выдавливание</param>
+        /// <param name="petalSkecthFeatureName">Имя эскиза лепестка</param>
+        /// <param name="petalSketchName">Имя эскиза детали</param>
+        /// <param name="extrudeArcName">Дуга</param>
+        /// <param name="extrudeFaceName">Поверхность, 
+        /// до которой происходит выдавливание</param>
         private void Extrude(Part workPart, string extrudeFromObjectName, 
             string petalSkecthFeatureName, string petalSketchName, 
             string extrudeArcName, string extrudeFaceName)

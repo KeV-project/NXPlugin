@@ -609,14 +609,50 @@ namespace AlloyWheelsBuilderModel
 		}
 
 		/// <summary>
+		/// Минимальное количество спиц
+		/// </summary>
+		private const int MIN_SPOKES_COUNT = 4;
+
+		/// <summary>
 		/// Возвращает минимальное количество спиц
 		/// </summary>
-		public int MinSpokesCount => 4;
+		public int MinSpokesCount
+		{
+			get
+			{
+				if (double.IsNaN(Diameter))
+				{
+					return int.MinValue;
+				}
+				else
+				{
+					return MIN_SPOKES_COUNT;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Максимальное количество спиц
+		/// </summary>
+		private const int MAX_SPOKES_COUNT = 18;
 
 		/// <summary>
 		/// Возвращает максимальное количество спиц
 		/// </summary>
-		public int MaxSpokesCount => 18;
+		public int MaxSpokesCount
+		{
+			get
+			{
+				if (double.IsNaN(Diameter))
+				{
+					return int.MaxValue;
+				}
+				else
+				{
+					return MAX_SPOKES_COUNT;
+				}
+			}
+		}
 
 		/// <summary>
 		/// Количество спиц

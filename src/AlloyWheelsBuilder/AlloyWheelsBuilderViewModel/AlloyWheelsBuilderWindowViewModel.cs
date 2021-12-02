@@ -61,6 +61,9 @@ namespace AlloyWheelsBuilderViewModel
                     CentralHoleDiameter = "";
                     RaisePropertyChanged(nameof(MinCentralHoleDiameter));
                     RaisePropertyChanged(nameof(MaxCentralHoleDiameter));
+                    SpokesCount = "";
+                    RaisePropertyChanged(nameof(MinSpokesCount));
+                    RaisePropertyChanged(nameof(MaxSpokesCount));
                 });
             }
         }
@@ -423,9 +426,71 @@ namespace AlloyWheelsBuilderViewModel
         }
 
         /// <summary>
+        /// Возвращает минимальное количество спиц
+        /// </summary>
+        public string MinSpokesCount
+		{
+            get
+			{
+                if (_alloyWheelsData.MinSpokesCount == int.MinValue)
+                {
+                    return "";
+                }
+                else
+                {
+                    return _alloyWheelsData.MinSpokesCount + " ≤";
+                }
+            }
+		}
+
+        /// <summary>
+        /// Возвращает максимальное количество спиц
+        /// </summary>
+        public string MaxSpokesCount
+		{
+            get
+            {
+                if (_alloyWheelsData.MaxSpokesCount == int.MaxValue)
+                {
+                    return "";
+                }
+                else
+                {
+                    return "≤ " + _alloyWheelsData.MaxSpokesCount;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Количество спиц
+        /// </summary>
+        private string _spokesCount = "";
+
+        /// <summary>
         /// Устанавливает и возвращает количество спиц
         /// </summary>
-        public string SpokesCount { get; set; }
+        public string SpokesCount 
+        {
+            get => _spokesCount;
+            set
+            {
+                SetProperty(nameof(SpokesCount), () =>
+                {
+                    _spokesCount = value;
+                    if (int.TryParse(value, out int spokesCount))
+                    {
+                        _alloyWheelsData.SpokesCount = spokesCount;
+                    }
+                    else
+                    {
+                        _alloyWheelsData.SpokesCount = int.MinValue;
+                        throw new ArgumentException("\"" + value + "\""
+                            + " не является целым числом и"
+                            + " не может определять количество спиц");
+                    }
+                }, null);
+            }
+        }
 
         /// <summary>
         /// Инициализирует объект класса 

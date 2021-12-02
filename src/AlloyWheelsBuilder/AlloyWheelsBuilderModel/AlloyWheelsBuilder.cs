@@ -82,6 +82,8 @@ namespace AlloyWheelsBuilderModel
 
         private const string PETAL_SKETCH_NAME = "SKETCH_001";
 
+        private const string PETAL_SKETCH_FEATURE_NAME = "SKETCH(5)";
+
         private const string BOTTOM_PETAL_ARC = "Curve Arc49";
 
         private const string TOP_PETAL_ARC = "Curve Arc46";
@@ -95,6 +97,12 @@ namespace AlloyWheelsBuilderModel
 
 
         private const string PETAL_MIRROR_AXIS_NAME = "DATUM_CSYS(0) Y axis";
+
+        private const string EXTRUDE_ARC_NAME = "Curve Arc52";
+
+        private const string EXTRUDE_FACE_NAME = "FACE 45";
+
+        private const string EXTRUDE_NAME = "EXTRUDE(6)";
 
         /// <summary>
         /// Хранит параметры модели диска
@@ -683,7 +691,7 @@ namespace AlloyWheelsBuilderModel
         /// расположение массива</param>
         /// <param name="elementsCount">Количество элементов</param>
         private void CreateElemetsArray(Part workPart, 
-            string arrayObjectName, string arrayPlaceName, int elementsCount)
+            string featureName, string arrayPlaceName, int elementsCount)
         {
             Feature nullNxOpenFeaturesFeature = null;
             PatternFeatureBuilder patternFeatureBuilder = workPart.Features.
@@ -720,22 +728,21 @@ namespace AlloyWheelsBuilderModel
 
             const int objectsCount = 1;
             Feature[] objects = new Feature[objectsCount];
-            HolePackage holePackage = (HolePackage)workPart.Features.
-                FindObject(arrayObjectName);
-            objects[0] = holePackage;
+			Feature feature = workPart.Features.FindObject(featureName);
+			objects[0] = feature;
             patternFeatureBuilder.FeatureList.Add(objects);
 
             Revolve revolve = (Revolve)workPart.Features.FindObject(
                 arrayPlaceName);
-            Edge edge = (Edge)revolve.FindObject("EDGE * 5 * 6 " +
-                "{" 
-                    + "(85.7231350896827,53.5038941198678,-30.8904876727989)" 
-                    + "(85.7231350896827,0,61.7809753455978)" 
-                    + "(85.7231350896827,-53.5038941198678,-30.8904876727989)"
-                    + " " + REVOLVED_NAME +
-                "}");
+			Edge edge = (Edge)revolve.FindObject("EDGE * 5 * 6 " +
+				"{"
+					+ "(85.7231350896827,53.5038941198678,-30.8904876727989)"
+					+ "(85.7231350896827,0,61.7809753455978)"
+					+ "(85.7231350896827,-53.5038941198678,-30.8904876727989)"
+					+ " " + REVOLVED_NAME +
+				"}");
 
-            workPart.Xforms.CreateExtractXform(edge, 
+			workPart.Xforms.CreateExtractXform(edge, 
                 SmartObject.UpdateOption.WithinModeling, 
                 false, out NXObject nXObject);
 
@@ -930,9 +937,64 @@ namespace AlloyWheelsBuilderModel
 			return petalSketch;
         }
 
-        private void Extrude(Session session, Part workPart)
+        private void Extrude(Part workPart, string extrudeFromObjectName, 
+            string petalSkecthFeatureName, string petalSketchName, 
+            string extrudeArcName, string extrudeFaceName)
 		{
-            
+            Feature nullNxOpenFeaturesFeature = null;
+            ExtrudeBuilder extrudeBuilder = workPart.Features.
+                CreateExtrudeBuilder(nullNxOpenFeaturesFeature);
+
+            const double sectionCoordinate = 0.0;
+            Section section = workPart.Sections.CreateSection(
+                sectionCoordinate, sectionCoordinate, sectionCoordinate);
+            extrudeBuilder.Section = section;
+
+            extrudeBuilder.BooleanOperation.Type = BooleanOperation.BooleanType.Subtract;
+
+            const int targetBodiesCount = 1;
+            Body[] targetBodies = new Body[targetBodiesCount];
+            Body body = (Body)workPart.Bodies.FindObject(
+                extrudeFromObjectName);
+            targetBodies[0] = body;
+            extrudeBuilder.BooleanOperation.SetTargetBodies(targetBodies);
+
+            const int featuesCount = 1;
+            Feature[] features = new Feature[featuesCount];
+            SketchFeature sketchFeature = (SketchFeature)workPart.
+                Features.FindObject(petalSkecthFeatureName);
+            features[0] = sketchFeature;
+            CurveFeatureRule curveFeatureRule = workPart.ScRuleFactory.
+                CreateRuleCurveFeature(features);
+
+            const int rulesCount = 1;
+            SelectionIntentRule[] rules = new SelectionIntentRule[
+                rulesCount];
+            rules[0] = curveFeatureRule;
+            Sketch sketch = (Sketch)sketchFeature.FindObject(
+                petalSketchName);
+            Arc arc = (Arc)sketch.FindObject(extrudeArcName);
+            NXObject nullNxOpenNxObject = null;
+            Point3d helpPoint = new Point3d(0.0, 0.0, 0.0);
+            section.AddToSection(rules, arc, nullNxOpenNxObject, 
+                nullNxOpenNxObject, helpPoint, Section.Mode.Create, false);
+
+            Direction direction = workPart.Directions.CreateDirection(
+                sketch, Sense.Forward, 
+                SmartObject.UpdateOption.WithinModeling);
+
+            extrudeBuilder.Direction = direction;
+
+            extrudeBuilder.Limits.EndExtend.TrimType = Extend.
+                ExtendType.UntilSelected;
+
+            Revolve revolve = (Revolve)workPart.Features.FindObject(
+                extrudeFromObjectName);
+            Face face = (Face)revolve.FindObject(extrudeFaceName);
+            extrudeBuilder.Limits.EndExtend.Target = face;
+
+            extrudeBuilder.CommitFeature();
+            extrudeBuilder.Destroy();
         }
 
         /// <summary>
@@ -947,16 +1009,19 @@ namespace AlloyWheelsBuilderModel
 				workPart);
 
 			RevolveSketch(workPart, alloyWheelsSketch);
+
 			const double scalarValue = 0.5;
 			CreateHole(workPart, REVOLVED_NAME, SKETCH_FEATURE_NAME,
 				SKETCH_NAME, HOLE_ARC_NAME, scalarValue,
 				_alloyWheelsData.DrillDiameter);
-			CreateElemetsArray(workPart, HOLE_NAME, REVOLVED_NAME,
+            CreateElemetsArray(workPart, HOLE_NAME, REVOLVED_NAME,
 				 _alloyWheelsData.DrillingsCount);
 
 			Sketch petalSketch = CreatePetalSketch(session, workPart);
-
-            Extrude(session, workPart);
+			Extrude(workPart, REVOLVED_NAME, PETAL_SKETCH_FEATURE_NAME,
+				PETAL_SKETCH_NAME, EXTRUDE_ARC_NAME, EXTRUDE_FACE_NAME);
+			CreateElemetsArray(workPart, EXTRUDE_NAME, REVOLVED_NAME,
+				 _alloyWheelsData.SpokesCount);
 		}
 
         /// <summary>

@@ -616,16 +616,29 @@ namespace AlloyWheelsBuilderModel
 		/// <summary>
 		/// Возвращает максимальное количество спиц
 		/// </summary>
-		public int MaxSpokesCount => 13;
+		public int MaxSpokesCount => 18;
 
 		/// <summary>
 		/// Количество спиц
 		/// </summary>
-		private int _spokesCount;
+		private int _spokesCount = int.MinValue;
 
 		/// <summary>
 		/// Устанавливает и возвращает количество спиц
 		/// </summary>
-		public int SpokesCount { get; set; }
+		public int SpokesCount 
+		{
+			get => _spokesCount;
+			set
+			{
+				_spokesCount = value;
+				if (_spokesCount != int.MinValue)
+				{
+					const string context = "количество спиц";
+					ValueValidator.AssertNumberInRange(_spokesCount,
+						MinSpokesCount, MaxSpokesCount, context);
+				}
+			}
+		}
 	}
 }

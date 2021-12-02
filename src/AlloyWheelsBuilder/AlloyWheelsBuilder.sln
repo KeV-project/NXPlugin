@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlloyWheelsBuilderViewModel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlloyWheelsBuilderModel", "AlloyWheelsBuilderModel\AlloyWheelsBuilderModel.csproj", "{5CC51CDF-06F7-4E26-80D6-E81119615EAC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlloyWheelsBuilder.UnitTests", "AlloyWheelsBuilder.UnitTests\AlloyWheelsBuilder.UnitTests.csproj", "{5ECAD130-6F2A-45BB-8510-9ABA9F9131D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{5CC51CDF-06F7-4E26-80D6-E81119615EAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CC51CDF-06F7-4E26-80D6-E81119615EAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CC51CDF-06F7-4E26-80D6-E81119615EAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ECAD130-6F2A-45BB-8510-9ABA9F9131D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ECAD130-6F2A-45BB-8510-9ABA9F9131D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ECAD130-6F2A-45BB-8510-9ABA9F9131D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ECAD130-6F2A-45BB-8510-9ABA9F9131D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

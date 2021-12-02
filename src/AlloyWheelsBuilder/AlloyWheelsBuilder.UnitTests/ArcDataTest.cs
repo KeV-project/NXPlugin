@@ -28,7 +28,7 @@ namespace AlloyWheelsBuilder.UnitTests
 
         [Test(Description = "Позитивный тест сеттера StartPoint")]
         public void TestStartPointSet_CorrectValue()
-		{
+        {
             // setup
             const double x = 0.0;
             const double y = 5.1;
@@ -49,7 +49,7 @@ namespace AlloyWheelsBuilder.UnitTests
 
         [Test(Description = "Позитичный тест геттера PointOn")]
         public void TestPointOnGet_CorrectValue()
-		{
+        {
             // setup
             const double x = 0.0;
             const double y = 5.1;
@@ -68,7 +68,7 @@ namespace AlloyWheelsBuilder.UnitTests
 
         [Test(Description = "Позитивный тест сеттера PointOn")]
         public void TestPointOnSet_CorrectValue()
-		{
+        {
             // setup
             const double x = 0.0;
             const double y = 5.1;
@@ -152,6 +152,53 @@ namespace AlloyWheelsBuilder.UnitTests
                 "Конструктор неверно инициализирует свойство PointOn");
             Assert.AreEqual(expectedEndPoint, actualEndPoint, 
                 "Конструктор неверно инициализирует свойство EndPoint");
+        }
+
+        [Test(Description = "Позитивный тест метода CompareTo")]
+        public void TestCompareTo_CorrectValue()
+        {
+            // setup
+            const double x = -1.5;
+            const double y = 4.5;
+            const double z = 6.0;
+            Point3d startPoit = new Point3d(x, y, z);
+            Point3d pointOn = new Point3d(x, y, z);
+            Point3d endPoint = new Point3d(x, y, z);
+            ArcData arcData = new ArcData(startPoit, pointOn, endPoint);
+            ArcData comparedArcData = new ArcData(startPoit, 
+                pointOn, endPoint);
+            const int expectedResult = 1;
+
+            // act
+            int actualResult = arcData.CompareTo(comparedArcData);
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult, 
+                "Метод CompareTo некорректно сравнивает идентичные объекты");
+        }
+
+        [Test(Description = "Негативный тест метода CompareTo")]
+        public void TestCompareTo_IncorrectValue()
+		{
+            // setup
+            const double x = -1.5;
+            const double y = 4.5;
+            const double z = 6.0;
+            Point3d startPoit = new Point3d(x, y, z);
+            Point3d pointOn = new Point3d(x, y, z);
+            Point3d endPoint = new Point3d(x, y, z);
+            ArcData arcData = new ArcData(startPoit, pointOn, endPoint);
+            Point3d newEndPoint = new Point3d(z, x, y);
+            ArcData comparedArcData = new ArcData(startPoit,
+                pointOn, newEndPoint);
+            const int expectedResult = 0;
+
+            // act
+            int actualResult = arcData.CompareTo(comparedArcData);
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult,
+                "Метод CompareTo некорректно сравнивает разные объекты");
         }
     }
 }

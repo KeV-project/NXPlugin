@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlloyWheelsDataTest.cs" />
     <Compile Include="ArcDataTest.cs" />
     <Compile Include="CalculatorTest.cs" />
     <Compile Include="ValueValidatorTest.cs" />

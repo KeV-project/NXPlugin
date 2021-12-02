@@ -35,5 +35,28 @@ namespace AlloyWheelsBuilderModel
 			PointOn = pointOn;
 			EndPoint = endPoint;
 		}
+
+		/// <summary>
+		/// Устанавливает идентичность объектов
+		/// </summary>
+		/// <param name="arcData">Объект для сравнения</param>
+		/// <returns>Возвращает 1, если объекты равны.
+		/// Возвращает 0, если объекты не равны</returns>
+		public int CompareTo(ArcData arcData)
+		{
+			if(StartPoint.X == arcData.StartPoint.X
+				&& StartPoint.Y == arcData.StartPoint.Y
+				&& StartPoint.Z == arcData.StartPoint.Z
+				&& PointOn.X == arcData.PointOn.X
+				&& PointOn.Y == arcData.PointOn.Y
+				&& PointOn.Z == arcData.PointOn.Z
+				&& EndPoint.X == arcData.EndPoint.X
+				&& EndPoint.Y == arcData.EndPoint.Y
+				&& EndPoint.Z == arcData.EndPoint.Z)
+			{
+				return 1;
+			}
+			return 0;
+		}
 	}
 }

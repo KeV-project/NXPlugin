@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using NXOpen;
 using AlloyWheelsBuilderModel;
@@ -151,6 +149,22 @@ namespace AlloyWheelsBuilder.UnitTests
                 new Point3d(15.44323363559, 92.43285152947, 0.00000000000))
         };
 
+        private List<ArcData> _petalSketchArcs = new List<ArcData>()
+        {
+            new ArcData(new Point3d(0.00000000000, 187.81396319307, 0.00000000000),
+                new Point3d(0.00000000000, 187.57705015397, -13.51344554558),
+                new Point3d(0.00000000000, 186.29342713558, -26.96787419372)),
+            new ArcData(new Point3d(0.00000000000, 186.29342713558, -26.96787419372),
+                new Point3d(0.00000000000, 185.28516964806, -29.06336944390),
+                new Point3d(0.00000000000, 183.23691660408, -30.16443391632)),
+            new ArcData(new Point3d(0.00000000000, 183.23691660408, -30.16443391632),
+                new Point3d(0.00000000000, 130.59627018679, -19.85378699770),
+                new Point3d(0.00000000000, 77.91601734948, -9.74744957416)),
+            new ArcData(new Point3d(0.00000000000, 77.91601734948, -9.74744957416),
+                new Point3d(0.00000000000, 75.25013217689, -5.20263457372),
+                new Point3d(0.00000000000, 74.41653717094, 0.00000000000))
+        };
+
         [Test(Description = "Позитивный тест геттера SketchArcsCount")]
         public void TestSketchArcsCountGet_CorrectValue()
         {
@@ -193,8 +207,426 @@ namespace AlloyWheelsBuilder.UnitTests
 
                 Assert.AreEqual(expectedResult, actualResult, 
                     "Геттер SketchArcs вернул список " 
-                    + "с некорректным элементо №" + i);
+                    + "с некорректным элементом №" + i);
             }
         }
+
+        [Test(Description = "Позитивный тест геттера PetalSketchArcs")]
+        public void TestPetalSketchArcsGet_CorrectValue()
+        {
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            List<ArcData> expectedPetalSketchArcs = _petalSketchArcs;
+            int expectedPetalSketchArcsCount = _petalSketchArcs.Count();
+
+            // act
+            List<ArcData> actualPetalSketchArcs = alloyWheelsData.
+                PetalSketchArcs;
+            int actualPetalSketchArcsCount = actualPetalSketchArcs.Count;
+
+            // assert
+            Assert.AreEqual(expectedPetalSketchArcsCount, 
+                actualPetalSketchArcsCount, "Геттер PetalSketchArcs " 
+                + "возвращает список с некорректным количеством элементов");
+            for (int i = 0; i < actualPetalSketchArcsCount; i++)
+            {
+                ArcData expectedArcData = expectedPetalSketchArcs[i];
+                ArcData actualArcData = actualPetalSketchArcs[i];
+
+                const int expectedResult = 1;
+                int actualResult = expectedArcData.CompareTo(actualArcData);
+
+                Assert.AreEqual(expectedResult, actualResult,
+                    "Геттер PetalSketchArcs вернул список "
+                    + "с некорректным элементом №" + i);
+            }
+        }
+
+        [Test(Description = "Позитивный тест геттера PetalSketchHeight")]
+        public void TestPetalSketchHeightGet_CorrectValue()
+        {
+            // setup
+            const double expectedPetalSketchHeight = 113.4;
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+
+            // act
+            double actualPetalSketchHeight = alloyWheelsData.
+                PetalSketchHeight;
+
+            // assert
+            Assert.AreEqual(expectedPetalSketchHeight, 
+                actualPetalSketchHeight, "Геттер PetalSketchHeight возвращает " 
+                + "некорректное значение");
+        }
+
+        [Test(Description = "Позитивный тест геттера MinDiameter")]
+        public void TestMinDiameterGet_CorrectValue()
+        {
+            // setup
+            const double expectedMinDiameter = 101.6;
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+
+            // act
+            double actualMinDiameter = alloyWheelsData.MinDiameter;
+
+            // assert
+            Assert.AreEqual(expectedMinDiameter, actualMinDiameter, 
+                "Геттер MinDiameter возвращает некорректное значение");
+        }
+
+        [Test(Description = "Позитивный тест геттера MaxDiameter")]
+        public void TestMaxDiameterGet_CorrectValue()
+        {
+            // setup
+            const double expectedMaxDiameter = 1447.8;
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+
+            // act
+            double actualMaxDiameter = alloyWheelsData.MaxDiameter;
+
+            // assert
+            Assert.AreEqual(expectedMaxDiameter, actualMaxDiameter, 
+                "Геттер MaxDiameter возвращает некорректное значение");
+        }
+
+        [Test(Description = "Позитивный тест сеттера Diameter")]
+        public void TestDiameterSet_CorrectValue()
+        {
+            // setup
+            const double expectedDiameter = 220.0;
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+
+            // act
+            alloyWheelsData.Diameter = expectedDiameter;
+            double actualDiameter = alloyWheelsData.Diameter;
+
+            // assert
+            Assert.AreEqual(expectedDiameter, actualDiameter, 
+                "Сеттер Diameter некорректно устанавливает значение");
+        }
+
+        [Test(Description = "Негативный тест сеттера Diameter")]
+        public void TestDiameterSet_IncorrectValue()
+        {
+            // setup
+            const double wrongDiameter = -100;
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+
+            // assert
+            Assert.Throws<ArgumentException>(() =>
+            {
+                alloyWheelsData.Diameter = wrongDiameter;
+            }, "Должно возникать исключение, " 
+            +  "если устанавливаемое значение диаметра " 
+            + "не входит в допустимый диапазон значений");
+        }
+
+        [Test(Description = "Негативный тест сеттера Diameter")]
+        public void TestDiameterSet_NanValue()
+        {
+            // setup
+            const double expectedWrongDiameter = double.NaN;
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+
+            // act
+            alloyWheelsData.Diameter = expectedWrongDiameter;
+            double actualWrongDiameter = alloyWheelsData.Diameter;
+
+            // assert
+            Assert.AreEqual(expectedWrongDiameter, actualWrongDiameter, 
+                "При попытке установить свойству Diameter значение double.NaN" 
+                +  " не должно возикать исключение");
+        }
+
+        [Test(Description = "Позитивный тест геттера " 
+            + "MinCentralHoleDiameter")]
+        public void TestMinCentralHoleDiameter_CorrectValue()
+        {
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            alloyWheelsData.Diameter = 220.0;
+            const double expectedMinCentralHoleDiameter = 22.0;
+
+            // act
+            double actualMinCentralHoleDiameter = alloyWheelsData.
+                MinCentralHoleDiameter;
+
+            // assert
+            Assert.AreEqual(expectedMinCentralHoleDiameter, 
+                actualMinCentralHoleDiameter, "Геттер MinCentralHoleDiameter"
+                + " неверно расчитывает минимальный диаметр" 
+                + " центрального отверстия");
+        }
+
+        [Test(Description = "Негативный тест геттера " 
+            + "MinCentralHoleDiameter")]
+        public void TestMinCentralHoleDiameter_IncorrectValue()
+		{
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            const double expectedMinCentralHoleDiameter = double.NaN;
+
+            // act
+            double actualMinCentralHoleDiameter = alloyWheelsData.
+                MinCentralHoleDiameter;
+
+            // assert
+            Assert.AreEqual(expectedMinCentralHoleDiameter,
+                actualMinCentralHoleDiameter, "Геттер MinCentralHoleDiameter"
+                + " возвращает некорректное значение " 
+                + "при неизвестном диаметре");
+        }
+
+        [Test(Description = "Позитивный тест геттера "
+            + "MaxCentralHoleDiameter")]
+        public void TestMaxCentralHoleDiameter_CorrectValue()
+        {
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            alloyWheelsData.Diameter = 220.0;
+            const double expectedMaxCentralHoleDiameter = 39.6;
+
+            // act
+            double actualMaxCentralHoleDiameter = alloyWheelsData.
+                MaxCentralHoleDiameter;
+
+            // assert
+            Assert.AreEqual(expectedMaxCentralHoleDiameter,
+                actualMaxCentralHoleDiameter, "Геттер MaxCentralHoleDiameter"
+                + " неверно расчитывает максимальный диаметр"
+                + " центрального отверстия");
+        }
+
+        [Test(Description = "Негативный тест геттера "
+            + "MaxCentralHoleDiameter")]
+        public void TestMaxCentralHoleDiameter_IncorrectValue()
+        {
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            const double expectedMaxCentralHoleDiameter = double.NaN;
+
+            // act
+            double actualMaxCentralHoleDiameter = alloyWheelsData.
+                MaxCentralHoleDiameter;
+
+            // assert
+            Assert.AreEqual(expectedMaxCentralHoleDiameter,
+                actualMaxCentralHoleDiameter, "Геттер MaxCentralHoleDiameter"
+                + " возвращает некорректное значение "
+                + "при неизвестном диаметре");
+        }
+
+        [Test(Description = "Позитивный тест сеттера CentralHoleDiameter")]
+        public void TestCentralHoleDiameterSet_CorrectValue()
+		{
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            alloyWheelsData.Diameter = 220.0;
+            const double expectedCentralHoleDiameter = 24.0;
+
+            // act
+            alloyWheelsData.CentralHoleDiameter = 
+                expectedCentralHoleDiameter;
+            double actualCentralHoleDiameter = alloyWheelsData.
+                CentralHoleDiameter;
+
+            // assert
+            Assert.AreEqual(expectedCentralHoleDiameter, 
+                actualCentralHoleDiameter, "Сеттер CentralHoleDiameter " 
+                + "некорректно устанавливает корректное значение");
+        }
+
+        [Test(Description = "Негативный тест сеттера CentralHoleDiameter")]
+        public void TestCentralHoleDiameterSet_IncorrectValue()
+		{
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            alloyWheelsData.Diameter = 220.0;
+            const double wrongCentralHoleDiameter = 40.0;
+
+            // assert
+            Assert.Throws<ArgumentException>(() =>
+            {
+                alloyWheelsData.CentralHoleDiameter = 
+                wrongCentralHoleDiameter;
+            }, "Должно возникать исключение, "
+            + "если устанавливаемое значение диаметра центрального отверстия"
+            + "не входит в допустимый диапазон значений");
+        }
+
+        [Test(Description = "Негативный тест сеттера CentralHoleDiameter")]
+        public void TestCentralHoleDiameterSet_NuNValue()
+		{
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            const double expectedCentralHoleDiameter = double.NaN;
+
+            // act
+            alloyWheelsData.CentralHoleDiameter = 
+                expectedCentralHoleDiameter;
+            double actualCentralHoleDiameter = alloyWheelsData.
+                CentralHoleDiameter;
+
+            // assert
+            Assert.AreEqual(expectedCentralHoleDiameter, 
+                actualCentralHoleDiameter, 
+                "При попытке установить свойству CentralHoleDiameter" 
+                + " значение double.NuN не должно возникать исключения");
+        }
+
+        [Test(Description = "Позитивный тест геттера MinWidth")]
+        public void TestMinWidthGet_CorrectValue()
+		{
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            alloyWheelsData.Diameter = 220.0;
+            alloyWheelsData.CentralHoleDiameter = 24.0;
+            const double expectedMinWindth = 64.304;
+
+            // act
+            double actualMinWidth = alloyWheelsData.MinWidth;
+
+            // assert
+            Assert.AreEqual(expectedMinWindth, actualMinWidth, 
+                "Геттер  MinWidth возвращает некорректное значение");
+		}
+
+        [Test(Description = "Негативный тест геттера MinWidth")]
+        public void TestMinWidthGet_IncorrectValue()
+		{
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            const double expectedMinWidth = double.NaN;
+
+            // act
+            double actualMinWidth = alloyWheelsData.MinWidth;
+
+            // assert
+            Assert.AreEqual(expectedMinWidth, actualMinWidth, 
+                "Геттер MinWidth возвращает некорректное значение " 
+                + "при незаданном диаметре центрального отверстия");
+		}
+
+        [Test(Description = "Позитивный тест геттера MaxWidth")]
+        public void TestMaxWidthGet_CorrectValue()
+        {
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            alloyWheelsData.Diameter = 220.0;
+            alloyWheelsData.CentralHoleDiameter = 24.0;
+            const double expectedMaxWindth = 98.0;
+
+            // act
+            double actualMaxWidth = alloyWheelsData.MaxWidth;
+
+            // assert
+            Assert.AreEqual(expectedMaxWindth, actualMaxWidth,
+                "Геттер  MaxWidth возвращает некорректное значение");
+        }
+
+        [Test(Description = "Негативный тест геттера MaxWidth")]
+        public void TestMaxWidthGet_IncorrectValue()
+        {
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            const double expectedMaxWidth = double.NaN;
+
+            // act
+            double actualMaxWidth = alloyWheelsData.MaxWidth;
+
+            // assert
+            Assert.AreEqual(expectedMaxWidth, actualMaxWidth,
+                "Геттер MaxWidth возвращает некорректное значение "
+                + "при незаданном диаметре центрального отверстия");
+        }
+
+        [Test(Description = "Позитивный тест сеттера Width")]
+        public void TestWidthSet_CorrectValue()
+		{
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            alloyWheelsData.Diameter = 220.0;
+            alloyWheelsData.CentralHoleDiameter = 24.0;
+            const double expectedWidth = 80.0;
+
+            // act
+            alloyWheelsData.Width = expectedWidth;
+            double actualWidth = alloyWheelsData.Width;
+
+            // assert
+            Assert.AreEqual(expectedWidth, actualWidth, 
+                "Сеттер Width некорректно устанавливает " 
+                + "корректное значение");
+		}
+
+        [Test(Description = "Негативный тест сеттера Width")]
+        public void TestWidthSet_IncorrectValue()
+		{
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            alloyWheelsData.Diameter = 220.0;
+            alloyWheelsData.CentralHoleDiameter = 24.0;
+            const double wrongWidth = 100.0;
+
+            // assert
+            Assert.Throws<ArgumentException>(() =>
+            {
+                alloyWheelsData.Width = wrongWidth;
+            }, "При попытке утсановить свойству Width некорректное значение" 
+            + " должно возникать исключение");
+        }
+
+        [Test(Description = "Негативный тест сеттера Width")]
+        public void TestWidthSet_NuNValue()
+		{
+            // setup;
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            const double expectedWidth = double.NaN;
+
+            // act
+            alloyWheelsData.Width = expectedWidth;
+            double actualWidth = alloyWheelsData.Width;
+
+            // assert
+            Assert.AreEqual(expectedWidth, actualWidth, 
+                "При попытке установить свойству Width " 
+                + "значение double.NuN не должно возникать исключение");
+		}
+
+        [Test(Description = "Позитивный тест геттера MinOffSet")]
+        public void TestMinOffSetGet_CorrectValue()
+		{
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            alloyWheelsData.Diameter = 220.0;
+            alloyWheelsData.CentralHoleDiameter = 24.0;
+            alloyWheelsData.Width = 80.0;
+            const double expectedMinOffSet = -2.0;
+
+            // act
+            double actualMinOffSet = alloyWheelsData.MinOffSet;
+
+            // assert
+            Assert.AreEqual(expectedMinOffSet, actualMinOffSet, 
+                "Геттер MinOffSet возвращает некорректное значение");
+		}
+
+        [Test(Description = "Негативный тест геттера MinOffSet")]
+        public void TestMinOffSetGet_IncorrectValue()
+		{
+            // setup
+            AlloyWheelsData alloyWheelsData = new AlloyWheelsData();
+            const double expectedMinOffSet = double.NaN;
+
+            // act
+            double actualMinOffSet = alloyWheelsData.MinOffSet;
+
+            // assert
+            Assert.AreEqual(expectedMinOffSet, actualMinOffSet, 
+                "Геттер MinOffSet возвращает некорректное значение " 
+                + "при незаданной посадочной ширине диска");
+		}
+
+
     }
 }

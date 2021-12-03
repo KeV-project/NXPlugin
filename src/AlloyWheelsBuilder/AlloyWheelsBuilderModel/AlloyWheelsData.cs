@@ -437,7 +437,7 @@ namespace AlloyWheelsBuilderModel
 		{
 			get
 			{
-				if(double.IsNaN(Diameter) || double.IsNaN(CentralHoleDiameter))
+				if(double.IsNaN(CentralHoleDiameter))
 				{
 					return double.NaN;
 				}
@@ -517,7 +517,7 @@ namespace AlloyWheelsBuilderModel
 				{
 					const string context = "диаметр сверловки";
 					ValueValidator.AssertNumberInRange(_drillDiameter, 
-						MinDrillDiameter,MaxDrillDiameter, context);
+						MinDrillDiameter, MaxDrillDiameter, context);
 				}
 			}
 		}

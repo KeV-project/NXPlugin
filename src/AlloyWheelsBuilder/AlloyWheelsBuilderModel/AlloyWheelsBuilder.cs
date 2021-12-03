@@ -1036,7 +1036,8 @@ namespace AlloyWheelsBuilderModel
                 sectionCoordinate, sectionCoordinate, sectionCoordinate);
             extrudeBuilder.Section = section;
 
-            extrudeBuilder.BooleanOperation.Type = BooleanOperation.BooleanType.Subtract;
+            extrudeBuilder.BooleanOperation.Type = BooleanOperation.
+                BooleanType.Subtract;
 
             const int targetBodiesCount = 1;
             Body[] targetBodies = new Body[targetBodiesCount];

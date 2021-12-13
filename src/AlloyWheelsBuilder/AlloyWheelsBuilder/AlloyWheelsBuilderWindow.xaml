@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Моделирование автомобильного диска" Height="610.5" Width="998" 
-        FontSize="15" MinWidth="998" MinHeight="611">
+        FontSize="15" MinWidth="998" MinHeight="611" ResizeMode="NoResize">
 
    <Window.Resources>
 

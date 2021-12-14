@@ -499,6 +499,7 @@ namespace AlloyWheelsBuilderViewModel
         public AlloyWheelsBuilderWindowViewModel()
 		{
             _alloyWheelsData = new AlloyWheelsData();
+            Diameter = "";
 		}
 
         /// <summary>
@@ -516,7 +517,7 @@ namespace AlloyWheelsBuilderViewModel
                 return _cancelCommand ??
                   (_cancelCommand = new RelayCommand(() =>
                   {
-                      
+                      Diameter = "";
                   }));
             }
 		}

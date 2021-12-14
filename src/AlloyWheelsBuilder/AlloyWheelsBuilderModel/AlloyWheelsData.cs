@@ -286,15 +286,15 @@ namespace AlloyWheelsBuilderModel
             set
             {
                 _centralHoleDiameter = double.NaN;
-                if(double.IsNaN(Diameter))
-                {
-                    throw new ArgumentException("Невозможно рассчитать " 
-                        + "диапазон допустимых значений диаметра " 
-                        + "центрального отверстия. \nДиаметру диска " 
-                        + "присвоено некорректное значение");
-                }
                 if (!double.IsNaN(value))
                 {
+                    if (double.IsNaN(Diameter))
+                    {
+                        throw new ArgumentException("Невозможно рассчитать "
+                            + "диапазон допустимых значений диаметра "
+                            + "центрального отверстия. \nДиаметру диска "
+                            + "присвоено некорректное значение");
+                    }
                     const string context = "диаметр " 
                         + "центрального отверстия диска";
                     ValueValidator.AssertNumberInRange(value,
@@ -363,17 +363,17 @@ namespace AlloyWheelsBuilderModel
             set
             {
                 _width = double.NaN;
-                if (double.IsNaN(CentralHoleDiameter))
-                {
-                    throw new ArgumentException("Невозможно рассчитать " 
-                        + "диапазон допустимых значений " 
-                        + "посадочной ширины диска. \n" 
-                        + "Возможно, диаметру диска или " 
-                        + "диаметру центрального отвертия " 
-                        + "присвоены некорректные значения");
-                }
                 if (!double.IsNaN(value))
                 {
+                    if (double.IsNaN(CentralHoleDiameter))
+                    {
+                        throw new ArgumentException("Невозможно рассчитать "
+                            + "диапазон допустимых значений "
+                            + "посадочной ширины диска. \n"
+                            + "Возможно, диаметру диска или "
+                            + "диаметру центрального отвертия "
+                            + "присвоены некорректные значения");
+                    }
                     const string context = "посадочную ширину диска";
                     ValueValidator.AssertNumberInRange(value, MinWidth,
                         MaxWidth, context);
@@ -439,16 +439,16 @@ namespace AlloyWheelsBuilderModel
             set
             {
                 _offSet = double.NaN;
-                if(double.IsNaN(Width))
-                {
-                    throw new ArgumentException("Невозможно рассчитать " 
-                        + "диапазон допустимых значений вылета. \n" 
-                        + "Возможно, диаметр диска, " 
-                        + "диаметр центрального отверстия или \n" 
-                        + "посадочная ширина заданы неккоректно");
-                }
                 if (!double.IsNaN(value))
                 {
+                    if (double.IsNaN(Width))
+                    {
+                        throw new ArgumentException("Невозможно рассчитать "
+                            + "диапазон допустимых значений вылета. \n"
+                            + "Возможно, диаметр диска, "
+                            + "диаметр центрального отверстия или \n"
+                            + "посадочная ширина заданы неккоректно");
+                    }
                     const string context = "вылет диска";
                     ValueValidator.AssertNumberInRange(value, MinOffSet,
                         MaxOffSet, context);
@@ -545,17 +545,17 @@ namespace AlloyWheelsBuilderModel
             set
             {
                 _drillDiameter = double.NaN;
-                if(double.IsNaN(CentralHoleDiameter))
-                {
-                    throw new ArgumentException("Невозможно рассчитать " 
-                        + "диапазон допустимых значений " 
-                        + "диаметра сверловки.\n" 
-                        + "Возможно, диаметр диска / " 
-                        + "диаметр центрального отверстия " 
-                        + "заданы некорректно");
-                }
                 if (!double.IsNaN(value))
                 {
+                    if (double.IsNaN(CentralHoleDiameter))
+                    {
+                        throw new ArgumentException("Невозможно рассчитать "
+                            + "диапазон допустимых значений "
+                            + "диаметра сверловки.\n"
+                            + "Возможно, диаметр диска / "
+                            + "диаметр центрального отверстия "
+                            + "заданы некорректно");
+                    }
                     const string context = "диаметр сверловки";
                     ValueValidator.AssertNumberInRange(value, 
                         MinDrillDiameter, MaxDrillDiameter, context);
@@ -633,16 +633,16 @@ namespace AlloyWheelsBuilderModel
             set
             {
                 _drillingsCount = int.MinValue;
-                if(double.IsNaN(DrillDiameter))
-                {
-                    throw new ArgumentException("Невозможно определить " 
-                        + "допустимое число отверстий. \n" 
-                        + "Возможно, диаметр диска, " 
-                        + "диаметр центрального отверстия или \n" 
-                        + "диаметр сверловки заданы неккоректно");
-                }
                 if (value != int.MinValue)
                 {
+                    if (double.IsNaN(DrillDiameter))
+                    {
+                        throw new ArgumentException("Невозможно определить "
+                            + "допустимое число отверстий. \n"
+                            + "Возможно, диаметр диска, "
+                            + "диаметр центрального отверстия или \n"
+                            + "диаметр сверловки заданы неккоректно");
+                    }
                     const string context = "количество отверстий";
                     ValueValidator.AssertNumberInRange(value,
                         MinDrillingsCount, MaxDrillingsCount, context);
@@ -711,14 +711,14 @@ namespace AlloyWheelsBuilderModel
             set
             {
                 _spokesCount = int.MinValue;
-                if(double.IsNaN(Diameter))
-                {
-                    throw new ArgumentException("Невозможно определить " 
-                        + "допустимое число спиц. \n" 
-                        + "Диаметр диска задан некорректно.");
-                }
                 if (value != int.MinValue)
                 {
+                    if (double.IsNaN(Diameter))
+                    {
+                        throw new ArgumentException("Невозможно определить "
+                            + "допустимое число спиц. \n"
+                            + "Диаметр диска задан некорректно.");
+                    }
                     const string context = "количество спиц";
                     ValueValidator.AssertNumberInRange(value,
                         MinSpokesCount, MaxSpokesCount, context);

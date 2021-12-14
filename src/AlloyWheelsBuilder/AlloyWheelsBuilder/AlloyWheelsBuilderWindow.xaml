@@ -212,7 +212,7 @@
 
             <Button Grid.Column="0" Content="Очистить" Height="32" 
                     Width="160" HorizontalAlignment="Right" 
-                    Margin="5, 2, 0, 2"/>
+                    Margin="5, 2, 0, 2" Command="{Binding CancelCommand}"/>
             <Button Grid.Column="1" Content="Построить" Height="32" 
                     Width="160" HorizontalAlignment="Right" 
                     Margin="5, 2, 10, 2" Command="{Binding BuildCommand}" 

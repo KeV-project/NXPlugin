@@ -62,8 +62,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlloyWheelsBuilder.cs" />
-    <Compile Include="AlloyWheelsData.cs" />
+    <Compile Include="AlloyWheelsParameters.cs" />
+    <Compile Include="AlloyWheelsParameter.cs" />
     <Compile Include="ArcData.cs" />
+    <Compile Include="AlloyWheelsParameterName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueValidator.cs" />
     <Compile Include="Сalculator.cs" />

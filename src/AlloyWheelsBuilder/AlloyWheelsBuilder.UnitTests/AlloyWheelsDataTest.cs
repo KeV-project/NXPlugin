@@ -7,7 +7,7 @@ using AlloyWheelsBuilderModel;
 
 namespace AlloyWheelsBuilder.UnitTests
 {
-    [TestFixture]
+    /*[TestFixture]
     public class AlloyWheelsDataTest
     {
         private List<ArcData> _sketchArcs = new List<ArcData>()
@@ -1113,5 +1113,5 @@ namespace AlloyWheelsBuilder.UnitTests
                 + "при попытке установить свойству SpokesCount " 
                 + "значение int.MinValue");
 		}
-    }
+    }*/
 }

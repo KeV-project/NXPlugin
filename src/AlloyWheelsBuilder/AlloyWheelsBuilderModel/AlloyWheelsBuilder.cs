@@ -126,8 +126,10 @@ namespace AlloyWheelsBuilderModel
         /// </summary>
         private string PetalHeihgtDimensionName => "p" 
             + (MIN_PETAL_HEIGHT_DIMENSION_NAME_INDEX 
-            + 5 * (_alloyWheelsData.DrillingsCount 
-            - _alloyWheelsData.MinDrillingsCount));
+            + 5 * (_alloyWheelsData[AlloyWheelsParameterName.DrillingsCount].Value 
+            - _alloyWheelsData[AlloyWheelsParameterName.DrillingsCount].GetMinValue(
+                _alloyWheelsData.ParameterValues, 
+                AlloyWheelsParameterName.DrillDiameter)));
 
         /// <summary>
         /// Имя оси для отражения эскиза лепестка
@@ -152,7 +154,7 @@ namespace AlloyWheelsBuilderModel
         /// <summary>
         /// Хранит параметры модели диска
         /// </summary>
-        private AlloyWheelsData _alloyWheelsData;
+        private AlloyWheelsParameters _alloyWheelsData;
 
         /// <summary>
         /// Создает эскиз в среде задач
@@ -376,10 +378,10 @@ namespace AlloyWheelsBuilderModel
                 * Math.Sin(topArc.EndAngle);
             double radius = topPointY - bottomPointY;
 
-            double newRadius = _alloyWheelsData.Diameter / 2;
+            double newRadius = _alloyWheelsData[AlloyWheelsParameterName.Diameter].Value / 2;
 
             ChangeLinearDimension(session, workPart, RADIUS_DIMENSION_NAME,
-                radius, newRadius - _alloyWheelsData.CentralHoleDiameter / 2,
+                radius, newRadius - _alloyWheelsData[AlloyWheelsParameterName.CentralHoleDiameter].Value / 2,
                 true);
         }
 
@@ -405,7 +407,7 @@ namespace AlloyWheelsBuilderModel
             double width = rightPointX - leftPointX;
 
             ChangeLinearDimension(session, workPart, WIDTH_DIMENSION_NAME, 
-                width, _alloyWheelsData.Width, false);
+                width, _alloyWheelsData[AlloyWheelsParameterName.Width].Value, false);
         }
 
         /// <summary>
@@ -420,7 +422,7 @@ namespace AlloyWheelsBuilderModel
                     "Curve Arc" + i);
                 arc.SetParameters(arc.Radius, new Point3d(
                     arc.CenterPoint.X, arc.CenterPoint.Y 
-                    + _alloyWheelsData.CentralHoleDiameter / 2, 
+                    + _alloyWheelsData[AlloyWheelsParameterName.CentralHoleDiameter].Value / 2, 
                     arc.CenterPoint.Z), arc.StartAngle, arc.EndAngle);
 
                 const int geomsCount = 1;
@@ -528,21 +530,21 @@ namespace AlloyWheelsBuilderModel
                 WHEELS_MATING_PLACE_ARC_NAME));
 
             double dx = 0.0;
-            if(_alloyWheelsData.OffSet < 0)
+            if(_alloyWheelsData[AlloyWheelsParameterName.OffSet].Value < 0)
             {
                 dx = centerX - (wheelsMatingPlaceArc.CenterPoint.X 
                     + wheelsMatingPlaceArc.Radius 
                     * Math.Cos(wheelsMatingPlaceArc.StartAngle)) 
-                    - _alloyWheelsData.OffSet;
+                    - _alloyWheelsData[AlloyWheelsParameterName.OffSet].Value;
             }
-            else if(_alloyWheelsData.OffSet > 0)
+            else if(_alloyWheelsData[AlloyWheelsParameterName.OffSet].Value > 0)
             {
                 if(centerX - (wheelsMatingPlaceArc.CenterPoint.X
                     + wheelsMatingPlaceArc.Radius
                     * Math.Cos(wheelsMatingPlaceArc.StartAngle)) <
-                    centerX - _alloyWheelsData.OffSet)
+                    centerX - _alloyWheelsData[AlloyWheelsParameterName.OffSet].Value)
                 {
-                    dx = -1 * (_alloyWheelsData.OffSet - 
+                    dx = -1 * (_alloyWheelsData[AlloyWheelsParameterName.OffSet].Value - 
                         (centerX - (wheelsMatingPlaceArc.CenterPoint.X
                         + wheelsMatingPlaceArc.Radius
                         * Math.Cos(wheelsMatingPlaceArc.StartAngle))));
@@ -550,9 +552,9 @@ namespace AlloyWheelsBuilderModel
                 else if(centerX - (wheelsMatingPlaceArc.CenterPoint.X
                     + wheelsMatingPlaceArc.Radius
                     * Math.Cos(wheelsMatingPlaceArc.StartAngle)) >
-                    centerX - _alloyWheelsData.OffSet)
+                    centerX - _alloyWheelsData[AlloyWheelsParameterName.OffSet].Value)
                 {
-                    dx = centerX - _alloyWheelsData.OffSet - 
+                    dx = centerX - _alloyWheelsData[AlloyWheelsParameterName.OffSet].Value - 
                         (wheelsMatingPlaceArc.CenterPoint.X
                         + wheelsMatingPlaceArc.Radius
                         * Math.Cos(wheelsMatingPlaceArc.StartAngle));
@@ -1100,22 +1102,22 @@ namespace AlloyWheelsBuilderModel
             const double scalarValue = 0.5;
             CreateHole(workPart, REVOLVED_NAME, SKETCH_FEATURE_NAME,
                 SKETCH_NAME, HOLE_ARC_NAME, scalarValue,
-                _alloyWheelsData.DrillDiameter);
+                _alloyWheelsData[AlloyWheelsParameterName.DrillDiameter].Value);
             CreateElemetsArray(workPart, HOLE_NAME, REVOLVED_NAME,
-                 _alloyWheelsData.DrillingsCount);
+                 (int)_alloyWheelsData[AlloyWheelsParameterName.DrillingsCount].Value);
 
             Sketch petalSketch = CreatePetalSketch(session, workPart);
             Extrude(workPart, REVOLVED_NAME, PETAL_SKETCH_FEATURE_NAME,
                 PETAL_SKETCH_NAME, EXTRUDE_ARC_NAME, EXTRUDE_FACE_NAME);
             CreateElemetsArray(workPart, EXTRUDE_NAME, REVOLVED_NAME,
-                 _alloyWheelsData.SpokesCount);
+                 (int)_alloyWheelsData[AlloyWheelsParameterName.SpokesCount].Value);
         }
 
         /// <summary>
         /// Инициализирует объект класса <see cref="AlloyWheelsBuilder"/>
         /// </summary>
         /// <param name="alloyWheelsData">Параметры модели</param>
-        public AlloyWheelsBuilder(AlloyWheelsData alloyWheelsData)
+        public AlloyWheelsBuilder(AlloyWheelsParameters alloyWheelsData)
         {
             _alloyWheelsData = alloyWheelsData;
         }

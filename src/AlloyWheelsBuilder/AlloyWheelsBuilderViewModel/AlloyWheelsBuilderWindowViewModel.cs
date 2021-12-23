@@ -15,19 +15,23 @@ namespace AlloyWheelsBuilderViewModel
         /// <summary>
         /// Параметры автомобильного диска
         /// </summary>
-        private AlloyWheelsData _alloyWheelsData;
+        private AlloyWheelsParameters _alloyWheelsParameters;
 
         /// <summary>
         /// Возвращает минимальный диаметр
         /// </summary>
-        public string MinDiameter { get => _alloyWheelsData.
-                MinDiameter.ToString() + " ≤"; }
+        public string MinDiameter { get =>
+                _alloyWheelsParameters[AlloyWheelsParameterName.Diameter].
+                GetMinValue(_alloyWheelsParameters.ParameterValues, 
+                    AlloyWheelsParameterName.NaN).ToString() + " ≤"; }
 
         /// <summary>
 		/// Возвращает максимальный диаметр
 		/// </summary>
-        public string MaxDiameter { get => "≤ " + _alloyWheelsData.
-                MaxDiameter.ToString(); }
+        public string MaxDiameter { get => "≤ " 
+                + _alloyWheelsParameters[AlloyWheelsParameterName.Diameter].
+                GetMaxValue(_alloyWheelsParameters.ParameterValues,
+                    AlloyWheelsParameterName.NaN).ToString(); }
 
         /// <summary>
 		/// Хранит диаметр
@@ -47,11 +51,19 @@ namespace AlloyWheelsBuilderViewModel
                     _diameter = value;
                     if (double.TryParse(value, out double diameter))
 					{
-                        _alloyWheelsData.Diameter = diameter;
+                        _alloyWheelsParameters[AlloyWheelsParameterName.Diameter].SetValue(
+                            _alloyWheelsParameters.ParameterValues, 
+                            AlloyWheelsParameterName.NaN, 
+                            AlloyWheelsParameters.ParameterRussianNames[
+                                AlloyWheelsParameterName.NaN], diameter);
                     }
                     else
 					{
-                        _alloyWheelsData.Diameter = double.NaN;
+                        _alloyWheelsParameters[AlloyWheelsParameterName.Diameter].SetValue(
+                            _alloyWheelsParameters.ParameterValues,
+                            AlloyWheelsParameterName.NaN, 
+                            AlloyWheelsParameters.ParameterRussianNames[
+                                AlloyWheelsParameterName.NaN], double.NaN);
                         throw new ArgumentException("\"" + value + "\"" 
                             + " не является вещественным числом и" 
                             + " не может задавать диаметр диска");
@@ -75,13 +87,19 @@ namespace AlloyWheelsBuilderViewModel
         {
             get
             {
-                if (double.IsNaN(_alloyWheelsData.MinCentralHoleDiameter))
+                if (double.IsNaN(_alloyWheelsParameters[
+                    AlloyWheelsParameterName.CentralHoleDiameter].GetMinValue(
+                    _alloyWheelsParameters.ParameterValues, 
+                    AlloyWheelsParameterName.Diameter)))
                 {
                     return "";
                 }
                 else
                 {
-                    return _alloyWheelsData.MinCentralHoleDiameter + " ≤";
+                    return _alloyWheelsParameters[
+                        AlloyWheelsParameterName.CentralHoleDiameter].
+                        GetMinValue(_alloyWheelsParameters.ParameterValues,
+                        AlloyWheelsParameterName.Diameter) + " ≤";
                 }
             }
         }
@@ -93,13 +111,19 @@ namespace AlloyWheelsBuilderViewModel
         {
             get
             {
-                if (double.IsNaN(_alloyWheelsData.MaxCentralHoleDiameter))
+                if (double.IsNaN(_alloyWheelsParameters[
+                    AlloyWheelsParameterName.CentralHoleDiameter].GetMaxValue(
+                    _alloyWheelsParameters.ParameterValues,
+                    AlloyWheelsParameterName.Diameter)))
                 {
                     return "";
                 }
                 else
                 {
-                    return "≤ " + _alloyWheelsData.MaxCentralHoleDiameter;
+                    return "≤ " + _alloyWheelsParameters[
+                        AlloyWheelsParameterName.CentralHoleDiameter].GetMaxValue(
+                        _alloyWheelsParameters.ParameterValues,
+                        AlloyWheelsParameterName.Diameter);
                 }
             }
         }
@@ -124,12 +148,20 @@ namespace AlloyWheelsBuilderViewModel
                     if (double.TryParse(value, out double 
                         centralHoleDiametermeter))
                     {
-                        _alloyWheelsData.CentralHoleDiameter = 
-                        centralHoleDiametermeter;
+                        _alloyWheelsParameters[AlloyWheelsParameterName.CentralHoleDiameter].
+                            SetValue(_alloyWheelsParameters.ParameterValues, 
+                            AlloyWheelsParameterName.Diameter,  
+                            AlloyWheelsParameters.ParameterRussianNames[
+                                AlloyWheelsParameterName.Diameter],
+                            centralHoleDiametermeter);
                     }
                     else
                     {
-                        _alloyWheelsData.CentralHoleDiameter = double.NaN;
+                        _alloyWheelsParameters[AlloyWheelsParameterName.CentralHoleDiameter].
+                            SetValue(_alloyWheelsParameters.ParameterValues,
+                            AlloyWheelsParameterName.Diameter, 
+                            AlloyWheelsParameters.ParameterRussianNames[
+                                AlloyWheelsParameterName.Diameter], double.NaN);
                         throw new ArgumentException("\"" + value + "\""
                             + " не является вещественным числом и"
                             + " не может задавать диаметр центрального" 
@@ -154,13 +186,17 @@ namespace AlloyWheelsBuilderViewModel
         {
             get
             {
-                if (double.IsNaN(_alloyWheelsData.MinWidth))
+                if (double.IsNaN(_alloyWheelsParameters[AlloyWheelsParameterName.Width].
+                    GetMinValue(_alloyWheelsParameters.ParameterValues, 
+                    AlloyWheelsParameterName.CentralHoleDiameter)))
                 {
                     return "";
                 }
                 else
                 {
-                    return _alloyWheelsData.MinWidth + " ≤";
+                    return _alloyWheelsParameters[AlloyWheelsParameterName.Width].
+                        GetMinValue(_alloyWheelsParameters.ParameterValues, 
+                        AlloyWheelsParameterName.CentralHoleDiameter) + " ≤";
                 }
             }
         }
@@ -172,13 +208,17 @@ namespace AlloyWheelsBuilderViewModel
         {
             get
             {
-                if (double.IsNaN(_alloyWheelsData.MaxWidth))
+                if (double.IsNaN(_alloyWheelsParameters[AlloyWheelsParameterName.Width].
+                    GetMaxValue(_alloyWheelsParameters.ParameterValues, 
+                    AlloyWheelsParameterName.CentralHoleDiameter)))
                 {
                     return "";
                 }
                 else
                 {
-                    return "≤ " + _alloyWheelsData.MaxWidth;
+                    return "≤ " + _alloyWheelsParameters[AlloyWheelsParameterName.Width].
+                        GetMaxValue(_alloyWheelsParameters.ParameterValues, 
+                        AlloyWheelsParameterName.CentralHoleDiameter);
                 }
             }
         }
@@ -201,11 +241,20 @@ namespace AlloyWheelsBuilderViewModel
                     _width = value;
                     if (double.TryParse(value, out double width))
                     {
-                        _alloyWheelsData.Width = width;
+                        _alloyWheelsParameters[AlloyWheelsParameterName.Width].SetValue(
+                            _alloyWheelsParameters.ParameterValues, 
+                            AlloyWheelsParameterName.CentralHoleDiameter, 
+                            AlloyWheelsParameters.ParameterRussianNames[
+                                AlloyWheelsParameterName.CentralHoleDiameter], width);
                     }
                     else
                     {
-                        _alloyWheelsData.Width = double.NaN;
+                        _alloyWheelsParameters[AlloyWheelsParameterName.Width].SetValue(
+                            _alloyWheelsParameters.ParameterValues,
+                            AlloyWheelsParameterName.CentralHoleDiameter, 
+                            AlloyWheelsParameters.ParameterRussianNames[
+                                AlloyWheelsParameterName.CentralHoleDiameter],
+                            double.NaN);
                         throw new ArgumentException("\"" + value + "\""
                             + " не является вещественным числом и"
                             + " не может задавать посадочную ширину диска");
@@ -226,13 +275,17 @@ namespace AlloyWheelsBuilderViewModel
 		{
 			get
 			{
-                if (double.IsNaN(_alloyWheelsData.MinOffSet))
+                if (double.IsNaN(_alloyWheelsParameters[AlloyWheelsParameterName.OffSet].
+                    GetMinValue(_alloyWheelsParameters.ParameterValues, 
+                    AlloyWheelsParameterName.Width)))
                 {
                     return "";
                 }
                 else
                 {
-                    return _alloyWheelsData.MinOffSet + " ≤";
+                    return _alloyWheelsParameters[AlloyWheelsParameterName.OffSet].
+                        GetMinValue(_alloyWheelsParameters.ParameterValues, 
+                        AlloyWheelsParameterName.Width) + " ≤";
                 }
             }
 		}
@@ -244,13 +297,17 @@ namespace AlloyWheelsBuilderViewModel
 		{
 			get
 			{
-                if (double.IsNaN(_alloyWheelsData.MaxOffSet))
+                if (double.IsNaN(_alloyWheelsParameters[AlloyWheelsParameterName.OffSet].
+                    GetMaxValue(_alloyWheelsParameters.ParameterValues, 
+                    AlloyWheelsParameterName.Width)))
                 {
                     return "";
                 }
                 else
                 {
-                    return "≤ " + _alloyWheelsData.MaxOffSet;
+                    return "≤ " + _alloyWheelsParameters[AlloyWheelsParameterName.OffSet].
+                        GetMaxValue(_alloyWheelsParameters.ParameterValues, 
+                        AlloyWheelsParameterName.Width);
                 }
             }
 		}
@@ -273,11 +330,19 @@ namespace AlloyWheelsBuilderViewModel
                     _offSet = value;
                     if (double.TryParse(value, out double offSet))
                     {
-                        _alloyWheelsData.OffSet = offSet;
+                        _alloyWheelsParameters[AlloyWheelsParameterName.OffSet].SetValue(
+                            _alloyWheelsParameters.ParameterValues, 
+                            AlloyWheelsParameterName.Width, 
+                            AlloyWheelsParameters.ParameterRussianNames[
+                                AlloyWheelsParameterName.Width], offSet);
                     }
                     else
                     {
-                        _alloyWheelsData.OffSet = double.NaN;
+                        _alloyWheelsParameters[AlloyWheelsParameterName.OffSet].SetValue(
+                            _alloyWheelsParameters.ParameterValues,
+                            AlloyWheelsParameterName.Width, 
+                            AlloyWheelsParameters.ParameterRussianNames[
+                                AlloyWheelsParameterName.Width], double.NaN);
                         throw new ArgumentException("\"" + value + "\""
                             + " не является вещественным числом и"
                             + " не может задавать вылет диска");
@@ -293,13 +358,18 @@ namespace AlloyWheelsBuilderViewModel
 		{
             get
             {
-                if (double.IsNaN(_alloyWheelsData.MinDrillDiameter))
+                if (double.IsNaN(
+                    _alloyWheelsParameters[AlloyWheelsParameterName.DrillDiameter].
+                    GetMinValue(_alloyWheelsParameters.ParameterValues, 
+                    AlloyWheelsParameterName.CentralHoleDiameter)))
                 {
                     return "";
                 }
                 else
                 {
-                    return _alloyWheelsData.MinDrillDiameter + " ≤";
+                    return _alloyWheelsParameters[AlloyWheelsParameterName.DrillDiameter].
+                        GetMinValue(_alloyWheelsParameters.ParameterValues, 
+                        AlloyWheelsParameterName.CentralHoleDiameter) + " ≤";
                 }
             }
         }
@@ -311,13 +381,19 @@ namespace AlloyWheelsBuilderViewModel
         {
             get
             {
-                if (double.IsNaN(_alloyWheelsData.MaxDrillDiameter))
+                if (double.IsNaN(
+                    _alloyWheelsParameters[AlloyWheelsParameterName.DrillDiameter].
+                    GetMaxValue(_alloyWheelsParameters.ParameterValues, 
+                    AlloyWheelsParameterName.CentralHoleDiameter)))
                 {
                     return "";
                 }
                 else
                 {
-                    return "≤ " + _alloyWheelsData.MaxDrillDiameter;
+                    return "≤ " 
+                        + _alloyWheelsParameters[AlloyWheelsParameterName.DrillDiameter].
+                        GetMaxValue(_alloyWheelsParameters.ParameterValues, 
+                        AlloyWheelsParameterName.CentralHoleDiameter);
                 }
             }
         }
@@ -340,11 +416,21 @@ namespace AlloyWheelsBuilderViewModel
                     _drillDiameter = value;
                     if (double.TryParse(value, out double drillDiameter))
                     {
-                        _alloyWheelsData.DrillDiameter = drillDiameter;
+                        _alloyWheelsParameters[AlloyWheelsParameterName.DrillDiameter].
+                            SetValue(_alloyWheelsParameters.ParameterValues, 
+                            AlloyWheelsParameterName.CentralHoleDiameter, 
+                            AlloyWheelsParameters.ParameterRussianNames[
+                                AlloyWheelsParameterName.CentralHoleDiameter],
+                            drillDiameter);
                     }
                     else
                     {
-                        _alloyWheelsData.DrillDiameter = double.NaN;
+                        _alloyWheelsParameters[AlloyWheelsParameterName.DrillDiameter].
+                             SetValue(_alloyWheelsParameters.ParameterValues,
+                             AlloyWheelsParameterName.CentralHoleDiameter, 
+                             AlloyWheelsParameters.ParameterRussianNames[
+                                 AlloyWheelsParameterName.CentralHoleDiameter],
+                             double.NaN);
                         throw new ArgumentException("\"" + value + "\""
                             + " не является вещественным числом и"
                             + " не может задавать диаметр сверловки");
@@ -365,13 +451,18 @@ namespace AlloyWheelsBuilderViewModel
 		{
 			get
 			{
-                if(_alloyWheelsData.MinDrillingsCount == int.MinValue)
+                if(double.IsNaN(
+                    _alloyWheelsParameters[AlloyWheelsParameterName.DrillingsCount].
+                    GetMinValue(_alloyWheelsParameters.ParameterValues, 
+                    AlloyWheelsParameterName.DrillDiameter)))
 				{
                     return "";
 				}
 				else
 				{
-                    return _alloyWheelsData.MinDrillingsCount + " ≤";
+                    return _alloyWheelsParameters[AlloyWheelsParameterName.DrillingsCount].
+                        GetMinValue(_alloyWheelsParameters.ParameterValues, 
+                        AlloyWheelsParameterName.DrillDiameter) + " ≤";
 				}
 			}
 		}
@@ -383,13 +474,19 @@ namespace AlloyWheelsBuilderViewModel
 		{
 			get
 			{
-                if(_alloyWheelsData.MaxDrillingsCount == int.MaxValue)
+                if(double.IsNaN(
+                    _alloyWheelsParameters[AlloyWheelsParameterName.DrillingsCount].
+                    GetMaxValue(_alloyWheelsParameters.ParameterValues, 
+                    AlloyWheelsParameterName.DrillDiameter)))
 				{
                     return "";
 				}
                 else
 				{
-                    return "≤ " + _alloyWheelsData.MaxDrillingsCount;
+                    return "≤ " 
+                        + _alloyWheelsParameters[AlloyWheelsParameterName.DrillingsCount].
+                        GetMaxValue(_alloyWheelsParameters.ParameterValues, 
+                        AlloyWheelsParameterName.DrillDiameter);
 				}
 			}
 		}
@@ -412,11 +509,20 @@ namespace AlloyWheelsBuilderViewModel
                     _drillingsCount = value;
                     if (int.TryParse(value, out int drillingsCount))
                     {
-                        _alloyWheelsData.DrillingsCount = drillingsCount;
+                        _alloyWheelsParameters[AlloyWheelsParameterName.DrillingsCount].
+                            SetValue(_alloyWheelsParameters.ParameterValues, 
+                            AlloyWheelsParameterName.DrillDiameter, 
+                            AlloyWheelsParameters.ParameterRussianNames[
+                                AlloyWheelsParameterName.DrillDiameter], 
+                            drillingsCount);
                     }
                     else
                     {
-                        _alloyWheelsData.DrillingsCount = int.MinValue;
+                        _alloyWheelsParameters[AlloyWheelsParameterName.DrillingsCount].
+                            SetValue(_alloyWheelsParameters.ParameterValues,
+                            AlloyWheelsParameterName.DrillDiameter, 
+                            AlloyWheelsParameters.ParameterRussianNames[
+                                AlloyWheelsParameterName.DrillDiameter], double.NaN);
                         throw new ArgumentException("\"" + value + "\""
                             + " не является целым числом и"
                             + " не может определять количество отверстий");
@@ -432,13 +538,17 @@ namespace AlloyWheelsBuilderViewModel
 		{
             get
 			{
-                if (_alloyWheelsData.MinSpokesCount == int.MinValue)
+                if (double.IsNaN(_alloyWheelsParameters[AlloyWheelsParameterName.SpokesCount].
+                    GetMinValue(_alloyWheelsParameters.ParameterValues, 
+                    AlloyWheelsParameterName.Diameter)))
                 {
                     return "";
                 }
                 else
                 {
-                    return _alloyWheelsData.MinSpokesCount + " ≤";
+                    return _alloyWheelsParameters[AlloyWheelsParameterName.SpokesCount].
+                        GetMinValue(_alloyWheelsParameters.ParameterValues, 
+                        AlloyWheelsParameterName.Diameter) + " ≤";
                 }
             }
 		}
@@ -450,13 +560,18 @@ namespace AlloyWheelsBuilderViewModel
 		{
             get
             {
-                if (_alloyWheelsData.MaxSpokesCount == int.MaxValue)
+                if (double.IsNaN(_alloyWheelsParameters[AlloyWheelsParameterName.SpokesCount].
+                    GetMaxValue(_alloyWheelsParameters.ParameterValues,
+                    AlloyWheelsParameterName.Diameter)))
                 {
                     return "";
                 }
                 else
                 {
-                    return "≤ " + _alloyWheelsData.MaxSpokesCount;
+                    return "≤ " 
+                        + _alloyWheelsParameters[AlloyWheelsParameterName.SpokesCount].
+                        GetMaxValue(_alloyWheelsParameters.ParameterValues, 
+                        AlloyWheelsParameterName.Diameter);
                 }
             }
         }
@@ -479,11 +594,19 @@ namespace AlloyWheelsBuilderViewModel
                     _spokesCount = value;
                     if (int.TryParse(value, out int spokesCount))
                     {
-                        _alloyWheelsData.SpokesCount = spokesCount;
+                        _alloyWheelsParameters[AlloyWheelsParameterName.SpokesCount].SetValue(
+                            _alloyWheelsParameters.ParameterValues, 
+                            AlloyWheelsParameterName.Diameter, 
+                            AlloyWheelsParameters.ParameterRussianNames[
+                                AlloyWheelsParameterName.Diameter], spokesCount);
                     }
                     else
                     {
-                        _alloyWheelsData.SpokesCount = int.MinValue;
+                        _alloyWheelsParameters[AlloyWheelsParameterName.SpokesCount].SetValue(
+                            _alloyWheelsParameters.ParameterValues,
+                            AlloyWheelsParameterName.Diameter, 
+                            AlloyWheelsParameters.ParameterRussianNames[
+                                AlloyWheelsParameterName.Diameter], double.NaN);
                         throw new ArgumentException("\"" + value + "\""
                             + " не является целым числом и"
                             + " не может определять количество спиц");
@@ -498,7 +621,7 @@ namespace AlloyWheelsBuilderViewModel
         /// </summary>
         public AlloyWheelsBuilderWindowViewModel()
 		{
-            _alloyWheelsData = new AlloyWheelsData();
+            _alloyWheelsParameters = new AlloyWheelsParameters();
             Diameter = "";
 		}
 
@@ -538,7 +661,7 @@ namespace AlloyWheelsBuilderViewModel
                   (_buildCommand = new RelayCommand(() =>
                   {
                       AlloyWheelsBuilder alloyWheelsBuilder = 
-                      new AlloyWheelsBuilder(_alloyWheelsData);
+                      new AlloyWheelsBuilder(_alloyWheelsParameters);
                       alloyWheelsBuilder.Build();
                   }));
             }

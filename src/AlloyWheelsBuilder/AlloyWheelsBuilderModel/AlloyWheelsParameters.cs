@@ -5,7 +5,8 @@ using NXOpen;
 namespace AlloyWheelsBuilderModel
 {
     /// <summary>
-    /// Класс <see cref="AlloyWheelsParameters"/> предназначен для хранения данных, 
+    /// Класс <see cref="AlloyWheelsParameters"/> 
+    /// предназначен для хранения данных, 
     /// необходимых для построения модели автомобильного диска
     /// </summary>
     public class AlloyWheelsParameters
@@ -191,17 +192,25 @@ namespace AlloyWheelsBuilderModel
         /// Возвращает словарь с именами параметров и соответсвующими им 
         /// обозначениями параметров на пользовательском интерфейсе
         /// </summary>
-        public static Dictionary<AlloyWheelsParameterName, string> ParameterRussianNames
+        public static Dictionary<AlloyWheelsParameterName, string> 
+            ParameterRussianNames
 		{
             get => new Dictionary<AlloyWheelsParameterName, string>
             {
-                { AlloyWheelsParameterName.Diameter, "Диаметр D" },
-                { AlloyWheelsParameterName.CentralHoleDiameter, "Диаметр ЦО ØDIA" },
-                { AlloyWheelsParameterName.Width, "Посадочная ширина Lп" },
-                { AlloyWheelsParameterName.OffSet, "Вылет ET" },
-                { AlloyWheelsParameterName.DrillDiameter, "Диаметр сверловки B" },
-                { AlloyWheelsParameterName.DrillingsCount, "Сверловка" },
-                { AlloyWheelsParameterName.SpokesCount, "Количество спиц" },
+                { AlloyWheelsParameterName.Diameter, 
+                    "Диаметр D" },
+                { AlloyWheelsParameterName.CentralHoleDiameter, 
+                    "Диаметр ЦО ØDIA" },
+                { AlloyWheelsParameterName.Width, 
+                    "Посадочная ширина Lп" },
+                { AlloyWheelsParameterName.OffSet, 
+                    "Вылет ET" },
+                { AlloyWheelsParameterName.DrillDiameter, 
+                    "Диаметр сверловки B" },
+                { AlloyWheelsParameterName.DrillingsCount, 
+                    "Сверловка" },
+                { AlloyWheelsParameterName.SpokesCount, 
+                    "Количество спиц" },
                 { AlloyWheelsParameterName.NaN, "-" }
             };
         }
@@ -463,7 +472,8 @@ namespace AlloyWheelsBuilderModel
         /// </summary>
         /// <param name="parameterName">Имя параметра</param>
         /// <returns>Параметр модели</returns>
-        public AlloyWheelsParameter this[AlloyWheelsParameterName parameterName] =>
+        public AlloyWheelsParameter this[
+            AlloyWheelsParameterName parameterName] =>
             _parameters[parameterName];
 
         /// <summary>
@@ -478,7 +488,8 @@ namespace AlloyWheelsBuilderModel
                 foreach(KeyValuePair<AlloyWheelsParameterName, 
                     AlloyWheelsParameter> parameter in _parameters)
 				{
-                    parameterValues.Add(parameter.Key, parameter.Value.Value);
+                    parameterValues.Add(parameter.Key, 
+                        parameter.Value.Value);
 				}
                 return parameterValues;
 			}

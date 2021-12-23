@@ -33,23 +33,23 @@
   <ItemGroup>
     <Reference Include="NXOpen, Version=12.0.1.7, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>NXOpen\NXOpen.dll</HintPath>
+      <HintPath>..\NXOpen\NXOpen.dll</HintPath>
     </Reference>
     <Reference Include="NXOpen.Guide, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>NXOpen\NXOpen.Guide.dll</HintPath>
+      <HintPath>..\NXOpen\NXOpen.Guide.dll</HintPath>
     </Reference>
     <Reference Include="NXOpen.UF, Version=12.0.1.7, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>NXOpen\NXOpen.UF.dll</HintPath>
+      <HintPath>..\NXOpen\NXOpen.UF.dll</HintPath>
     </Reference>
     <Reference Include="NXOpen.Utilities, Version=12.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>NXOpen\NXOpen.Utilities.dll</HintPath>
+      <HintPath>..\NXOpen\NXOpen.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="NXOpenUI, Version=12.0.1.7, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>NXOpen\NXOpenUI.dll</HintPath>
+      <HintPath>..\NXOpen\NXOpenUI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -71,12 +71,5 @@
     <Compile Include="Сalculator.cs" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Content Include="NXOpen\NXOpen.dll" />
-    <Content Include="NXOpen\NXOpen.Guide.dll" />
-    <Content Include="NXOpen\NXOpen.UF.dll" />
-    <Content Include="NXOpen\NXOpen.Utilities.dll" />
-    <Content Include="NXOpen\NXOpenUI.dll" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

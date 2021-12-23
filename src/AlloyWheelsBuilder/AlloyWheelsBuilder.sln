@@ -11,6 +11,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlloyWheelsBuilderModel", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlloyWheelsBuilder.UnitTests", "AlloyWheelsBuilder.UnitTests\AlloyWheelsBuilder.UnitTests.csproj", "{5ECAD130-6F2A-45BB-8510-9ABA9F9131D8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NXOpen", "NXOpen", "{C420B444-3409-4E38-A503-D992918F8642}"
+	ProjectSection(SolutionItems) = preProject
+		NXOpen\NXOpen.dll = NXOpen\NXOpen.dll
+		NXOpen\NXOpen.Guide.dll = NXOpen\NXOpen.Guide.dll
+		NXOpen\NXOpen.UF.dll = NXOpen\NXOpen.UF.dll
+		NXOpen\NXOpen.Utilities.dll = NXOpen\NXOpen.Utilities.dll
+		NXOpen\NXOpenUI.dll = NXOpen\NXOpenUI.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

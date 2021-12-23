@@ -7,7 +7,7 @@
     <ProjectGuid>{8DAF9A1E-224F-4507-816F-0135E8516B8D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlloyWheelsBuilder</RootNamespace>
+    <RootNamespace>AlloyWheelsBuilderView</RootNamespace>
     <AssemblyName>AlloyWheelsBuilder</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

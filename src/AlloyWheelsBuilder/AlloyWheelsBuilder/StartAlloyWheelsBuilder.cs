@@ -1,6 +1,6 @@
 ﻿using NXOpen;
 
-namespace AlloyWheelsBuilder
+namespace AlloyWheelsBuilderView
 {
     /// <summary>
     /// Класс <see cref="StartAlloyWheelsBuilder"/> предназначен для 

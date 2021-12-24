@@ -31,7 +31,27 @@ namespace AlloyWheelsBuilderViewModel
 			{
 				try
 				{
-                    
+                    _value = value;
+                    if (double.TryParse(value, out double parameterValue))
+                    {
+                        _alloyWheelsParameters[Name].SetValue(
+                            _alloyWheelsParameters.ParameterValues, 
+                            parameterValue);
+                    }
+                    else
+                    {
+                        _alloyWheelsParameters[Name].SetValue(
+                            _alloyWheelsParameters.ParameterValues, 
+                            double.NaN);
+                        string message = 
+                            "Ошибка: Данные введены некорректно.\n"
+                             + "Параметр: " 
+                             + "\"" + _alloyWheelsParameters[Name].
+                             RussianName.ToString() + "\".\n"
+                             + "Сведения об ошибке: " + "\"" + value + "\""
+                            + " не является числом";
+                        throw new ArgumentException(message);
+                    }
                 }
                 catch(ArgumentException exception)
 				{

@@ -32,6 +32,12 @@ namespace AlloyWheelsBuilderModel
         public string RussianName { get; private set; }
 
         /// <summary>
+        /// Если единицей изерения параметра является штука, 
+        /// возвращает true, иначе возвращает false
+        /// </summary>
+        public bool IsCount { get; private set; }
+
+        /// <summary>
         /// Номинал параметра
         /// </summary>
         private double _value = double.NaN;
@@ -74,6 +80,10 @@ namespace AlloyWheelsBuilderModel
                         throw new ArgumentException(message);
                     }
                 }
+                if(IsCount)
+				{
+                    value = Math.Round(value);
+				}
                 ValueValidator.AssertNumberInRange(value, GetMinValue(
                     parameterValues), GetMaxValue(parameterValues), 
                     RussianName);
@@ -160,7 +170,8 @@ namespace AlloyWheelsBuilderModel
             Func<Dictionary<AlloyWheelsParameterName, double>, double> 
                 calculateMinValue, 
             Func<Dictionary<AlloyWheelsParameterName, double>, double> 
-                calculateMaxValue)
+                calculateMaxValue,
+            bool isCount)
 		{
             Name = name;
             RussianName = russianName;
@@ -169,6 +180,7 @@ namespace AlloyWheelsBuilderModel
             CodependentParameterName = codependentParameterName;
             CodependentParameterRussianName = 
                 codependentParameterRussianName;
+            IsCount = isCount;
         }
     }
 }

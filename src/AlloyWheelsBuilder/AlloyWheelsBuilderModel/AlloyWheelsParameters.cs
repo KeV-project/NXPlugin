@@ -526,6 +526,14 @@ namespace AlloyWheelsBuilderModel
             foreach (KeyValuePair<AlloyWheelsParameterName, string>
                parameterName in ParameterRussianNames)
             {
+                bool isCount = false;
+                if(parameterName.Key == AlloyWheelsParameterName.
+                    DrillingsCount 
+                    || parameterName.Key == AlloyWheelsParameterName.
+                    SpokesCount)
+				{
+                    isCount = true;
+				}
                 if(parameterName.Key != AlloyWheelsParameterName.NaN)
 				{
                     _parameters.Add(parameterName.Key,
@@ -534,7 +542,7 @@ namespace AlloyWheelsBuilderModel
                     _codependentParameterName[parameterName.Key],
                     ParameterRussianNames[_codependentParameterName[parameterName.Key]],
                     _minValueCalculators[parameterName.Key],
-                    _maxValueCalculators[parameterName.Key]));
+                    _maxValueCalculators[parameterName.Key], isCount));
                 }
             }
 

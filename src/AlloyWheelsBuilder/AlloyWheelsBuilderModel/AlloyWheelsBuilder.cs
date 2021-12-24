@@ -130,8 +130,7 @@ namespace AlloyWheelsBuilderModel
                 DrillingsCount].Value 
             - _alloyWheelsData[AlloyWheelsParameterName.
                 DrillingsCount].GetMinValue(
-                _alloyWheelsData.ParameterValues, 
-                AlloyWheelsParameterName.DrillDiameter)));
+                _alloyWheelsData.ParameterValues)));
 
         /// <summary>
         /// Имя оси для отражения эскиза лепестка

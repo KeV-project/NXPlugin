@@ -15,6 +15,17 @@ namespace AlloyWheelsBuilderModel
         public AlloyWheelsParameterName Name { get; private set; }
 
         /// <summary>
+        /// Имя созависимого параметра
+        /// </summary>
+        public AlloyWheelsParameterName CodependentParameterName { 
+            get; private set; }
+
+        /// <summary>
+        /// Обозначение созависимого параметра на пользовательском интерфейсе
+        /// </summary>
+        public string CodependentParameterRussianName { get; private set; }
+
+        /// <summary>
         /// Возвращает и устанавливает обозначение параметра 
         /// на пользовательском интерфейсе
         /// </summary>
@@ -36,24 +47,21 @@ namespace AlloyWheelsBuilderModel
         /// <param name="parameterValues">Словарь, 
         /// содержащий номиналы параметров модели. 
         /// Необходим для получения созависимых параметров.</param>
-        /// <param name="codependentParameterName">
-        /// Имя созависимого параметра</param>
         /// <param name="codependentParameterRussianName">
         /// Обозначение созависимого параметра 
         /// на пользовательском интерфейсе</param>
         /// <param name="value">Номинал параметра</param>
         public void SetValue(
-            Dictionary<AlloyWheelsParameterName, double> parameterValues,
-            AlloyWheelsParameterName codependentParameterName, 
-            string codependentParameterRussianName, double value)
+            Dictionary<AlloyWheelsParameterName, double> parameterValues, 
+            double value)
         {
             _value = double.NaN;
             if (!double.IsNaN(value))
             {
-                if(codependentParameterName != AlloyWheelsParameterName.NaN)
+                if(CodependentParameterName != AlloyWheelsParameterName.NaN)
 				{
                     if (double.IsNaN(parameterValues[
-                        codependentParameterName]))
+                        CodependentParameterName]))
                     {
                         string message = 
                             "Ошибка: Данные введены некорректно.\n"
@@ -61,14 +69,14 @@ namespace AlloyWheelsBuilderModel
                            + "Сведения об ошибке: Невозможно рассчитать "
                            + "диапазон допустимых значений параметра.\n"
                            + "Возможно параметру \"" 
-                           + codependentParameterRussianName
+                           + CodependentParameterRussianName
                            + "\" присвоено некорректное значение.";
                         throw new ArgumentException(message);
                     }
                 }
                 ValueValidator.AssertNumberInRange(value, GetMinValue(
-                    parameterValues, codependentParameterName), GetMaxValue(
-                    parameterValues, codependentParameterName), RussianName);
+                    parameterValues), GetMaxValue(parameterValues), 
+                    RussianName);
                 _value = value;
             }
         }
@@ -85,15 +93,11 @@ namespace AlloyWheelsBuilderModel
         /// <param name="parameterValues">Словарь, 
         /// содержащий номиналы параметров модели. 
         /// Необходим для получения созависимых параметров.</param>
-        /// <param name="codependentParameterName">
-        /// Имя созависимого параметра</param>
         /// <returns>Минимально допустимое значение параметра</returns>
         public double GetMinValue(
-            Dictionary<AlloyWheelsParameterName, double> parameterValues, 
-            AlloyWheelsParameterName codependentParameterName)
+            Dictionary<AlloyWheelsParameterName, double> parameterValues)
         {
-            return CalculateLimitValue(parameterValues, 
-                codependentParameterName, _calculateMinValue);
+            return CalculateLimitValue(parameterValues, _calculateMinValue);
         }
 
         /// <summary>
@@ -107,15 +111,11 @@ namespace AlloyWheelsBuilderModel
         /// <param name="parameterValues">Словарь, 
         /// содержащий номиналы параметров модели. 
         /// Необходим для получения созависимых параметров.</param>
-        /// <param name="codependentParameterName">
-        /// Имя созависимого параметра</param>
         /// <returns>Максимально допустимое значение параметра</returns>
         public double GetMaxValue(
-            Dictionary<AlloyWheelsParameterName, double> parameterValues, 
-            AlloyWheelsParameterName codependentParameterName)
+            Dictionary<AlloyWheelsParameterName, double> parameterValues)
         {
-            return CalculateLimitValue(parameterValues, 
-                codependentParameterName, _calculateMaxValue);
+            return CalculateLimitValue(parameterValues, _calculateMaxValue);
         }
 
         /// <summary>
@@ -125,19 +125,16 @@ namespace AlloyWheelsBuilderModel
         /// <param name="parameterValues">Словарь, 
         /// содержащий номиналы параметров модели. 
         /// Необходим для получения созависимых параметров.</param>
-        /// <param name="codependentParameterName">
-        /// Имя созависимого параметра</param>
         /// <param name="calculateLimitValue">Метод расчета</param>
         /// <returns>Предел значений параметра</returns>
         private double CalculateLimitValue(
-            Dictionary<AlloyWheelsParameterName, double> parameterValues, 
-            AlloyWheelsParameterName codependentParameterName,
+            Dictionary<AlloyWheelsParameterName, double> parameterValues,
             Func<Dictionary<AlloyWheelsParameterName, double>, 
                 double> calculateLimitValue)
 		{
-            if(codependentParameterName != AlloyWheelsParameterName.NaN)
+            if(CodependentParameterName != AlloyWheelsParameterName.NaN)
             {
-                if (double.IsNaN(parameterValues[codependentParameterName]))
+                if (double.IsNaN(parameterValues[CodependentParameterName]))
                 {
                     return double.NaN;
                 }
@@ -158,6 +155,8 @@ namespace AlloyWheelsBuilderModel
         /// максимально допустимого значения параметра</param>
         public AlloyWheelsParameter(AlloyWheelsParameterName name, 
             string russianName, 
+            AlloyWheelsParameterName codependentParameterName,
+            string codependentParameterRussianName,
             Func<Dictionary<AlloyWheelsParameterName, double>, double> 
                 calculateMinValue, 
             Func<Dictionary<AlloyWheelsParameterName, double>, double> 
@@ -167,6 +166,9 @@ namespace AlloyWheelsBuilderModel
             RussianName = russianName;
             _calculateMinValue = calculateMinValue;
             _calculateMaxValue = calculateMaxValue;
+            CodependentParameterName = codependentParameterName;
+            CodependentParameterRussianName = 
+                codependentParameterRussianName;
         }
     }
 }

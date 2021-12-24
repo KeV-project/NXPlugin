@@ -216,6 +216,29 @@ namespace AlloyWheelsBuilderModel
         }
 
         /// <summary>
+        /// Словарь созависимых параметров
+        /// </summary>
+        public static Dictionary<AlloyWheelsParameterName,
+            AlloyWheelsParameterName> _codependentParameterName = new
+            Dictionary<AlloyWheelsParameterName, AlloyWheelsParameterName>
+            {
+                { AlloyWheelsParameterName.Diameter, 
+                    AlloyWheelsParameterName.NaN },
+                { AlloyWheelsParameterName.CentralHoleDiameter, 
+                    AlloyWheelsParameterName.Diameter },
+                { AlloyWheelsParameterName.Width, 
+                    AlloyWheelsParameterName.CentralHoleDiameter },
+                { AlloyWheelsParameterName.OffSet, 
+                    AlloyWheelsParameterName.Width },
+                { AlloyWheelsParameterName.DrillDiameter, 
+                    AlloyWheelsParameterName.CentralHoleDiameter },
+                { AlloyWheelsParameterName.DrillingsCount, 
+                    AlloyWheelsParameterName.DrillDiameter },
+                { AlloyWheelsParameterName.SpokesCount, 
+                    AlloyWheelsParameterName.Diameter }
+            };
+
+        /// <summary>
         /// Минимально допустимое значение диаметра диска
         /// </summary>
         private const double MIN_DIAMETER = 101.6;
@@ -508,6 +531,8 @@ namespace AlloyWheelsBuilderModel
                     _parameters.Add(parameterName.Key,
                     new AlloyWheelsParameter(parameterName.Key,
                     parameterName.Value,
+                    _codependentParameterName[parameterName.Key],
+                    ParameterRussianNames[_codependentParameterName[parameterName.Key]],
                     _minValueCalculators[parameterName.Key],
                     _maxValueCalculators[parameterName.Key]));
                 }

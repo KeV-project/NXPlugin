@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AlloyWheelsBuilderModel;
 
 namespace AlloyWheelsBuilderViewModel
@@ -16,11 +12,39 @@ namespace AlloyWheelsBuilderViewModel
         /// </summary>
         private AlloyWheelsParameters _alloyWheelsParameters;
 
-        public string MinValue => _alloyWheelsParameters[Name].GetMinValue(
-            _alloyWheelsParameters.ParameterValues).ToString() + " ≤";
+        public string MinValue
+		{
+			get
+			{
+                if (double.IsNaN(_alloyWheelsParameters[Name].GetMinValue(
+                    _alloyWheelsParameters.ParameterValues)))
+                {
+                    return "";
+                }
+                else
+                {
+                    return _alloyWheelsParameters[Name].GetMinValue(
+                        _alloyWheelsParameters.ParameterValues) + " ≤";
+                }
+            }
+		}
        
-        public string MaxValue => "≤ " + _alloyWheelsParameters[Name].
-            GetMaxValue(_alloyWheelsParameters.ParameterValues).ToString();
+        public string MaxValue
+		{
+			get
+			{
+                if (double.IsNaN(_alloyWheelsParameters[Name].GetMaxValue(
+                   _alloyWheelsParameters.ParameterValues)))
+                {
+                    return "";
+                }
+                else
+                {
+                    return "≤ " + _alloyWheelsParameters[Name].GetMaxValue(
+                        _alloyWheelsParameters.ParameterValues);
+                }
+            }
+		}
 
         private string _value = "";
 

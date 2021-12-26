@@ -67,6 +67,7 @@
     <Compile Include="ArcData.cs" />
     <Compile Include="AlloyWheelsParameterName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SetParameterValueArgs.cs" />
     <Compile Include="ValueValidator.cs" />
     <Compile Include="Сalculator.cs" />
   </ItemGroup>

@@ -1,9 +1,10 @@
 ﻿using System;
+using GalaSoft.MvvmLight;
 using AlloyWheelsBuilderModel;
 
 namespace AlloyWheelsBuilderViewModel
 {
-    public class AlloyWheelsParameterViewModel
+    public class AlloyWheelsParameterViewModel: ViewModelBase
     {
         public AlloyWheelsParameterName Name { get; private set; }
 
@@ -13,9 +14,9 @@ namespace AlloyWheelsBuilderViewModel
         private AlloyWheelsParameters _alloyWheelsParameters;
 
         public string MinValue
-		{
-			get
-			{
+        {
+            get
+            {
                 if (double.IsNaN(_alloyWheelsParameters[Name].GetMinValue(
                     _alloyWheelsParameters.ParameterValues)))
                 {
@@ -27,12 +28,12 @@ namespace AlloyWheelsBuilderViewModel
                         _alloyWheelsParameters.ParameterValues) + " ≤";
                 }
             }
-		}
+        }
        
         public string MaxValue
-		{
-			get
-			{
+        {
+            get
+            {
                 if (double.IsNaN(_alloyWheelsParameters[Name].GetMaxValue(
                    _alloyWheelsParameters.ParameterValues)))
                 {
@@ -44,17 +45,21 @@ namespace AlloyWheelsBuilderViewModel
                         _alloyWheelsParameters.ParameterValues);
                 }
             }
-		}
+        }
+
+        public event EventHandler<SetParameterValueArgs> ValueSetWithErrors;
+
+        public event EventHandler<SetParameterValueArgs> ValueSetSuccessfully;
 
         private string _value = "";
 
         public string Value
-		{
+        {
             get => _value;
-			set
-			{
-				try
-				{
+            set
+            {
+                try
+                {
                     _value = value;
                     if (double.TryParse(value, out double parameterValue))
                     {
@@ -78,11 +83,16 @@ namespace AlloyWheelsBuilderViewModel
                     }
                 }
                 catch(ArgumentException exception)
-				{
-
-				}
-			}
-		}
+                {
+                    RaisePropertyChanged(Name.ToString());
+                    ValueSetWithErrors?.Invoke(this, 
+                        new SetParameterValueArgs(Name, exception.Message));  
+                }
+                RaisePropertyChanged(Name.ToString());
+                ValueSetSuccessfully?.Invoke(this,
+                    new SetParameterValueArgs(Name, ""));
+            }
+        }
 
         public AlloyWheelsParameterViewModel(
             AlloyWheelsParameters alloyWheelsParameters,

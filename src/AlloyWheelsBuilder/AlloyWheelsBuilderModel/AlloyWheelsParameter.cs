@@ -17,7 +17,7 @@ namespace AlloyWheelsBuilderModel
         /// <summary>
         /// Имя созависимого параметра
         /// </summary>
-        public AlloyWheelsParameterName CodependentParameterName { 
+        public AlloyWheelsParameterName CodependentParameterName {
             get; private set; }
 
         /// <summary>
@@ -32,10 +32,21 @@ namespace AlloyWheelsBuilderModel
         public string RussianName { get; private set; }
 
         /// <summary>
+        /// Возвращает и устанавливает единицы измерения параметра
+        /// </summary>
+        public string Unit { get; private set; }
+
+        /// <summary>
         /// Если единицей изерения параметра является штука, 
         /// возвращает true, иначе возвращает false
         /// </summary>
-        public bool IsCount { get; private set; }
+        public bool IsCount 
+        { 
+            get
+			{
+                return Unit == "шт";
+			}
+        }
 
         /// <summary>
         /// Номинал параметра
@@ -171,7 +182,7 @@ namespace AlloyWheelsBuilderModel
                 calculateMinValue, 
             Func<Dictionary<AlloyWheelsParameterName, double>, double> 
                 calculateMaxValue,
-            bool isCount)
+            string unit)
 		{
             Name = name;
             RussianName = russianName;
@@ -180,7 +191,7 @@ namespace AlloyWheelsBuilderModel
             CodependentParameterName = codependentParameterName;
             CodependentParameterRussianName = 
                 codependentParameterRussianName;
-            IsCount = isCount;
+            Unit = unit;
         }
     }
 }

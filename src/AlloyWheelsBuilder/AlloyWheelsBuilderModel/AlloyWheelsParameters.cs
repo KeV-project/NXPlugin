@@ -239,6 +239,21 @@ namespace AlloyWheelsBuilderModel
             };
 
         /// <summary>
+        /// Елиницы измерения параметров
+        /// </summary>
+        private Dictionary<AlloyWheelsParameterName, string> _units =
+            new Dictionary<AlloyWheelsParameterName, string>
+            {
+                { AlloyWheelsParameterName.Diameter, "мм" },
+                { AlloyWheelsParameterName.CentralHoleDiameter, "мм" },
+                { AlloyWheelsParameterName.Width, "мм" },
+                { AlloyWheelsParameterName.OffSet, "мм"},
+                { AlloyWheelsParameterName.DrillDiameter, "мм" },
+                { AlloyWheelsParameterName.DrillingsCount, "шт" },
+                { AlloyWheelsParameterName.SpokesCount, "шт"}
+            };
+
+        /// <summary>
         /// Минимально допустимое значение диаметра диска
         /// </summary>
         private const double MIN_DIAMETER = 101.6;
@@ -534,6 +549,7 @@ namespace AlloyWheelsBuilderModel
 				{
                     isCount = true;
 				}
+
                 if(parameterName.Key != AlloyWheelsParameterName.NaN)
 				{
                     _parameters.Add(parameterName.Key,
@@ -542,7 +558,8 @@ namespace AlloyWheelsBuilderModel
                     _codependentParameterName[parameterName.Key],
                     ParameterRussianNames[_codependentParameterName[parameterName.Key]],
                     _minValueCalculators[parameterName.Key],
-                    _maxValueCalculators[parameterName.Key], isCount));
+                    _maxValueCalculators[parameterName.Key], 
+                    _units[parameterName.Key]));
                 }
             }
 

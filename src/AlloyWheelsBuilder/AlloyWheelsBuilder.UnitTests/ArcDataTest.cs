@@ -7,7 +7,7 @@ namespace AlloyWheelsBuilder.UnitTests
     [TestFixture]
     public class ArcDataTest
     {
-        [Test(Description = "Позитивный тест геттера StartPoint")]
+        [TestCase(TestName = "Позитивный тест геттера StartPoint")]
         public void TestStartPointGet_CorrectValue()
         {
             // setup
@@ -26,7 +26,7 @@ namespace AlloyWheelsBuilder.UnitTests
                 + "возвращает неверне значение");
         }
 
-        [Test(Description = "Позитивный тест сеттера StartPoint")]
+        [TestCase(TestName = "Позитивный тест сеттера StartPoint")]
         public void TestStartPointSet_CorrectValue()
         {
             // setup
@@ -47,7 +47,7 @@ namespace AlloyWheelsBuilder.UnitTests
                 + "неверно устанавливает значение");
         }
 
-        [Test(Description = "Позитичный тест геттера PointOn")]
+        [TestCase(TestName = "Позитичный тест геттера PointOn")]
         public void TestPointOnGet_CorrectValue()
         {
             // setup
@@ -66,7 +66,7 @@ namespace AlloyWheelsBuilder.UnitTests
                 + "возвращает неверне значение");
         }
 
-        [Test(Description = "Позитивный тест сеттера PointOn")]
+        [TestCase(TestName = "Позитивный тест сеттера PointOn")]
         public void TestPointOnSet_CorrectValue()
         {
             // setup
@@ -87,7 +87,7 @@ namespace AlloyWheelsBuilder.UnitTests
                 + "неверно устанавливает значение");
         }
 
-        [Test(Description = "Позитичный тест геттера EndPoint")]
+        [TestCase(TestName = "Позитичный тест геттера EndPoint")]
         public void TestEndPointGet_CorrectValue()
         {
             // setup
@@ -106,7 +106,7 @@ namespace AlloyWheelsBuilder.UnitTests
                 + "возвращает неверне значение");
         }
 
-        [Test(Description = "Позитивный тест сеттера EndPoint")]
+        [TestCase(TestName = "Позитивный тест сеттера EndPoint")]
         public void TestEndPointSet_CorrectValue()
         {
             // setup
@@ -127,7 +127,7 @@ namespace AlloyWheelsBuilder.UnitTests
                 + "неверно устанавливает значение");
         }
 
-        [Test(Description = "Позитивный тест конструктора")]
+        [TestCase(TestName = "Позитивный тест конструктора")]
         public void TestConstructor_CorrectValue()
         {
             // setup
@@ -154,7 +154,7 @@ namespace AlloyWheelsBuilder.UnitTests
                 "Конструктор неверно инициализирует свойство EndPoint");
         }
 
-        [Test(Description = "Позитивный тест метода CompareTo")]
+        [TestCase(TestName = "Позитивный тест метода CompareTo")]
         public void TestCompareTo_CorrectValue()
         {
             // setup
@@ -177,7 +177,7 @@ namespace AlloyWheelsBuilder.UnitTests
                 "Метод CompareTo некорректно сравнивает идентичные объекты");
         }
 
-        [Test(Description = "Негативный тест метода CompareTo")]
+        [TestCase(TestName = "Негативный тест метода CompareTo")]
         public void TestCompareTo_IncorrectValue()
 		{
             // setup

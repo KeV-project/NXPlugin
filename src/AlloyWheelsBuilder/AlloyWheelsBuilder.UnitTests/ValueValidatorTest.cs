@@ -7,7 +7,7 @@ namespace AlloyWheelsBuilder.UnitTests
 	[TestFixture]
 	public class ValueValidatorTest
 	{
-		[Test(Description = "Позитивный тест метода AssertNumberInRange")]
+		[TestCase(TestName = "Позитивный тест метода AssertNumberInRange")]
 		public void TestAssertNumberInRange_СorrectValue()
 		{
 			// setup
@@ -21,7 +21,7 @@ namespace AlloyWheelsBuilder.UnitTests
 			  maxDiameter, context);
 		}
 
-		[Test(Description = "Негативный тест метода AssertNumberInRange")]
+		[TestCase(TestName = "Негативный тест метода AssertNumberInRange")]
 		public void TestAssertNumberInRange_IncorrectValue()
 		{
 			// setup

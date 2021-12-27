@@ -6,7 +6,7 @@ namespace AlloyWheelsBuilder.UnitTests
     [TestFixture]
     public class CalculatorTest
     {
-        [Test(Description = "Позитивный тест метода IsCirclesIntersect")]
+        [TestCase(TestName = "Позитивный тест метода IsCirclesIntersect")]
         public void TestIsCirclesIntersect_CorrectValue()
         {
             // setup
@@ -27,7 +27,7 @@ namespace AlloyWheelsBuilder.UnitTests
                 + "непересекающичеся окружности как пересекающиеся");
         }
 
-        [Test(Description = "Негативный тест метода IsCirclesIntersect")]
+        [TestCase(TestName = "Негативный тест метода IsCirclesIntersect")]
         public void TestIsCirclesIntersect_IncorrectValue()
 		{
             // setup

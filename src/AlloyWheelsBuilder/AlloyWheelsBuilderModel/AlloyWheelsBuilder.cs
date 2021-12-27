@@ -899,10 +899,10 @@ namespace AlloyWheelsBuilderModel
                (Arc)session.ActiveSketch.FindObject(TOP_PETAL_ARC),
                PetalHeihgtDimensionName);
 
-            ChangeLinearDimension(session, workPart, 
-                PetalHeihgtDimensionName, _alloyWheelsData.PetalSketchHeight,
-                newPetalHeight, true);
-        }
+			ChangeLinearDimension(session, workPart,
+				PetalHeihgtDimensionName, _alloyWheelsData.PetalSketchHeight,
+				newPetalHeight, true);
+		}
 
         /// <summary>
         /// Перемещает эскиз лепестка по оси Y
@@ -959,7 +959,7 @@ namespace AlloyWheelsBuilderModel
                 rules[0] = curveDumbRule;
                 NXObject nullNxOpenNxObject = null;
                 const double helpPointCoordinate = 0.0;
-                Point3d helpPoint = new NXOpen.Point3d(helpPointCoordinate, 
+                Point3d helpPoint = new Point3d(helpPointCoordinate, 
                     helpPointCoordinate, helpPointCoordinate);
                 section.AddToSection(rules, arc, nullNxOpenNxObject, 
                     nullNxOpenNxObject, helpPoint, 
@@ -986,52 +986,62 @@ namespace AlloyWheelsBuilderModel
         {
             Sketch petalSketch = InitPetalSketch(session, workPart,
                PETAL_SKETCH_NAME);
-            CreateSketch(session, workPart, _alloyWheelsData.
-                PetalSketchArcs);
 
-            SketchFeature sketchFeature = (SketchFeature)workPart.
-                    Features.FindObject(SKETCH_FEATURE_NAME);
-            Sketch sketch = (Sketch)sketchFeature.FindObject(SKETCH_NAME);
-            Arc offsetLeftArc = (Arc)sketch.FindObject(OFFSET_LEFT_ARC_NAME);
-            double offsetLeftArcTopY = offsetLeftArc.CenterPoint.Y
-                + offsetLeftArc.Radius * Math.Sin(offsetLeftArc.StartAngle);
-            double offsetLeftArcBottomY = offsetLeftArc.CenterPoint.Y
-                + offsetLeftArc.Radius * Math.Sin(offsetLeftArc.EndAngle);
+            List<ArcData> sketchArcs;
+            if (_isNeedRounding)
+			{
+                sketchArcs = _alloyWheelsData.RoundPetalSketchArcs;
+			}
+            else
+			{
+                sketchArcs = _alloyWheelsData.PetalSketchArcs;
+			}
+            CreateSketch(session, workPart, sketchArcs);
 
-            if(offsetLeftArcTopY < offsetLeftArcBottomY)
-            {
-                double y = offsetLeftArcTopY;
-                offsetLeftArcTopY = offsetLeftArcBottomY;
-                offsetLeftArcBottomY = y;
-            }
+			SketchFeature sketchFeature = (SketchFeature)workPart.
+					Features.FindObject(SKETCH_FEATURE_NAME);
+			Sketch sketch = (Sketch)sketchFeature.FindObject(SKETCH_NAME);
+			Arc offsetLeftArc = (Arc)sketch.FindObject(OFFSET_LEFT_ARC_NAME);
+			double offsetLeftArcTopY = offsetLeftArc.CenterPoint.Y
+				+ offsetLeftArc.Radius * Math.Sin(offsetLeftArc.StartAngle);
+			double offsetLeftArcBottomY = offsetLeftArc.CenterPoint.Y
+				+ offsetLeftArc.Radius * Math.Sin(offsetLeftArc.EndAngle);
 
-            double offsetLeftArcHeight = offsetLeftArcTopY 
-                - offsetLeftArcBottomY;
+			if (offsetLeftArcTopY < offsetLeftArcBottomY)
+			{
+				double y = offsetLeftArcTopY;
+				offsetLeftArcTopY = offsetLeftArcBottomY;
+				offsetLeftArcBottomY = y;
+			}
 
-            const int indentPercent = 10;
-            double indent = offsetLeftArcHeight * indentPercent / 100;
+			double offsetLeftArcHeight = offsetLeftArcTopY
+				- offsetLeftArcBottomY;
 
-            double newPetalHeight = offsetLeftArcHeight - indent * 1.2;
+			const int indentPercent = 10;
+			double indent = offsetLeftArcHeight * indentPercent / 100;
 
-            ChengePetalHeight(session, workPart, newPetalHeight);
+			double newPetalHeight = offsetLeftArcHeight - indent * 1.4;
 
-            Arc bottomPetalArc = (Arc)petalSketch.FindObject(
-                BOTTOM_PETAL_ARC);
-            double petalBotoomY = bottomPetalArc.CenterPoint.Y
-                + bottomPetalArc.Radius * Math.Sin(bottomPetalArc.
-                StartAngle);
+			ChengePetalHeight(session, workPart, newPetalHeight);
 
-            double newPetalBottomY = offsetLeftArcBottomY + indent;
-            double dy = newPetalBottomY - petalBotoomY;
+			
+			Arc bottomPetalArc = (Arc)petalSketch.FindObject(
+	                BOTTOM_PETAL_ARC);
+			double petalBotoomY = bottomPetalArc.CenterPoint.Y
+				+ bottomPetalArc.Radius * Math.Sin(bottomPetalArc.
+				StartAngle);
 
-            MovePetal(session, dy);
+			double newPetalBottomY = offsetLeftArcBottomY + indent;
+			double dy = newPetalBottomY - petalBotoomY;
 
-            CreateMirrorCurve(session, workPart, MIN_PETAL_SKETCH_ARC_INDEX, 
+			MovePetal(session, dy);
+
+			CreateMirrorCurve(session, workPart, MIN_PETAL_SKETCH_ARC_INDEX,
                 MAX_PETAL_SKETCH_ARC_INDEX, PETAL_MIRROR_AXIS_NAME);
 
-            FinishSketch(session);
+			FinishSketch(session);
 
-            return petalSketch;
+			return petalSketch;
         }
 
         /// <summary>
@@ -1122,18 +1132,19 @@ namespace AlloyWheelsBuilderModel
             const double scalarValue = 0.5;
             CreateHole(workPart, REVOLVED_NAME, SKETCH_FEATURE_NAME,
                 SKETCH_NAME, HOLE_ARC_NAME, scalarValue,
-                _alloyWheelsData[AlloyWheelsParameterName.DrillDiameter].Value);
+                _alloyWheelsData[AlloyWheelsParameterName.DrillDiameter].
+                Value);
             CreateElemetsArray(workPart, HOLE_NAME, REVOLVED_NAME,
                  (int)_alloyWheelsData[AlloyWheelsParameterName.
                  DrillingsCount].Value);
 
             Sketch petalSketch = CreatePetalSketch(session, workPart);
-            //Extrude(workPart, REVOLVED_NAME, PETAL_SKETCH_FEATURE_NAME,
-            //    PETAL_SKETCH_NAME, EXTRUDE_ARC_NAME, EXTRUDE_FACE_NAME);
-            //CreateElemetsArray(workPart, EXTRUDE_NAME, REVOLVED_NAME,
-            //     (int)_alloyWheelsData[AlloyWheelsParameterName.
-            //     SpokesCount].Value);
-        }
+			Extrude(workPart, REVOLVED_NAME, PETAL_SKETCH_FEATURE_NAME,
+				PETAL_SKETCH_NAME, EXTRUDE_ARC_NAME, EXTRUDE_FACE_NAME);
+			CreateElemetsArray(workPart, EXTRUDE_NAME, REVOLVED_NAME,
+				 (int)_alloyWheelsData[AlloyWheelsParameterName.
+				 SpokesCount].Value);
+		}
 
         /// <summary>
         /// Инициализирует объект класса <see cref="AlloyWheelsBuilder"/>

@@ -189,36 +189,34 @@ namespace AlloyWheelsBuilderModel
         public double PetalSketchHeight => 113.4;
 
         /// <summary>
-        /// Возвращает словарь с именами параметров и соответсвующими им 
+        /// Cловарь с именами параметров и соответсвующими им 
         /// обозначениями параметров на пользовательском интерфейсе
         /// </summary>
-        public static Dictionary<AlloyWheelsParameterName, string> 
-            ParameterRussianNames
-		{
-            get => new Dictionary<AlloyWheelsParameterName, string>
+        private Dictionary<AlloyWheelsParameterName, string>
+            _parameterRussianNames = new Dictionary<AlloyWheelsParameterName,
+                string>
             {
-                { AlloyWheelsParameterName.Diameter, 
+                { AlloyWheelsParameterName.Diameter,
                     "Диаметр D" },
-                { AlloyWheelsParameterName.CentralHoleDiameter, 
+                { AlloyWheelsParameterName.CentralHoleDiameter,
                     "Диаметр ЦО ØDIA" },
-                { AlloyWheelsParameterName.Width, 
+                { AlloyWheelsParameterName.Width,
                     "Посадочная ширина Lп" },
-                { AlloyWheelsParameterName.OffSet, 
+                { AlloyWheelsParameterName.OffSet,
                     "Вылет ET" },
-                { AlloyWheelsParameterName.DrillDiameter, 
+                { AlloyWheelsParameterName.DrillDiameter,
                     "Диаметр сверловки B" },
-                { AlloyWheelsParameterName.DrillingsCount, 
+                { AlloyWheelsParameterName.DrillingsCount,
                     "Сверловка" },
-                { AlloyWheelsParameterName.SpokesCount, 
+                { AlloyWheelsParameterName.SpokesCount,
                     "Количество спиц" },
                 { AlloyWheelsParameterName.NaN, "-" }
             };
-        }
 
         /// <summary>
         /// Словарь созависимых параметров
         /// </summary>
-        public static Dictionary<AlloyWheelsParameterName,
+        private Dictionary<AlloyWheelsParameterName,
             AlloyWheelsParameterName> _codependentParameterName = new
             Dictionary<AlloyWheelsParameterName, AlloyWheelsParameterName>
             {
@@ -539,7 +537,7 @@ namespace AlloyWheelsBuilderModel
         public AlloyWheelsParameters()
 		{
             foreach (KeyValuePair<AlloyWheelsParameterName, string>
-               parameterName in ParameterRussianNames)
+               parameterName in _parameterRussianNames)
             {
                 bool isCount = false;
                 if(parameterName.Key == AlloyWheelsParameterName.
@@ -556,7 +554,7 @@ namespace AlloyWheelsBuilderModel
                     new AlloyWheelsParameter(parameterName.Key,
                     parameterName.Value,
                     _codependentParameterName[parameterName.Key],
-                    ParameterRussianNames[_codependentParameterName[parameterName.Key]],
+                    _parameterRussianNames[_codependentParameterName[parameterName.Key]],
                     _minValueCalculators[parameterName.Key],
                     _maxValueCalculators[parameterName.Key], 
                     _units[parameterName.Key]));

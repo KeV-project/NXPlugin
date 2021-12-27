@@ -171,7 +171,8 @@ namespace AlloyWheelsBuilderViewModel
                   (_buildCommand = new RelayCommand(() =>
                   {
                       AlloyWheelsBuilder alloyWheelsBuilder = 
-                      new AlloyWheelsBuilder(_alloyWheelsParameters);
+                      new AlloyWheelsBuilder(_alloyWheelsParameters, 
+                      IsNeedRounding);
                       alloyWheelsBuilder.Build();
                   }));
             }

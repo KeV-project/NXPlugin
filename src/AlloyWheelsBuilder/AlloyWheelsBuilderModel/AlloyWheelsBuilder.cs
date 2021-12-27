@@ -1128,11 +1128,11 @@ namespace AlloyWheelsBuilderModel
                  DrillingsCount].Value);
 
             Sketch petalSketch = CreatePetalSketch(session, workPart);
-            Extrude(workPart, REVOLVED_NAME, PETAL_SKETCH_FEATURE_NAME,
-                PETAL_SKETCH_NAME, EXTRUDE_ARC_NAME, EXTRUDE_FACE_NAME);
-            CreateElemetsArray(workPart, EXTRUDE_NAME, REVOLVED_NAME,
-                 (int)_alloyWheelsData[AlloyWheelsParameterName.
-                 SpokesCount].Value);
+            //Extrude(workPart, REVOLVED_NAME, PETAL_SKETCH_FEATURE_NAME,
+            //    PETAL_SKETCH_NAME, EXTRUDE_ARC_NAME, EXTRUDE_FACE_NAME);
+            //CreateElemetsArray(workPart, EXTRUDE_NAME, REVOLVED_NAME,
+            //     (int)_alloyWheelsData[AlloyWheelsParameterName.
+            //     SpokesCount].Value);
         }
 
         /// <summary>

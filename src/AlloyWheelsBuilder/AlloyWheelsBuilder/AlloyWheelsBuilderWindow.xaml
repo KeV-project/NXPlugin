@@ -30,6 +30,8 @@
             <RowDefinition/>
             <RowDefinition Height="10"/>
             <RowDefinition/>
+            <RowDefinition Height="10"/>
+            <RowDefinition/>
          </Grid.RowDefinitions>
 
          <uc:ParameterControl Grid.Row="0" DataContext="{Binding 
@@ -82,6 +84,14 @@
          <uc:ParameterControl Grid.Row="12" DataContext="{Binding Path=
             AlloyWheelsParameterViewModels[SpokesCount], 
             Mode=TwoWay}"/>
+
+         <GridSplitter Grid.Row="13" Height="2"
+            HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+            Background="Black" IsEnabled="False" Margin="5, 0, -25, 0"/>
+
+         <CheckBox Grid.Row="14" IsChecked="False" Height="20" 
+                   Content="Выполнить скругление рисунка" 
+                   HorizontalAlignment="Right" Margin="0, 0, 10, 5" />
       </Grid>
 
       <GridSplitter Grid.Column="1" ShowsPreview="False" Width="2"

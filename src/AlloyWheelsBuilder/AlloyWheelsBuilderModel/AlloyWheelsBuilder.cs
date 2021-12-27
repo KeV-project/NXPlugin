@@ -158,6 +158,11 @@ namespace AlloyWheelsBuilderModel
         private AlloyWheelsParameters _alloyWheelsData;
 
         /// <summary>
+        /// Определяет, нужно ли скругление рисунка диска
+        /// </summary>
+        private bool _isNeedRounding = false;
+
+        /// <summary>
         /// Создает эскиз в среде задач
         /// </summary>
         /// <param name="session">Текущая сессия</param>
@@ -1134,9 +1139,11 @@ namespace AlloyWheelsBuilderModel
         /// Инициализирует объект класса <see cref="AlloyWheelsBuilder"/>
         /// </summary>
         /// <param name="alloyWheelsData">Параметры модели</param>
-        public AlloyWheelsBuilder(AlloyWheelsParameters alloyWheelsData)
+        public AlloyWheelsBuilder(AlloyWheelsParameters alloyWheelsData, 
+            bool isNeedRounding)
         {
             _alloyWheelsData = alloyWheelsData;
+            _isNeedRounding = isNeedRounding;
         }
     }
 }

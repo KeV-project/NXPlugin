@@ -1,15 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NXOpen;
 using AlloyWheelsBuilderModel;
 
 namespace AlloyWheelsBuilder.UnitTests
 {
+    /// <summary>
+    /// Класс <see cref="AlloyWheelsParametersTestData"/> 
+    /// предназначен для предоставления тестовых нанных
+    /// </summary>
 	public static class AlloyWheelsParametersTestData
 	{
+        /// <summary>
+        /// Возвращает параметр
+        /// </summary>
 		public static AlloyWheelsParameter AlloyWheelsParameter =>
 			new AlloyWheelsParameter(AlloyWheelsParameterName.Width,
 				"Посадочная ширина Lп",
@@ -19,9 +22,15 @@ namespace AlloyWheelsBuilder.UnitTests
 				(Dictionary<AlloyWheelsParameterName,
 				double> parameterValues) => { return 0.0; }, "мм");
 
+        /// <summary>
+        /// Возвращает параметры модели
+        /// </summary>
         public static AlloyWheelsParameters AlloyWheelsParameters =>
             new AlloyWheelsParameters();
 
+        /// <summary>
+        /// Возвращает список дуг эскиза автомобильного диска
+        /// </summary>
         public static List<ArcData> SketchArcs => new List<ArcData>()
         {
             new ArcData(new Point3d(15.44323363559, 92.43285152947, 0.00000000000),
@@ -161,6 +170,9 @@ namespace AlloyWheelsBuilder.UnitTests
                 new Point3d(15.44323363559, 92.43285152947, 0.00000000000))
         };
 
+        /// <summary>
+        /// Возвращает список дуг эскиза рисунка на внешней стороне диска
+        /// </summary>
         public static List<ArcData> PetalSketchArcs => new List<ArcData>()
         {
             new ArcData(new Point3d(0.00000000000, 187.81396319307, 0.00000000000),
@@ -177,6 +189,9 @@ namespace AlloyWheelsBuilder.UnitTests
                 new Point3d(0.00000000000, 74.41653717094, 0.00000000000))
         };
 
+        /// <summary>
+        /// Список имен параметров
+        /// </summary>
         public static List<AlloyWheelsParameterName> ParameterNames =>
             new List<AlloyWheelsParameterName>()
             { 

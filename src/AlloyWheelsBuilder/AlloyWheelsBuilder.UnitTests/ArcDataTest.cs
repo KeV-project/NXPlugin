@@ -7,16 +7,21 @@ namespace AlloyWheelsBuilder.UnitTests
     [TestFixture]
     public class ArcDataTest
     {
+        private const double X = 0.0;
+        private const double Y = 5.1;
+        private const double Z = -9.0;
+
+        public Point3d Point => new Point3d(X, Y, Z);
+
+        public ArcData ArcData => new ArcData(Point, Point, Point);
+
+
         [TestCase(TestName = "Позитивный тест геттера StartPoint")]
         public void TestStartPointGet_CorrectValue()
         {
             // setup
-            const double x = 0.0;
-            const double y = 5.1;
-            const double z = -9.0;
-            Point3d expectedPoint = new Point3d(x, y, z);
-            ArcData arcData = new ArcData(expectedPoint, 
-                expectedPoint, expectedPoint);
+            Point3d expectedPoint = Point;
+            ArcData arcData = ArcData;
 
             // act
             Point3d actualPoint = arcData.StartPoint;
@@ -30,13 +35,9 @@ namespace AlloyWheelsBuilder.UnitTests
         public void TestStartPointSet_CorrectValue()
         {
             // setup
-            const double x = 0.0;
-            const double y = 5.1;
-            const double z = -9.0;
-            Point3d point = new Point3d(x, y, z);
-            ArcData arcData = new ArcData(point, point, point);
+            ArcData arcData = ArcData;
             const double newZ = 10.0;
-            Point3d expectedPoint = new Point3d(z, y, newZ);
+            Point3d expectedPoint = new Point3d(X, Y, newZ);
             arcData.StartPoint = expectedPoint;
 
             // act
@@ -51,12 +52,8 @@ namespace AlloyWheelsBuilder.UnitTests
         public void TestPointOnGet_CorrectValue()
         {
             // setup
-            const double x = 0.0;
-            const double y = 5.1;
-            const double z = -9.0;
-            Point3d expectedPoint = new Point3d(x, y, z);
-            ArcData arcData = new ArcData(expectedPoint,
-                expectedPoint, expectedPoint);
+            Point3d expectedPoint = Point;
+            ArcData arcData = ArcData;
 
             // act
             Point3d actualPoint = arcData.PointOn;
@@ -70,13 +67,9 @@ namespace AlloyWheelsBuilder.UnitTests
         public void TestPointOnSet_CorrectValue()
         {
             // setup
-            const double x = 0.0;
-            const double y = 5.1;
-            const double z = -9.0;
-            Point3d point = new Point3d(x, y, z);
-            ArcData arcData = new ArcData(point, point, point);
+            ArcData arcData = ArcData;
             const double newZ = 10.0;
-            Point3d expectedPoint = new Point3d(z, y, newZ);
+            Point3d expectedPoint = new Point3d(Z, Y, newZ);
             arcData.PointOn = expectedPoint;
 
             // act
@@ -91,12 +84,8 @@ namespace AlloyWheelsBuilder.UnitTests
         public void TestEndPointGet_CorrectValue()
         {
             // setup
-            const double x = 0.0;
-            const double y = 5.1;
-            const double z = -9.0;
-            Point3d expectedPoint = new Point3d(x, y, z);
-            ArcData arcData = new ArcData(expectedPoint,
-                expectedPoint, expectedPoint);
+            Point3d expectedPoint = Point;
+            ArcData arcData = ArcData;
 
             // act
             Point3d actualPoint = arcData.EndPoint;
@@ -110,13 +99,9 @@ namespace AlloyWheelsBuilder.UnitTests
         public void TestEndPointSet_CorrectValue()
         {
             // setup
-            const double x = 0.0;
-            const double y = 5.1;
-            const double z = -9.0;
-            Point3d point = new Point3d(x, y, z);
-            ArcData arcData = new ArcData(point, point, point);
+            ArcData arcData = ArcData;
             const double newZ = 10.0;
-            Point3d expectedPoint = new Point3d(z, y, newZ);
+            Point3d expectedPoint = new Point3d(Z, Y, newZ);
             arcData.EndPoint = expectedPoint;
 
             // act
@@ -130,27 +115,18 @@ namespace AlloyWheelsBuilder.UnitTests
         [TestCase(TestName = "Позитивный тест конструктора")]
         public void TestConstructor_CorrectValue()
         {
-            // setup
-            const double x = 0.0;
-            const double y = 5.1;
-            const double z = -9.0;
-            Point3d expectedStartPoint = new Point3d(x, y, z);
-            Point3d expectedPointOn = new Point3d(x, y, z);
-            Point3d expectedEndPoint = new Point3d(x, y, z);
-
             // act
-            ArcData arcData = new ArcData(expectedStartPoint, 
-                expectedPointOn, expectedEndPoint);
+            ArcData arcData = ArcData;
             Point3d actualStartPoint = arcData.StartPoint;
             Point3d actualPointOn = arcData.PointOn;
             Point3d actualEndPoint = arcData.EndPoint;
 
             // assert
-            Assert.AreEqual(expectedStartPoint, actualStartPoint, 
+            Assert.AreEqual(Point, actualStartPoint, 
                 "Конструктор неверно инициализирует свойство StartPoint");
-            Assert.AreEqual(expectedPointOn, actualPointOn, 
+            Assert.AreEqual(Point, actualPointOn, 
                 "Конструктор неверно инициализирует свойство PointOn");
-            Assert.AreEqual(expectedEndPoint, actualEndPoint, 
+            Assert.AreEqual(Point, actualEndPoint, 
                 "Конструктор неверно инициализирует свойство EndPoint");
         }
 
@@ -158,15 +134,8 @@ namespace AlloyWheelsBuilder.UnitTests
         public void TestCompareTo_CorrectValue()
         {
             // setup
-            const double x = -1.5;
-            const double y = 4.5;
-            const double z = 6.0;
-            Point3d startPoit = new Point3d(x, y, z);
-            Point3d pointOn = new Point3d(x, y, z);
-            Point3d endPoint = new Point3d(x, y, z);
-            ArcData arcData = new ArcData(startPoit, pointOn, endPoint);
-            ArcData comparedArcData = new ArcData(startPoit, 
-                pointOn, endPoint);
+            ArcData arcData = ArcData;
+            ArcData comparedArcData = ArcData;
             const int expectedResult = 1;
 
             // act
@@ -181,16 +150,10 @@ namespace AlloyWheelsBuilder.UnitTests
         public void TestCompareTo_IncorrectValue()
 		{
             // setup
-            const double x = -1.5;
-            const double y = 4.5;
-            const double z = 6.0;
-            Point3d startPoit = new Point3d(x, y, z);
-            Point3d pointOn = new Point3d(x, y, z);
-            Point3d endPoint = new Point3d(x, y, z);
-            ArcData arcData = new ArcData(startPoit, pointOn, endPoint);
-            Point3d newEndPoint = new Point3d(z, x, y);
-            ArcData comparedArcData = new ArcData(startPoit,
-                pointOn, newEndPoint);
+            ArcData arcData = ArcData;
+            Point3d newEndPoint = new Point3d(Z, X, Y);
+            ArcData comparedArcData = new ArcData(arcData.StartPoint,
+                arcData.PointOn, newEndPoint);
             const int expectedResult = 0;
 
             // act

@@ -128,6 +128,12 @@ namespace AlloyWheelsBuilderViewModel
 		}
 
         /// <summary>
+        /// Возвращает значение, показывающее, 
+        /// нужно ли делать скругление рисунка
+        /// </summary>
+        public bool IsNeedRounding { get; set; } = false;
+
+        /// <summary>
         /// Команда очистки полей для ввода параметров
         /// </summary>
         private RelayCommand _cancelCommand;

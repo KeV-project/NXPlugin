@@ -68,6 +68,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlloyWheelsDataTest.cs" />
+    <Compile Include="AlloyWheelsParametersTestData.cs" />
+    <Compile Include="AlloyWheelsParameterTest.cs" />
     <Compile Include="ArcDataTest.cs" />
     <Compile Include="CalculatorTest.cs" />
     <Compile Include="SetParameterValueArgsTest.cs" />

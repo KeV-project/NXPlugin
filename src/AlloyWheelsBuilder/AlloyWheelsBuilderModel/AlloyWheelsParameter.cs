@@ -7,12 +7,18 @@ namespace AlloyWheelsBuilderModel
     /// Класс <see cref="AlloyWheelsParameter"/> представляет 
     /// задаваемый параметр модели автомобильного диска
     /// </summary>
-    public class AlloyWheelsParameter
+    public class AlloyWheelsParameter: IComparable
     {
         /// <summary>
         /// Устанавливает и возвращает имя параметра
         /// </summary>
         public AlloyWheelsParameterName Name { get; private set; }
+
+        /// <summary>
+        /// Возвращает и устанавливает обозначение параметра 
+        /// на пользовательском интерфейсе
+        /// </summary>
+        public string RussianName { get; private set; }
 
         /// <summary>
         /// Имя созависимого параметра
@@ -24,12 +30,6 @@ namespace AlloyWheelsBuilderModel
         /// Обозначение созависимого параметра на пользовательском интерфейсе
         /// </summary>
         public string CodependentParameterRussianName { get; private set; }
-
-        /// <summary>
-        /// Возвращает и устанавливает обозначение параметра 
-        /// на пользовательском интерфейсе
-        /// </summary>
-        public string RussianName { get; private set; }
 
         /// <summary>
         /// Возвращает и устанавливает единицы измерения параметра
@@ -193,5 +193,29 @@ namespace AlloyWheelsBuilderModel
                 codependentParameterRussianName;
             Unit = unit;
         }
+
+        /// <summary>
+        /// Спавнивает объекты класса <see cref="AlloyWheelsParameter"/>
+        /// </summary>
+        /// <param name="alloyWheelsParameter">Обект для сравнения</param>
+        /// <returns>Возвращает 0, если объекты равны, иначе 1</returns>
+        public int CompareTo(object comparedAlloyWheelsParameter)
+		{
+            AlloyWheelsParameter alloyWheelsParameter = 
+                (AlloyWheelsParameter)comparedAlloyWheelsParameter;
+            if(Name == alloyWheelsParameter.Name 
+                && RussianName == alloyWheelsParameter.RussianName
+                && CodependentParameterName == alloyWheelsParameter.
+                CodependentParameterName
+                && CodependentParameterRussianName == alloyWheelsParameter.
+                CodependentParameterRussianName
+                && Unit == alloyWheelsParameter.Unit
+                && IsCount == alloyWheelsParameter.IsCount
+                && Value.Equals(alloyWheelsParameter.Value))
+			{
+                return 0;
+			}
+            return 1;
+		}
     }
 }

@@ -7,12 +7,27 @@ namespace AlloyWheelsBuilder.UnitTests
     [TestFixture]
     public class ArcDataTest
     {
+        /// <summary>
+        /// Координата X
+        /// </summary>
         private const double X = 0.0;
+        /// <summary>
+        /// Координата Y
+        /// </summary>
         private const double Y = 5.1;
+        /// <summary>
+        /// Координата Z
+        /// </summary>
         private const double Z = -9.0;
 
+        /// <summary>
+        /// Возвращает точку в пространстве
+        /// </summary>
         public Point3d Point => new Point3d(X, Y, Z);
 
+        /// <summary>
+        /// Возвращает дугу
+        /// </summary>
         public ArcData ArcData => new ArcData(Point, Point, Point);
 
 

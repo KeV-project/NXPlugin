@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using AlloyWheelsBuilderModel;
+using AlloyWheelsBuilder.UnitTests.TestData;
 
 namespace AlloyWheelsBuilder.UnitTests
 {

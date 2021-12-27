@@ -2,6 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using AlloyWheelsBuilderModel;
+using AlloyWheelsBuilder.UnitTests.TestData;
 
 namespace AlloyWheelsBuilder.UnitTests
 {

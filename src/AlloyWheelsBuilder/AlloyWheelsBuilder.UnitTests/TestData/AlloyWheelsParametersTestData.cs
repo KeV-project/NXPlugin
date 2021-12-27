@@ -2,7 +2,7 @@
 using NXOpen;
 using AlloyWheelsBuilderModel;
 
-namespace AlloyWheelsBuilder.UnitTests
+namespace AlloyWheelsBuilder.UnitTests.TestData
 {
     /// <summary>
     /// Класс <see cref="AlloyWheelsParametersTestData"/> 

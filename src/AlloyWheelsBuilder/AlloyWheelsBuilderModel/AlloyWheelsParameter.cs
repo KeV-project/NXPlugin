@@ -58,9 +58,6 @@ namespace AlloyWheelsBuilderModel
         /// <param name="parameterValues">Словарь, 
         /// содержащий номиналы параметров модели. 
         /// Необходим для получения созависимых параметров.</param>
-        /// <param name="codependentParameterRussianName">
-        /// Обозначение созависимого параметра 
-        /// на пользовательском интерфейсе</param>
         /// <param name="value">Номинал параметра</param>
         public void SetValue(
             Dictionary<AlloyWheelsParameterName, double> parameterValues, 
@@ -164,10 +161,16 @@ namespace AlloyWheelsBuilderModel
         /// <param name="name">Имя параметра</param>
         /// <param name="russianName">Обозначение параметра 
         /// на пользовательском интерфейсе</param>
+        /// <param name="codependentParameterName">
+        /// Имя созависимого параметра</param>
+        /// <param name="codependentParameterRussianName">
+        /// Обозначение созависимого параметра 
+        /// на пользовательском интерфейсе</param>
         /// <param name="calculateMinValue">Метод расчета 
         /// минимально допустимого значения параметра</param>
         /// <param name="calculateMaxValue">Метод расчета 
         /// максимально допустимого значения параметра</param>
+        /// <param name="unit">Единица измерения параметра</param>
         public AlloyWheelsParameter(AlloyWheelsParameterName name, 
             string russianName, 
             AlloyWheelsParameterName codependentParameterName,
@@ -191,7 +194,6 @@ namespace AlloyWheelsBuilderModel
         /// <summary>
         /// Спавнивает объекты класса <see cref="AlloyWheelsParameter"/>
         /// </summary>
-        /// <param name="alloyWheelsParameter">Обект для сравнения</param>
         /// <returns>Возвращает 0, если объекты равны, иначе 1</returns>
         public int CompareTo(object comparedAlloyWheelsParameter)
 		{

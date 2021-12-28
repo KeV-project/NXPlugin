@@ -746,7 +746,7 @@ namespace AlloyWheelsBuilderModel
         /// Создает массив элементов
         /// </summary>
         /// <param name="workPart">Рабочая часть</param>
-        /// <param name="arrayObjectName">Имя объекта</param>
+        /// <param name="featureName">Имя грани</param>
         /// <param name="arrayPlaceName">Имя плоскости для 
         /// расположение массива</param>
         /// <param name="elementsCount">Количество элементов</param>

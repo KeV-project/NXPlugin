@@ -2,6 +2,7 @@
 
 namespace AlloyWheelsBuilderModel
 {
+    //TODO: XML
     public class SetParameterValueArgs: EventArgs
     {
         public AlloyWheelsParameterName ParameterName { get; set; }

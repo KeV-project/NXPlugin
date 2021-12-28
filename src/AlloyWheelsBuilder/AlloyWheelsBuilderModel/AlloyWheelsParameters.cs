@@ -349,21 +349,13 @@ namespace AlloyWheelsBuilderModel
             {
                 { 
                     AlloyWheelsParameterName.Diameter, 
-                    (Dictionary<AlloyWheelsParameterName, 
-                        double> parameterValues) => 
-                    { 
-                        return MIN_DIAMETER;
-                    } 
+                    parameterValues => MIN_DIAMETER
                 },
                 { 
                     AlloyWheelsParameterName.CentralHoleDiameter,
-                    (Dictionary<AlloyWheelsParameterName, 
-                        double> parameterValues) =>
-                    {
-                        return Math.Round((parameterValues[
+                    parameterValues => Math.Round((parameterValues[
                             AlloyWheelsParameterName.Diameter]
-                            * MIN_CENTER_HOLE_PERCENT / 100), 3);
-                    } 
+                        * MIN_CENTER_HOLE_PERCENT / 100), 3)
                 },
                 { 
                     AlloyWheelsParameterName.Width, 
@@ -422,7 +414,7 @@ namespace AlloyWheelsBuilderModel
         /// <summary>
         /// Методы расчета максимальных значений параметров
         /// </summary>
-        private Dictionary<AlloyWheelsParameterName,
+        private readonly Dictionary<AlloyWheelsParameterName,
             Func<Dictionary<AlloyWheelsParameterName, double>, double>>
             _maxValueCalculators = new Dictionary<AlloyWheelsParameterName,
                 Func<Dictionary<AlloyWheelsParameterName, double>, double>>
@@ -522,7 +514,7 @@ namespace AlloyWheelsBuilderModel
         /// <summary>
         /// Параметры модели автомобильного диска
         /// </summary>
-        private Dictionary<AlloyWheelsParameterName, AlloyWheelsParameter> 
+        private readonly Dictionary<AlloyWheelsParameterName, AlloyWheelsParameter> 
             _parameters = new Dictionary<AlloyWheelsParameterName, 
                 AlloyWheelsParameter>();
 
@@ -562,14 +554,9 @@ namespace AlloyWheelsBuilderModel
             foreach (KeyValuePair<AlloyWheelsParameterName, string>
                parameterName in _parameterRussianNames)
             {
-                bool isCount = false;
-                if(parameterName.Key == AlloyWheelsParameterName.
-                    DrillingsCount 
-                    || parameterName.Key == AlloyWheelsParameterName.
-                    SpokesCount)
-				{
-                    isCount = true;
-				}
+                var isCount = false 
+                              || (parameterName.Key == AlloyWheelsParameterName.DrillingsCount 
+                              || parameterName.Key == AlloyWheelsParameterName.SpokesCount);
 
                 if(parameterName.Key != AlloyWheelsParameterName.NaN)
 				{

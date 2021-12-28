@@ -40,13 +40,7 @@ namespace AlloyWheelsBuilderModel
         /// Если единицей изерения параметра является штука, 
         /// возвращает true, иначе возвращает false
         /// </summary>
-        public bool IsCount 
-        { 
-            get
-			{
-                return Unit == "шт";
-			}
-        }
+        public bool IsCount => Unit == "шт";
 
         /// <summary>
         /// Номинал параметра
@@ -124,7 +118,7 @@ namespace AlloyWheelsBuilderModel
         /// <summary>
         /// Метод расчета максимально допустимого значения параметра
         /// </summary>
-        private Func<Dictionary<AlloyWheelsParameterName, 
+        private readonly Func<Dictionary<AlloyWheelsParameterName, 
             double>, double> _calculateMaxValue;
 
         /// <summary>

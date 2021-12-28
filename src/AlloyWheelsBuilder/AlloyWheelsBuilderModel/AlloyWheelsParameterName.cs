@@ -1,5 +1,6 @@
 ﻿namespace AlloyWheelsBuilderModel
 {
+	//TODO: XML
 	public enum AlloyWheelsParameterName
 	{
 		Diameter, 

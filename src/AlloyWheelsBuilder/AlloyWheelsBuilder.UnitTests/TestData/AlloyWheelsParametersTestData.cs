@@ -22,11 +22,84 @@ namespace AlloyWheelsBuilder.UnitTests.TestData
 				(Dictionary<AlloyWheelsParameterName,
 				double> parameterValues) => { return 0.0; }, "мм");
 
+        public static AlloyWheelsParameters NullAlloyWheelsParameters =>
+            new AlloyWheelsParameters();
+
         /// <summary>
         /// Возвращает параметры модели
         /// </summary>
-        public static AlloyWheelsParameters AlloyWheelsParameters =>
-            new AlloyWheelsParameters();
+        public static AlloyWheelsParameters AlloyWheelsParameters
+		{
+			get
+			{
+                AlloyWheelsParameters alloyWheelsParameters = 
+                    new AlloyWheelsParameters();
+                alloyWheelsParameters[AlloyWheelsParameterName.Diameter].
+                    SetValue(alloyWheelsParameters.ParameterValues, 220);
+                alloyWheelsParameters[AlloyWheelsParameterName.
+                    CentralHoleDiameter].SetValue(alloyWheelsParameters.
+                    ParameterValues, 22);
+                alloyWheelsParameters[AlloyWheelsParameterName.Width].
+                    SetValue(alloyWheelsParameters.ParameterValues, 66);
+                alloyWheelsParameters[AlloyWheelsParameterName.OffSet].
+                    SetValue(alloyWheelsParameters.ParameterValues, 10);
+                alloyWheelsParameters[AlloyWheelsParameterName.
+                    DrillDiameter].SetValue(alloyWheelsParameters.
+                    ParameterValues, 10);
+                alloyWheelsParameters[AlloyWheelsParameterName.
+                    DrillingsCount].SetValue(alloyWheelsParameters.
+                    ParameterValues, 6);
+                alloyWheelsParameters[AlloyWheelsParameterName.SpokesCount].
+                    SetValue(alloyWheelsParameters.ParameterValues, 12);
+                return alloyWheelsParameters;
+			}
+		}
+
+        /// <summary>
+        /// Возвращает значения параметров
+        /// </summary>
+        public static Dictionary<AlloyWheelsParameterName, double> 
+            ParameterValues => new Dictionary<AlloyWheelsParameterName, 
+                double>
+            {
+                { AlloyWheelsParameterName.Diameter, 220 },
+                { AlloyWheelsParameterName.CentralHoleDiameter, 22 },
+                { AlloyWheelsParameterName.Width, 66 },
+                { AlloyWheelsParameterName.OffSet, 10 },
+                { AlloyWheelsParameterName.DrillDiameter, 10 },
+                { AlloyWheelsParameterName.DrillingsCount, 6 },
+                { AlloyWheelsParameterName.SpokesCount, 12 }
+            };
+
+        /// <summary>
+        /// Возвращает минимально допустимые значения параметров
+        /// </summary>
+        public static Dictionary<AlloyWheelsParameterName, double>
+            MinValues => new Dictionary<AlloyWheelsParameterName, double>
+            {
+                { AlloyWheelsParameterName.Diameter, 101.6 },
+                { AlloyWheelsParameterName.CentralHoleDiameter, 22 },
+                { AlloyWheelsParameterName.Width, 64.961 },
+                { AlloyWheelsParameterName.OffSet, -1.65 },
+                { AlloyWheelsParameterName.DrillDiameter, 9.476 },
+                { AlloyWheelsParameterName.DrillingsCount, 4 },
+                { AlloyWheelsParameterName.SpokesCount, 4 }
+            };
+
+        /// <summary>
+        /// Возвращает максимально допустимые значения параметров
+        /// </summary>
+        public static Dictionary<AlloyWheelsParameterName, double>
+            MaxValues => new Dictionary<AlloyWheelsParameterName, double>
+            {
+                { AlloyWheelsParameterName.Diameter, 1447.8 },
+                { AlloyWheelsParameterName.CentralHoleDiameter, 39.6 },
+                { AlloyWheelsParameterName.Width, 99 },
+                { AlloyWheelsParameterName.OffSet, 33 },
+                { AlloyWheelsParameterName.DrillDiameter, 11.781 },
+                { AlloyWheelsParameterName.DrillingsCount, 11 },
+                { AlloyWheelsParameterName.SpokesCount, 18 }
+            };
 
         /// <summary>
         /// Возвращает список дуг эскиза автомобильного диска

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using AlloyWheelsBuilderModel;
 using AlloyWheelsBuilder.UnitTests.TestData;
@@ -153,40 +152,31 @@ namespace AlloyWheelsBuilder.UnitTests
         public void TestParameterValues_CorrectValue()
 		{
             // setup
-            AlloyWheelsParameters expectedAlloyWheelsParameters = 
+            AlloyWheelsParameters alloyWheelsParameters = 
                 AlloyWheelsParametersTestData.AlloyWheelsParameters;
-            Dictionary<AlloyWheelsParameterName, double> 
-                expectedParameterValues = 
-                new Dictionary<AlloyWheelsParameterName, double>();
-            foreach (AlloyWheelsParameterName parameterName in 
-                AlloyWheelsParametersTestData.ParameterNames)
-            {
-                expectedParameterValues.Add(parameterName,
-                    expectedAlloyWheelsParameters[parameterName].Value);
-            }
+            Dictionary<AlloyWheelsParameterName, double>
+                expectedParameterValues = AlloyWheelsParametersTestData.
+                ParameterValues;
             int expectedParameterValuesCount = expectedParameterValues.Count;
 
             // act
-            AlloyWheelsParameters actualAlloyWheelsParameters =
-                new AlloyWheelsParameters();
             Dictionary<AlloyWheelsParameterName, double> 
-                actualParameterValues = actualAlloyWheelsParameters.
+                actualParameterValues = alloyWheelsParameters.
                 ParameterValues;
             int actualParameterValuesCount = actualParameterValues.Count;
 
             // assert
-            Assert.AreEqual(actualParameterValuesCount, 
-                expectedParameterValuesCount, "Геттер ParameterValues " 
-                + "возвращает некорректное число элементов");
-            foreach(AlloyWheelsParameterName parameterName in 
-                AlloyWheelsParametersTestData.ParameterNames)
-			{
-                double expectedValue = expectedParameterValues[parameterName];
-                double actualValue = actualParameterValues[parameterName];
+            Assert.AreEqual(expectedParameterValuesCount, 
+                actualParameterValuesCount, "Геттер ParameterValues " 
+                + "вернул словарь с некорректным количеством элементов");
 
-                Assert.AreEqual(expectedValue, actualValue, 
-                    "Геттер ParameterValues возвратил некорректное " 
-                    + "значение элемента " + parameterName);
+            foreach(AlloyWheelsParameterName parameterName 
+                in AlloyWheelsParametersTestData.ParameterNames)
+			{
+                Assert.AreEqual(expectedParameterValues[parameterName], 
+                    actualParameterValues[parameterName], 
+                    "Геттер ParameterValues вернул некорректное значение " 
+                    + "параметра " + parameterName);
 			}
         }
 
@@ -201,76 +191,72 @@ namespace AlloyWheelsBuilder.UnitTests
             foreach (AlloyWheelsParameterName parameterName in
                 AlloyWheelsParametersTestData.ParameterNames)
             {
-                AlloyWheelsParameter alloyWheelsParameter =
-                    alloyWheelsParameters[parameterName];
+				AlloyWheelsParameter alloyWheelsParameter =
+					alloyWheelsParameters[parameterName];
 
-                AlloyWheelsParameterName expectedName = parameterName;
-                AlloyWheelsParameterName actualName = alloyWheelsParameter.
-                    Name;
-                Assert.AreEqual(expectedName, actualName, 
-                    "Конструктор неверно инициализировал имя параметра" 
-                    + parameterName);
+				AlloyWheelsParameterName expectedName = parameterName;
+				AlloyWheelsParameterName actualName = alloyWheelsParameter.
+					Name;
+				Assert.AreEqual(expectedName, actualName,
+					"Конструктор неверно инициализировал имя параметра"
+					+ parameterName);
 
-                string expectedRussianName = AlloyWheelsParametersTestData.
-                    ParameterRussianNames[parameterName];
-                string actualRussianName = alloyWheelsParameter.RussianName;
-                Assert.AreEqual(expectedRussianName, actualRussianName,
-                    "Конструктор неверно инициализировал "
-                    + "обозначение параметра" + parameterName
-                    + "на пользовательском интерфейсе");
+				string expectedRussianName = AlloyWheelsParametersTestData.
+					ParameterRussianNames[parameterName];
+				string actualRussianName = alloyWheelsParameter.RussianName;
+				Assert.AreEqual(expectedRussianName, actualRussianName,
+					"Конструктор неверно инициализировал "
+					+ "обозначение параметра" + parameterName
+					+ "на пользовательском интерфейсе");
 
-                AlloyWheelsParameterName expectedCodependentParameterName = 
-                    alloyWheelsParameters[parameterName].
-                    CodependentParameterName;
-                AlloyWheelsParameterName actualCodependentParameterName = 
-                    alloyWheelsParameter.
-                    CodependentParameterName;
-                Assert.AreEqual(expectedCodependentParameterName, 
-                    actualCodependentParameterName,
-                    "Конструктор неверно инициализировал имя созависимого параметра"
-                    + parameterName);
+				AlloyWheelsParameterName expectedCodependentParameterName =
+					alloyWheelsParameters[parameterName].
+					CodependentParameterName;
+				AlloyWheelsParameterName actualCodependentParameterName =
+					alloyWheelsParameter.
+					CodependentParameterName;
+				Assert.AreEqual(expectedCodependentParameterName,
+					actualCodependentParameterName,
+					"Конструктор неверно инициализировал имя созависимого параметра"
+					+ parameterName);
 
-                string expectedCodependentParameterRussianName = 
-                    AlloyWheelsParametersTestData.ParameterRussianNames[
-                        alloyWheelsParameters[parameterName].
-                        CodependentParameterName];
-                string actualCodependentParameterRussianName = alloyWheelsParameter.
-                    CodependentParameterRussianName;
-                Assert.AreEqual(expectedCodependentParameterRussianName, 
-                    actualCodependentParameterRussianName,
-                    "Конструктор неверно инициализировал "
-                    + "обозначение созависимого параметра" + parameterName
-                    + "на пользовательском интерфейсе");
+				string expectedCodependentParameterRussianName =
+					AlloyWheelsParametersTestData.ParameterRussianNames[
+						alloyWheelsParameters[parameterName].
+						CodependentParameterName];
+				string actualCodependentParameterRussianName = alloyWheelsParameter.
+					CodependentParameterRussianName;
+				Assert.AreEqual(expectedCodependentParameterRussianName,
+					actualCodependentParameterRussianName,
+					"Конструктор неверно инициализировал "
+					+ "обозначение созависимого параметра" + parameterName
+					+ "на пользовательском интерфейсе");
 
-                double expectedMinValue = double.NaN;
-                double expectedMaxValue = double.NaN;
-
-                if (parameterName== AlloyWheelsParameterName.Diameter)
-				{
-                    expectedMinValue = 101.6;
-                    expectedMaxValue = 1447.8;
-				}
-
-                double actualMinValue = alloyWheelsParameter.GetMinValue(
-                    alloyWheelsParameters.ParameterValues);
-                double actulMaxValue = alloyWheelsParameter.GetMaxValue(
-                    alloyWheelsParameters.ParameterValues);
-                Assert.AreEqual(expectedMinValue, actualMinValue, 
-                    "Конструктор неверно инициализирует матод " 
-                    + "для рассчета минимально допустимого значения " 
-                    + "параметра");
-                Assert.AreEqual(expectedMaxValue, actulMaxValue,
+                double expectedMinValue = AlloyWheelsParametersTestData.
+                    MinValues[parameterName];
+				double actualMinValue = alloyWheelsParameter.GetMinValue(
+					alloyWheelsParameters.ParameterValues);
+                Assert.AreEqual(expectedMinValue, actualMinValue,
                     "Конструктор неверно инициализирует матод "
-                    + "для рассчета максимально допустимого значения "
+                    + "для рассчета минимально допустимого значения "
                     + "параметра");
 
-                string expectedUnit = AlloyWheelsParametersTestData.
-                    Units[parameterName];
-                string actualUnit = alloyWheelsParameter.Unit;
-                Assert.AreEqual(expectedUnit, actualUnit, 
-                    "Конструктор неверно инициализировал " 
-                    + "единицу измерения параметра " + parameterName);
-            }
+                double expectedMaxValue = AlloyWheelsParametersTestData.
+                    MaxValues[parameterName];
+                double actulMaxValue = alloyWheelsParameter.GetMaxValue(
+					alloyWheelsParameters.ParameterValues);
+				Assert.AreEqual(expectedMaxValue, actulMaxValue,
+					"Конструктор неверно инициализирует матод "
+					+ "для рассчета максимально допустимого значения "
+					+ "параметра");
+
+				string expectedUnit = AlloyWheelsParametersTestData.
+					Units[parameterName];
+				string actualUnit = alloyWheelsParameter.Unit;
+				Assert.AreEqual(expectedUnit, actualUnit,
+					"Конструктор неверно инициализировал "
+					+ "единицу измерения параметра " + parameterName);
+			}
 		}
     }
 }

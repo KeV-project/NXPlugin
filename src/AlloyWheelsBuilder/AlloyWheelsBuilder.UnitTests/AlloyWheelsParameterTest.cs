@@ -261,7 +261,7 @@ namespace AlloyWheelsBuilder.UnitTests
         {
             // setup
             AlloyWheelsParameters alloyWheelsParameters =
-                AlloyWheelsParametersTestData.AlloyWheelsParameters;
+                AlloyWheelsParametersTestData.NullAlloyWheelsParameters;
 
             // assert
             Assert.Throws<ArgumentException>(() =>
@@ -288,7 +288,7 @@ namespace AlloyWheelsBuilder.UnitTests
 		{
             // setup
             AlloyWheelsParameters alloyWheelsParameters = 
-                AlloyWheelsParametersTestData.AlloyWheelsParameters;
+                AlloyWheelsParametersTestData.NullAlloyWheelsParameters;
 
             // act
             double actualValue = alloyWheelsParameters[parameterName].
@@ -339,7 +339,7 @@ namespace AlloyWheelsBuilder.UnitTests
         {
             // setup
             AlloyWheelsParameters alloyWheelsParameters =
-                AlloyWheelsParametersTestData.AlloyWheelsParameters;
+                AlloyWheelsParametersTestData.NullAlloyWheelsParameters;
 
             // act
             double actualValue = alloyWheelsParameters[parameterName].

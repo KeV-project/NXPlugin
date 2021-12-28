@@ -477,8 +477,9 @@ namespace AlloyWheelsBuilderModel
         /// <summary>
         /// Параметры модели автомобильного диска
         /// </summary>
-        private readonly Dictionary<AlloyWheelsParameterName, AlloyWheelsParameter> 
-            _parameters = new Dictionary<AlloyWheelsParameterName, 
+        private readonly Dictionary<AlloyWheelsParameterName, 
+            AlloyWheelsParameter>  _parameters = 
+            new Dictionary<AlloyWheelsParameterName, 
                 AlloyWheelsParameter>();
 
         /// <summary>

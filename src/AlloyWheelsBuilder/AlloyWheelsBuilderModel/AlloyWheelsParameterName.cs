@@ -1,6 +1,9 @@
 ﻿namespace AlloyWheelsBuilderModel
 {
-	//TODO: XML
+	//TODO: XML +
+	/// <summary>
+	/// Имена параметров модели автомобильного диска
+	/// </summary>
 	public enum AlloyWheelsParameterName
 	{
 		Diameter, 

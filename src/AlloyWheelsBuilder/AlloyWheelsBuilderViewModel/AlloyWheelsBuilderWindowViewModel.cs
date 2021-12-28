@@ -174,6 +174,7 @@ namespace AlloyWheelsBuilderViewModel
                       new AlloyWheelsBuilder(_alloyWheelsParameters, 
                       IsNeedRounding);
                       alloyWheelsBuilder.Build();
+                      //alloyWheelsBuilder.StressTesting();
                   }));
             }
 		}

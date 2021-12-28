@@ -1,9 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using NXOpen;
 using NXOpen.Annotations;
 using NXOpen.Features;
 using NXOpen.GeometricUtilities;
+using System.Diagnostics;
+using Microsoft.VisualBasic.Devices;
 
 namespace AlloyWheelsBuilderModel
 {
@@ -1121,24 +1124,24 @@ namespace AlloyWheelsBuilderModel
         /// </summary>
         public void Build()
         {
-            Session session = Session.GetSession();
-            Part workPart = session.Parts.Work;
+			Session session = Session.GetSession();
+			Part workPart = session.Parts.Work;
 
-            Sketch alloyWheelsSketch = CreateAlloyWheelsSketch(session,
-                workPart);
+			Sketch alloyWheelsSketch = CreateAlloyWheelsSketch(session,
+				workPart);
 
-            RevolveSketch(workPart, alloyWheelsSketch);
+			RevolveSketch(workPart, alloyWheelsSketch);
 
-            const double scalarValue = 0.5;
-            CreateHole(workPart, REVOLVED_NAME, SKETCH_FEATURE_NAME,
-                SKETCH_NAME, HOLE_ARC_NAME, scalarValue,
-                _alloyWheelsData[AlloyWheelsParameterName.DrillDiameter].
-                Value);
-            CreateElemetsArray(workPart, HOLE_NAME, REVOLVED_NAME,
-                 (int)_alloyWheelsData[AlloyWheelsParameterName.
-                 DrillingsCount].Value);
+			const double scalarValue = 0.5;
+			CreateHole(workPart, REVOLVED_NAME, SKETCH_FEATURE_NAME,
+				SKETCH_NAME, HOLE_ARC_NAME, scalarValue,
+				_alloyWheelsData[AlloyWheelsParameterName.DrillDiameter].
+				Value);
+			CreateElemetsArray(workPart, HOLE_NAME, REVOLVED_NAME,
+				 (int)_alloyWheelsData[AlloyWheelsParameterName.
+				 DrillingsCount].Value);
 
-            Sketch petalSketch = CreatePetalSketch(session, workPart);
+			Sketch petalSketch = CreatePetalSketch(session, workPart);
 			Extrude(workPart, REVOLVED_NAME, PETAL_SKETCH_FEATURE_NAME,
 				PETAL_SKETCH_NAME, EXTRUDE_ARC_NAME, EXTRUDE_FACE_NAME);
 			CreateElemetsArray(workPart, EXTRUDE_NAME, REVOLVED_NAME,
@@ -1155,6 +1158,49 @@ namespace AlloyWheelsBuilderModel
         {
             _alloyWheelsData = alloyWheelsData;
             _isNeedRounding = isNeedRounding;
+        }
+
+        /// <summary>
+        /// Нагрузочное тестирование
+        /// </summary>
+        public void StressTesting()
+        {
+            Session session = Session.GetSession();
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            StreamWriter streamWriter = new StreamWriter(
+                "C:\\doc\\4Course\\ОРСАПР\\log.txt", true);
+            var count = 0;
+
+            while (true)
+            {
+                FileNew fileNew = session.Parts.FileNew();
+                fileNew.TemplateFileName = "model-plain-1-mm-"
+                    + "template.prt";
+                fileNew.ApplicationName = "ModelTemplate";
+                fileNew.Units = Part.Units.Millimeters;
+                fileNew.TemplatePresentationName = "Модель";
+                fileNew.SetCanCreateAltrep(false);
+                fileNew.NewFileName = "C:\\doc\\4Course\\ОРСАПР\\"
+                    + "model1.prt";
+                fileNew.Commit();
+                Part workPart = session.Parts.Work;
+
+                //Build(session, workPart);
+                var computerInfo = new ComputerInfo();
+                var usedMemory = (computerInfo.TotalPhysicalMemory
+                    - computerInfo.AvailablePhysicalMemory)
+                    * 0.000000000931322574615478515625;
+                streamWriter.WriteLine(
+                    $"{++count}\t{stopwatch.Elapsed:hh\\:mm\\:ss\\.fff}"
+                    + $"\t{usedMemory}");
+                streamWriter.Flush();
+
+                fileNew.Destroy();
+                workPart.Close(BasePart.CloseWholeTree.False,
+                    BasePart.CloseModified.UseResponses, null);
+            }
         }
     }
 }

@@ -190,6 +190,29 @@ namespace AlloyWheelsBuilder.UnitTests.TestData
         };
 
         /// <summary>
+		/// Возвращает список дуг скругленного эскиза рисунка 
+		/// на внешней стороне диска
+		/// </summary>
+		public static List<ArcData> RoundPetalSketchArcs
+        {
+            get => new List<ArcData>()
+            {
+                 new ArcData(new Point3d(0.00000000000, 187.81229567099, 0.00000000000),
+                    new Point3d(0.00000000000, 187.69040244979, -4.55391009798),
+                    new Point3d(0.00000000000, 186.82696069437, -8.58330532227)),
+                 new ArcData(new Point3d(0.00000000000, 186.82696069437, -8.58330532227),
+                    new Point3d(0.00000000000, 175.20691927374, -23.96052591531),
+                    new Point3d(0.00000000000, 156.23627206624, -26.92785568323)),
+                 new ArcData(new Point3d(0.00000000000, 156.23627206624, -26.92785568323),
+                    new Point3d(0.00000000000, 117.89930879612, -18.62772497125),
+                    new Point3d(0.00000000000, 79.98197032775, -8.58330532227)),
+                 new ArcData(new Point3d(0.00000000000, 79.98197032775, -8.58330532227),
+                    new Point3d(0.00000000000, 76.02208938745, -5.05492850007),
+                    new Point3d(0.00000000000, 74.41653717094, 0.00000000000))
+            };
+        }
+
+        /// <summary>
         /// Список имен параметров
         /// </summary>
         public static List<AlloyWheelsParameterName> ParameterNames =>

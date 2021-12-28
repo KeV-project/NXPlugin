@@ -25,6 +25,36 @@ namespace AlloyWheelsBuilder.UnitTests
                 "Геттер SketchArcsCount возвращает некорректное значение");
         }
 
+        /// <summary>
+        /// Выполняет проверку дуг для построения эскизов
+        /// </summary>
+        /// <param name="expectedSketchArcs">Ожидаемое значение</param>
+        /// <param name="actualSketchArcs">Полученное значение</param>
+        /// <param name="propertyName">Имя свойства</param>
+        private void AssertSketchArcs(List<ArcData> expectedSketchArcs, 
+            List<ArcData> actualSketchArcs, string propertyName)
+		{
+            int expectedSketchArcsCount = expectedSketchArcs.Count;
+            int actualSketchArcsCount = actualSketchArcs.Count;
+
+            Assert.AreEqual(expectedSketchArcsCount, actualSketchArcsCount,
+                "Геттер " + propertyName + " вернул список " 
+                + "с некорректным числом элементов");
+
+            for(int i = 0; i < expectedSketchArcsCount; i++)
+			{
+                ArcData expectedArcData = expectedSketchArcs[i];
+                ArcData actualArcData = actualSketchArcs[i];
+
+                const int expectedResult = 1;
+                int actualResult = expectedArcData.CompareTo(actualArcData);
+
+                Assert.AreEqual(expectedResult, actualResult,
+                    "Геттер " + propertyName + " вернул список "
+                    + "с некорректным элементом №" + i);
+            }
+		}
+
         [TestCase(TestName = "Позитивный тест геттера SketchArcs")]
         public void TestSketchArcsGet_CorrectValue()
         {
@@ -33,30 +63,14 @@ namespace AlloyWheelsBuilder.UnitTests
                 AlloyWheelsParametersTestData.AlloyWheelsParameters;
             List<ArcData> expectedSketchArcs = AlloyWheelsParametersTestData.
                 SketchArcs;
-            int expectedSketchArcsCount = expectedSketchArcs.Count;
 
             // act
             List<ArcData> actualSketchArcs = alloyWheelsParameters.
                 SketchArcs;
-            int actualSketchArcsCount = actualSketchArcs.Count;
 
             // assert
-            Assert.AreEqual(expectedSketchArcsCount, actualSketchArcsCount,
-                "Геттер SketchArcs возвращает список "
-                + "с некорректным количеством элементов");
-
-            for (int i = 0; i < actualSketchArcsCount; i++)
-            {
-                ArcData expectedArcData = expectedSketchArcs[i];
-                ArcData actualArcData = actualSketchArcs[i];
-
-                const int expectedResult = 1;
-                int actualResult = expectedArcData.CompareTo(actualArcData);
-
-                Assert.AreEqual(expectedResult, actualResult,
-                    "Геттер SketchArcs вернул список "
-                    + "с некорректным элементом №" + i);
-            }
+            AssertSketchArcs(expectedSketchArcs, actualSketchArcs, 
+                nameof(alloyWheelsParameters.SketchArcs));
         }
 
         [TestCase(TestName = "Позитивный тест геттера PetalSketchArcs")]
@@ -67,30 +81,33 @@ namespace AlloyWheelsBuilder.UnitTests
                 AlloyWheelsParametersTestData.AlloyWheelsParameters;
             List<ArcData> expectedPetalSketchArcs = 
                 AlloyWheelsParametersTestData.PetalSketchArcs;
-            int expectedPetalSketchArcsCount = expectedPetalSketchArcs.
-                Count();
 
             // act
             List<ArcData> actualPetalSketchArcs = alloyWheelsParameters.
                 PetalSketchArcs;
-            int actualPetalSketchArcsCount = actualPetalSketchArcs.Count;
 
             // assert
-            Assert.AreEqual(expectedPetalSketchArcsCount,
-                actualPetalSketchArcsCount, "Геттер PetalSketchArcs "
-                + "возвращает список с некорректным количеством элементов");
-            for (int i = 0; i < actualPetalSketchArcsCount; i++)
-            {
-                ArcData expectedArcData = expectedPetalSketchArcs[i];
-                ArcData actualArcData = actualPetalSketchArcs[i];
+            AssertSketchArcs(expectedPetalSketchArcs, actualPetalSketchArcs,
+                nameof(alloyWheelsParameters.PetalSketchArcs));
+        }
 
-                const int expectedResult = 1;
-                int actualResult = expectedArcData.CompareTo(actualArcData);
+        [TestCase(TestName = "Позитивный тест геттера RoundPetalSketchArcs")]
+        public void TestRoundPetalSketchArcsGet_CorrectValue()
+        {
+            // setup
+            AlloyWheelsParameters alloyWheelsParameters =
+                AlloyWheelsParametersTestData.AlloyWheelsParameters;
+            List<ArcData> expectedRoundPetalSketchArcs =
+                AlloyWheelsParametersTestData.RoundPetalSketchArcs;
 
-                Assert.AreEqual(expectedResult, actualResult,
-                    "Геттер PetalSketchArcs вернул список "
-                    + "с некорректным элементом №" + i);
-            }
+            // act
+            List<ArcData> actualRoundPetalSketchArcs = alloyWheelsParameters.
+                RoundPetalSketchArcs;
+
+            // assert
+            AssertSketchArcs(expectedRoundPetalSketchArcs, 
+                actualRoundPetalSketchArcs,
+                nameof(alloyWheelsParameters.PetalSketchArcs));
         }
 
         [TestCase(TestName = "Позитивный тест геттера PetalSketchHeight")]

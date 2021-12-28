@@ -353,36 +353,29 @@ namespace AlloyWheelsBuilderModel
                 },
                 { 
                     AlloyWheelsParameterName.CentralHoleDiameter,
-                    parameterValues => Math.Round((parameterValues[
-                            AlloyWheelsParameterName.Diameter]
-                        * MIN_CENTER_HOLE_PERCENT / 100), 3)
+                    parameterValues => 
+                    Math.Round((parameterValues[AlloyWheelsParameterName.
+                        Diameter] * MIN_CENTER_HOLE_PERCENT / 100), 3)
                 },
                 { 
                     AlloyWheelsParameterName.Width, 
-                    (Dictionary<AlloyWheelsParameterName, 
-                        double> parameterValues) =>
-                    {
-                         return Math.Round((parameterValues[
-                             AlloyWheelsParameterName.Diameter] / 2 
-                             - parameterValues[AlloyWheelsParameterName.
-                             CentralHoleDiameter] / 2) 
-                             / SKETCH_HEIGTH_TO_WIDTH, 3);
-                    } 
+                    parameterValues => 
+                    Math.Round((parameterValues[
+                        AlloyWheelsParameterName.Diameter] / 2 
+                        - parameterValues[AlloyWheelsParameterName.
+                        CentralHoleDiameter] / 2) 
+                        / SKETCH_HEIGTH_TO_WIDTH, 3)
                 },
                 { 
                     AlloyWheelsParameterName.OffSet,
-                    (Dictionary<AlloyWheelsParameterName, 
-                        double> parameterValues) =>
-                    {
-                        return Math.Round(-1 * (parameterValues[
-                             AlloyWheelsParameterName.Width] / 2 
-                             * MIN_OFFSET_PERCENT / 100), 3);
-                    }
+                    parameterValues => 
+                    Math.Round(-1 * (parameterValues[
+                        AlloyWheelsParameterName.Width] / 2 
+                        * MIN_OFFSET_PERCENT / 100), 3)
                 },
                 { 
                     AlloyWheelsParameterName.DrillDiameter,
-                    (Dictionary<AlloyWheelsParameterName, 
-                        double> parameterValues) =>
+                    parameterValues =>
                     {
                         double drillPlaceHeight = ((parameterValues[
                             AlloyWheelsParameterName.Diameter] 
@@ -395,19 +388,11 @@ namespace AlloyWheelsBuilderModel
                 },
                 { 
                     AlloyWheelsParameterName.DrillingsCount,
-                    (Dictionary<AlloyWheelsParameterName, 
-                        double> parameterValues) =>
-                    {
-                        return MIN_DRILLINGS_COUNT;
-                    }
+                    parameterValues => MIN_DRILLINGS_COUNT
                 },
                 { 
                     AlloyWheelsParameterName.SpokesCount,
-                    (Dictionary<AlloyWheelsParameterName, 
-                        double> parameterValues) =>
-                    {
-                        return MIN_SPOKES_COUNT;
-                    }
+                    parameterValues => MIN_SPOKES_COUNT
                 }
             };
 
@@ -421,46 +406,29 @@ namespace AlloyWheelsBuilderModel
             {
                 { 
                     AlloyWheelsParameterName.Diameter,
-                    (Dictionary<AlloyWheelsParameterName,
-                        double> parameterValues) => 
-                    { 
-                        return MAX_DIAMETER; 
-                    }
+                    parameterValues => MAX_DIAMETER
                 },
                 {
                     AlloyWheelsParameterName.CentralHoleDiameter,
-                    (Dictionary<AlloyWheelsParameterName, 
-                        double> parameterValues) =>
-                    {
-                        return Math.Round((parameterValues[
-                            AlloyWheelsParameterName.Diameter]
-                            * MAX_CENTER_HOLE_PERCENT / 100), 3);
-                    }
+                    parameterValues => 
+                    Math.Round((parameterValues[AlloyWheelsParameterName.
+                        Diameter] * MAX_CENTER_HOLE_PERCENT / 100), 3)
                 },
                 {
                     AlloyWheelsParameterName.Width,
-                    (Dictionary<AlloyWheelsParameterName, 
-                        double> parameterValues) =>
-                    {
-                        return Math.Round(parameterValues[
-                             AlloyWheelsParameterName.Diameter] / 2 
-                             - parameterValues[AlloyWheelsParameterName.
-                             CentralHoleDiameter] / 2, 3);
-                    }
+                    parameterValues => Math.Round(parameterValues[
+                        AlloyWheelsParameterName.Diameter] / 2 
+                        - parameterValues[AlloyWheelsParameterName.
+                        CentralHoleDiameter] / 2, 3)
                 },
                 {
                     AlloyWheelsParameterName.OffSet,
-                    (Dictionary<AlloyWheelsParameterName, 
-                        double> parameterValues) =>
-                    {
-                        return Math.Round(parameterValues[
-                            AlloyWheelsParameterName.Width] / 2, 3);
-                    }
+                    parameterValues => Math.Round(parameterValues[
+                            AlloyWheelsParameterName.Width] / 2, 3)
                 },
                 {
                     AlloyWheelsParameterName.DrillDiameter,
-                    (Dictionary<AlloyWheelsParameterName, 
-                        double> parameterValues) =>
+                    parameterValues =>
                     {
                         double drillPlaceHeight = ((parameterValues[
                             AlloyWheelsParameterName.Diameter]
@@ -473,8 +441,7 @@ namespace AlloyWheelsBuilderModel
                 },
                 {
                     AlloyWheelsParameterName.DrillingsCount,
-                    (Dictionary<AlloyWheelsParameterName, 
-                        double> parameterValues) =>
+                    parameterValues =>
                     {
                         double drillPlaceHeight = ((parameterValues[
                             AlloyWheelsParameterName.Diameter]
@@ -503,11 +470,7 @@ namespace AlloyWheelsBuilderModel
                 },
                 {
                     AlloyWheelsParameterName.SpokesCount,
-                    (Dictionary<AlloyWheelsParameterName, 
-                        double> parameterValues) =>
-                    {
-                        return MAX_SPOKES_COUNT;
-                    }
+                    parameterValues => MAX_SPOKES_COUNT
                 }
             };
 

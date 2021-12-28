@@ -215,7 +215,7 @@ namespace AlloyWheelsBuilderModel
         /// Cловарь с именами параметров и соответсвующими им 
         /// обозначениями параметров на пользовательском интерфейсе
         /// </summary>
-        private Dictionary<AlloyWheelsParameterName, string>
+        private readonly Dictionary<AlloyWheelsParameterName, string>
             _parameterRussianNames = new Dictionary<AlloyWheelsParameterName,
                 string>
             {
@@ -239,7 +239,7 @@ namespace AlloyWheelsBuilderModel
         /// <summary>
         /// Словарь созависимых параметров
         /// </summary>
-        private Dictionary<AlloyWheelsParameterName,
+        private readonly Dictionary<AlloyWheelsParameterName,
             AlloyWheelsParameterName> _codependentParameterName = new
             Dictionary<AlloyWheelsParameterName, AlloyWheelsParameterName>
             {
@@ -262,8 +262,8 @@ namespace AlloyWheelsBuilderModel
         /// <summary>
         /// Елиницы измерения параметров
         /// </summary>
-        private Dictionary<AlloyWheelsParameterName, string> _units =
-            new Dictionary<AlloyWheelsParameterName, string>
+        private readonly Dictionary<AlloyWheelsParameterName, string> _units 
+            = new Dictionary<AlloyWheelsParameterName, string>
             {
                 { AlloyWheelsParameterName.Diameter, "мм" },
                 { AlloyWheelsParameterName.CentralHoleDiameter, "мм" },
@@ -342,7 +342,7 @@ namespace AlloyWheelsBuilderModel
         /// <summary>
         /// Методы расчета минимальных значений параметров
         /// </summary>
-        private Dictionary<AlloyWheelsParameterName,
+        private readonly Dictionary<AlloyWheelsParameterName,
             Func<Dictionary<AlloyWheelsParameterName, double>, double>>
             _minValueCalculators = new Dictionary<AlloyWheelsParameterName,
                 Func<Dictionary<AlloyWheelsParameterName, double>, double>>
@@ -518,8 +518,10 @@ namespace AlloyWheelsBuilderModel
                parameterName in _parameterRussianNames)
             {
                 var isCount = false 
-                              || (parameterName.Key == AlloyWheelsParameterName.DrillingsCount 
-                              || parameterName.Key == AlloyWheelsParameterName.SpokesCount);
+                    || (parameterName.Key == AlloyWheelsParameterName.
+                        DrillingsCount 
+                    || parameterName.Key == AlloyWheelsParameterName.
+                        SpokesCount);
 
                 if(parameterName.Key != AlloyWheelsParameterName.NaN)
 				{
@@ -527,7 +529,8 @@ namespace AlloyWheelsBuilderModel
                     new AlloyWheelsParameter(parameterName.Key,
                     parameterName.Value,
                     _codependentParameterName[parameterName.Key],
-                    _parameterRussianNames[_codependentParameterName[parameterName.Key]],
+                    _parameterRussianNames[_codependentParameterName[
+                        parameterName.Key]],
                     _minValueCalculators[parameterName.Key],
                     _maxValueCalculators[parameterName.Key], 
                     _units[parameterName.Key]));

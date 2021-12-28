@@ -217,8 +217,8 @@ namespace AlloyWheelsBuilder.UnitTests
 					CodependentParameterName;
 				Assert.AreEqual(expectedCodependentParameterName,
 					actualCodependentParameterName,
-					"Конструктор неверно инициализировал имя созависимого параметра"
-					+ parameterName);
+					"Конструктор неверно инициализировал имя " 
+                    + "созависимого параметра" + parameterName);
 
 				string expectedCodependentParameterRussianName =
 					AlloyWheelsParametersTestData.ParameterRussianNames[

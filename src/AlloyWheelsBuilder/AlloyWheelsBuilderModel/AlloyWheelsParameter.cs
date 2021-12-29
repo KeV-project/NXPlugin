@@ -96,7 +96,7 @@ namespace AlloyWheelsBuilderModel
         /// <summary>
         /// Метод расчета минимально допустимого значения параметра
         /// </summary>
-        private Func<Dictionary<AlloyWheelsParameterName, 
+        private readonly Func<Dictionary<AlloyWheelsParameterName, 
             double>, double> _calculateMinValue;
 
         /// <summary>

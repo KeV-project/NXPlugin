@@ -1,6 +1,5 @@
 ﻿namespace AlloyWheelsBuilderModel
 {
-	//TODO: XML +
 	/// <summary>
 	/// Имена параметров модели автомобильного диска
 	/// </summary>

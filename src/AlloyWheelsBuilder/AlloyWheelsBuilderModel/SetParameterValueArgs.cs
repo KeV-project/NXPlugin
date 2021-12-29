@@ -2,8 +2,6 @@
 
 namespace AlloyWheelsBuilderModel
 {
-    //TODO: XML +
-
     /// <summary>
     /// Класс <see cref="SetParameterValueArgs"/> 
     /// представляет информацию о параметре, 
